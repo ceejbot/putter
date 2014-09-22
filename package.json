@@ -39,9 +39,12 @@
     "lodash": "~2.4.1",
     "marked": "~0.3.2",
     "multer": "~0.1.4",
+    "numbat-emitter": "~1.0.0",
+    "pg": "~3.4.4",
     "redis": "~0.12.1",
     "request": "~2.44.0",
     "restify": "~2.8.2",
+    "rethinkdb": "~1.14.0-0",
     "sequelize": "~2.0.0-rc1",
     "serve-favicon": "~2.1.4",
     "yargs": "~1.3.1"
