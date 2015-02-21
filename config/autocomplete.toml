@@ -1,0 +1,21 @@
+host = "0.0.0.0"
+port = 5010
+path = ""
+
+[tags]
+host = "localhost"
+port = 6379
+db = 6
+key = "tags"
+
+[fandoms]
+host = "localhost"
+port = 6379
+db = 6
+key = "fandoms"
+
+[people]
+host = "localhost"
+port = 6379
+db = 6
+key = "people"

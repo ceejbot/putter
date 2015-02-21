@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 var
-    _        = require('lodash'),
-    chalk    = require('chalk'),
-    sparky   = require('../lib/sparky'),
-    YAML     = require('js-yaml'),
-    config   = require('../config/config.yml'),
-    yargs = require('yargs')
+    _      = require('lodash'),
+    bole   = require('bole'),
+    chalk  = require('chalk'),
+    sparky = require('../lib/sparky'),
+    YAML   = require('js-yaml'),
+    config = require('../config/config.yml'),
+    yargs  = require('yargs')
         .usage('Add invitations to an account.\nUsage: $0 -p <handle|key|email> -c <invite-count>')
         .alias('p', 'person')
         .demand(['p'])
