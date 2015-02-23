@@ -22,12 +22,14 @@
     "lodash": "~3.2.0",
     "marked": "~0.3.3",
     "multer": "~0.1.7",
+    "node-uuid": "~1.4.2",
     "numbat-collector": "~1.1.0",
     "numbat-emitter": "~1.1.1",
     "polyclay": "~1.7.1",
     "polyclay-redis": "~0.1.0",
     "polyclay-rethink": "0.0.1",
     "prefix-completer": "~0.2.4",
+    "prettydate": "0.0.1",
     "redis": "~0.12.1",
     "request": "~2.53.0",
     "restify": "~2.8.5",
@@ -56,6 +58,9 @@
     "url": "https://github.com/ceejbot/putter.git"
   },
   "scripts": {
+    "auth": "NODE_ENV=development node bin/run-server auth",
+    "completer": "NODE_ENV=development node bin/run-server completer",
+    "data": "NODE_ENV=development node bin/run-server data",
     "test": "lab -v -c test/test-*.js"
   }
 }

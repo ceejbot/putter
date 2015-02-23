@@ -7,8 +7,6 @@ var
 	restify   = require('restify')
     ;
 
-require('toml-require').install();
-
 var AutoComplete = module.exports = function AutoComplete(options)
 {
     assert(options, 'you must pass an options object to the constructor');
@@ -36,7 +34,6 @@ var AutoComplete = module.exports = function AutoComplete(options)
 
 AutoComplete.prototype.server  = null;
 AutoComplete.prototype.options = null;
-AutoComplete.prototype.rules   = null;
 AutoComplete.prototype.tags    = null;
 AutoComplete.prototype.fandoms = null;
 AutoComplete.prototype.handles = null;

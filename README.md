@@ -12,9 +12,9 @@ Eventually ansible roles for deployment will exist. Probably.
 
 ## Layout
 
-* `api/` - the data api, restify
-* `auth/` - the authentication & authorization api, restify
-* `autocomplete/` - the autocomplete service for web UI, restify
+* `api-auth/` - the authentication & authorization api, restify
+* `api-completer/` - the autocomplete service for web UI, restify
+* `api-data/` - the data api, restify
 * `bin/` - standard npm package bin scripts
 * `config/` - configuration files in [TOML](https://github.com/toml-lang/toml) format
 * `lib/` - shared libraries
