@@ -5,7 +5,7 @@ var
     bole   = require('bole'),
     path   = require('path'),
     argv   = require('yargs')
-        .usage('run-server --node node-1 <servertype>')
+        .usage('run-server --node <nodename> <servertype>')
         .demand(1)
         .alias('n', 'node')
         .describe('n', 'a name for this node')

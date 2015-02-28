@@ -74,7 +74,7 @@ count:
 	@cloc . --exclude-dir=node_modules,pages/public,assets,components --exclude-lang=HTML,CSS,YAML
 
 lint:
-	$(LINT) lib provision test pages/routes pages/app.js
+	$(LINT) lib test api-auth api-completer api-data bin
 
 test:
 	@$(MOCHA) -R spec test/test*.js
