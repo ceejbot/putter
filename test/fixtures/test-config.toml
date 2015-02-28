@@ -12,4 +12,4 @@ console = false
 [elasticsearch]
 host  = "localhost"
 port  = 9200
-index = "/sparky"
+index = "/test"

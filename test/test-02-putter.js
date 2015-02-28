@@ -23,7 +23,16 @@ describe('putter', function()
 		controller = new Putter(config);
 		controller.must.be.an.object();
 	});
-	
+
+	it('provisions everything', function(done)
+	{
+		this.timeout(20000);
+		controller.once('ready', function()
+		{
+			done();
+		});
+		controller.provision();
+	});
 
 	it('has tests');
 });
