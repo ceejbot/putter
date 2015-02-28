@@ -1,0 +1,9 @@
+{
+	"tag": "test_fandom2",
+	"name": "The Second Test Fandom",
+	"name_sort": "second test fandom",
+	"description": "This is a very short description.",
+	"characters": [ "one", "two", "third character", "quartus", "character numero five" ],
+	"tags": [ "sub!one", "hurt!third character", "bakery", "episode:pilot", "quartile"],
+	"related": ["test_fandom"]
+}

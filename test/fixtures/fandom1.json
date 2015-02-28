@@ -1,0 +1,9 @@
+{
+	"tag": "test_fandom",
+	"name": "The First Test Fandom",
+	"name_sort": "first test fandom",
+	"description": "This is the first test fandom. It has a bunch of test data in it. It is very exciting. \nIt links gratuitously to [wikipedia](http://en.wikipedia.org/) and to [Fanlore](http://fanlore.org/).",
+	"characters": [ "one", "two", "third character", "quartus", "character numero five" ],
+	"tags": [ "sub!one", "hurt!third character", "bakery", "episode:pilot", "quartile"],
+	"related": ["second_fandom"]
+}

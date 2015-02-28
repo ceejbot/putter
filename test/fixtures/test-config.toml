@@ -1,0 +1,15 @@
+[app]
+name = "putter"
+
+[database]
+host     = "localhost"
+port     = 28015
+database = "test"
+
+[logging]
+console = false
+
+[elasticsearch]
+host  = "localhost"
+port  = 9200
+index = "/sparky"

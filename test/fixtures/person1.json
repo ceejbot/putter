@@ -1,0 +1,10 @@
+{
+	"handle": "testuser",
+	"email_primary": "test@example.com",
+	"email_addresses": ["test@example.com"],
+	"email_validated": true,
+	"security_question": "am I a test user?",
+	"security_answer": "yes",
+	"icon": "http://l-userpic.livejournal.com/113503961/9711196",
+	"profile": "I am just a test user."
+}

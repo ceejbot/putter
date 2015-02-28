@@ -1,0 +1,15 @@
+{
+	"title": "Test Fic 1",
+	"fandom": "test_fandom",
+	"is_published": true,
+	"is_draft": false,
+	"notes": "Test notes.",
+	"summary": "This is a test story. It is only a test.",
+	"pairing": "one/quartus",
+	"pairings_secondary": [ "one/two" ],
+	"characters": { "test_fandom": ["one", "two", "quartus"] },
+	"tags": ["tea", "genre:hurt/comfort", "test_fandom:quartile", "test_fandom:bakery" ],
+	"rating": 1,
+	"category": "gen",
+	"content": "This is the song written for the train chase, this is the chase, Rocky and Ken. He tried to kill me with a forklift! Ole!"
+}

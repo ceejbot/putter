@@ -6,6 +6,21 @@
   "bugs": {
     "url": "https://github.com/ceejbot/putter/issues"
   },
+  "config": {
+    "blanket": {
+      "pattern": [
+        "lib"
+      ],
+      "data-cover-never": [
+        "node_modules",
+        "test"
+      ],
+      "output-reporter": "spec",
+      "travis-cov": {
+        "threshold": 90
+      }
+    }
+  },
   "dependencies": {
     "async": "~0.9.0",
     "bcrypt": "~0.8.1",
@@ -62,6 +77,8 @@
     "auth": "NODE_ENV=development node bin/run-server auth",
     "completer": "NODE_ENV=development node bin/run-server completer",
     "data": "NODE_ENV=development node bin/run-server data",
-    "test": "lab -v -c test/test-*.js"
+    "test": "mocha -t 5000 --check-leaks --ui exports --require blanket -R mocoverage test/test-*.js",
+    "test-cov": "mocha -t 5000 --require blanket -R travis-cov test/test-*.js",
+    "test-travis": "mocha -R spec -t 5000 test/test-*.js && npm run test-cov"
   }
 }
