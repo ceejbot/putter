@@ -23,8 +23,6 @@
     ],
     "disallowMixedSpacesAndTabs": true,
     "disallowTrailingWhitespace": true,
-    "disallowTrailingComma": true,
-    "disallowYodaConditions": true,
     "disallowKeywords": [ "with" ],
     "disallowMultipleLineBreaks": true,
     "requireParenthesesAroundIIFE": true,
@@ -33,7 +31,6 @@
     "requireCommaBeforeLineBreak": true,
     "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceAfterBinaryOperators": true,
-    "requireCamelCaseOrUpperCaseIdentifiers": true,
     "requireLineFeedAtFileEnd": true,
     "requireCapitalizedConstructors": true,
     "requireDotNotation": true,
@@ -58,8 +55,7 @@
     "requirePaddingNewLinesBeforeLineComments": {
         "allExcept": "firstAfterCurly"
     },
-    "requirePaddingNewLinesAfterBlocks": true,
-    "safeContextKeyword": "_this",
+    "safeContextKeyword": "self",
     "validateLineBreaks": "LF",
     "validateQuoteMarks": "'",
     "validateIndentation": "\t",
