@@ -27,11 +27,11 @@ yaml.loadAll(data, function(doc)
 		for (var j = 0; j < category.length; j++)
 			finaltags.push(prefix + category[j]);
 	}
+
 	finaltags.sort();
 	console.log(finaltags.length + ' tags found');
 	console.log(util.inspect(finaltags));
 });
-
 
 var fdir = path.join(taxdir, 'fandoms');
 var files = fs.readdirSync(fdir);

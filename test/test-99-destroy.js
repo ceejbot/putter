@@ -46,7 +46,7 @@ describe('teardown', function()
 		actions.push(function(cb) { controller.searchdb.dropTagIndex(cb); });
 		async.parallel(actions, function(err, results)
 		{
-			console.log(err);	
+			console.log(err);
 			// demand(err).not.exist();
 			done();
 		});

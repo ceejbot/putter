@@ -5,22 +5,22 @@ var
 	bole      = require('bole'),
 	completer = require('prefix-completer'),
 	restify   = require('restify')
-    ;
+	;
 
 var AutoComplete = module.exports = function AutoComplete(options)
 {
-    assert(options, 'you must pass an options object to the constructor');
-    assert(options.hasOwnProperty('path') && _.isString(options.path), 'you must pass a `path` to mount the route on in the options');
+	assert(options, 'you must pass an options object to the constructor');
+	assert(options.hasOwnProperty('path') && _.isString(options.path), 'you must pass a `path` to mount the route on in the options');
 
-    this.options = options;
-    this.rules = options.rules;
-    this.logger = bole('completer');
+	this.options = options;
+	this.rules = options.rules;
+	this.logger = bole('completer');
 
 	this.tags = completer.create(options.tags);
 	this.fandoms = completer.create(options.fandoms);
 	this.people = completer.create(options.people);
 
-    this.server = restify.createServer(options);
+	this.server = restify.createServer(options);
 	this.server.use(restify.bodyParser());
 	this.server.use(restify.queryParser());
 	this.server.use(this.logEachRequest.bind(this));
@@ -41,7 +41,7 @@ AutoComplete.prototype.logger  = null;
 
 AutoComplete.prototype.listen = function(port, host, callback)
 {
-    this.server.listen(port, host, callback);
+	this.server.listen(port, host, callback);
 };
 
 AutoComplete.prototype.logEachRequest = function logEachRequest(request, response, next)
@@ -52,8 +52,8 @@ AutoComplete.prototype.logEachRequest = function logEachRequest(request, respons
 
 AutoComplete.prototype.handlePing = function handlePing(request, response, next)
 {
-    response.send(200, 'OK');
-    next();
+	response.send(200, 'OK');
+	next();
 };
 
 AutoComplete.prototype.handleStatus = function handleStatus(request, response, next)
@@ -162,7 +162,7 @@ AutoComplete.prototype.handleFandom = function handleFandom(request, response, n
 
 AutoComplete.prototype.handlePerson = function handlePerson(request, response, next)
 {
-    var self = this;
+	var self = this;
 
 	if (!request.params.q)
 	{

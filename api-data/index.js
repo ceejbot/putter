@@ -1,22 +1,22 @@
 var
-    _       = require('lodash'),
-    async   = require('async'),
-    assert  = require('assert'),
-    bole    = require('bole'),
-    restify = require('restify'),
-    Models  = require('../lib/models')
-    ;
+	_       = require('lodash'),
+	async   = require('async'),
+	assert  = require('assert'),
+	bole    = require('bole'),
+	restify = require('restify'),
+	Models  = require('../lib/models')
+	;
 
 var APIServer = module.exports = function APIServer(options)
 {
-    assert(options, 'you must pass an options object to the constructor');
-    assert(options.hasOwnProperty('path') && _.isString(options.path), 'you must pass a `path` to mount the route on in the options');
+	assert(options, 'you must pass an options object to the constructor');
+	assert(options.hasOwnProperty('path') && _.isString(options.path), 'you must pass a `path` to mount the route on in the options');
 
-    this.options = options;
-    this.rules = options.rules;
-    this.logger = bole('data');
+	this.options = options;
+	this.rules = options.rules;
+	this.logger = bole('data');
 
-    this.server = restify.createServer(options);
+	this.server = restify.createServer(options);
 	this.server.use(restify.bodyParser());
 	this.server.use(restify.queryParser());
 	this.server.use(this.logEachRequest.bind(this));
@@ -31,7 +31,7 @@ APIServer.prototype.logger  = null;
 
 APIServer.prototype.listen = function(port, host, callback)
 {
-    this.server.listen(port, host, callback);
+	this.server.listen(port, host, callback);
 };
 
 APIServer.prototype.logEachRequest = function logEachRequest(request, response, next)
@@ -42,8 +42,8 @@ APIServer.prototype.logEachRequest = function logEachRequest(request, response, 
 
 APIServer.prototype.handlePing = function handlePing(request, response, next)
 {
-    response.send(200, 'OK');
-    next();
+	response.send(200, 'OK');
+	next();
 };
 
 APIServer.prototype.handleStatus = function handleStatus(request, response, next)
