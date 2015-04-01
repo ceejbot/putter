@@ -12,8 +12,6 @@
         "beforeOpeningRoundBrace": true
     },
     "disallowEmptyBlocks": true,
-    "disallowSpacesInsideArrayBrackets": true,
-    "disallowSpacesInsideParentheses": true,
     "disallowQuotedKeysInObjects": true,
     "disallowSpaceAfterObjectKeys": true,
     "disallowSpaceAfterPrefixUnaryOperators": true,
@@ -52,9 +50,6 @@
         "catch",
         "typeof"
     ],
-    "requirePaddingNewLinesBeforeLineComments": {
-        "allExcept": "firstAfterCurly"
-    },
     "safeContextKeyword": "self",
     "validateLineBreaks": "LF",
     "validateQuoteMarks": "'",
