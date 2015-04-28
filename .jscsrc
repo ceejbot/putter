@@ -11,6 +11,7 @@
     "disallowSpacesInFunctionDeclaration": {
         "beforeOpeningRoundBrace": true
     },
+    "disallowSpaceAfterKeywords": [ "switch"],
     "disallowEmptyBlocks": true,
     "disallowQuotedKeysInObjects": true,
     "disallowSpaceAfterObjectKeys": true,
@@ -43,7 +44,6 @@
         "for",
         "while",
         "do",
-        "switch",
         "case",
         "return",
         "try",
