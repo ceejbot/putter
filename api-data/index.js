@@ -1,10 +1,11 @@
 var
-	_       = require('lodash'),
-	async   = require('async'),
-	assert  = require('assert'),
-	bole    = require('bole'),
-	restify = require('restify'),
-	Models  = require('../lib/models')
+	_         = require('lodash'),
+	async     = require('async'),
+	assert    = require('assert'),
+	bole      = require('bole'),
+	logstring = require('common-log-string'),
+	restify   = require('restify'),
+	Models    = require('../lib/models')
 	;
 
 var APIServer = module.exports = function APIServer(options)
@@ -19,7 +20,7 @@ var APIServer = module.exports = function APIServer(options)
 	this.server = restify.createServer(options);
 	this.server.use(restify.bodyParser());
 	this.server.use(restify.queryParser());
-	this.server.use(this.logEachRequest.bind(this));
+	this.server.on('after', this.logEachRequest.bind(this));
 
 	this.server.get(options.path + '/api/1/data/ping', this.handlePing.bind(this));
 	this.server.get(options.path + '/api/1/data/status', this.handleStatus.bind(this));
@@ -34,10 +35,9 @@ APIServer.prototype.listen = function(port, host, callback)
 	this.server.listen(port, host, callback);
 };
 
-APIServer.prototype.logEachRequest = function logEachRequest(request, response, next)
+APIServer.prototype.afterHook = function afterHook(request, response, route, error)
 {
-	this.logger.info(request.method, request.url);
-	next();
+	this.logger.info(logstring(request, response));
 };
 
 APIServer.prototype.handlePing = function handlePing(request, response, next)
@@ -48,8 +48,7 @@ APIServer.prototype.handlePing = function handlePing(request, response, next)
 
 APIServer.prototype.handleStatus = function handleStatus(request, response, next)
 {
-	var status =
-	{
+	var status = {
 		pid:     process.pid,
 		uptime:  process.uptime(),
 		rss:     process.memoryUsage(),

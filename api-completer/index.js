@@ -59,8 +59,7 @@ AutoComplete.prototype.handlePing = function handlePing(request, response, next)
 AutoComplete.prototype.handleStatus = function handleStatus(request, response, next)
 {
 	var self = this;
-	var actions =
-	{
+	var actions = {
 		tags: function(cb) { self.tags.statistics(cb); },
 		fandoms: function(cb) { self.fandoms.statistics(cb); },
 		people: function(cb) { self.people.statistics(cb); },
@@ -73,8 +72,7 @@ AutoComplete.prototype.handleStatus = function handleStatus(request, response, n
 			self.logger.error('problem getting completer stats');
 			self.logger.error(err);
 		}
-		var status =
-		{
+		var status = {
 			pid:     process.pid,
 			uptime:  process.uptime(),
 			rss:     process.memoryUsage(),
