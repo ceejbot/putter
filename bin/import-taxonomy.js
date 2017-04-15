@@ -3,15 +3,10 @@
 var
 	_       = require('lodash'),
 	fs      = require('fs'),
-	Fandom  = require('../lib/models/fandom'),
 	path    = require('path'),
-	putil   = require('../lib/utilities'),
-	Rethink = require('polyclay-rethink'),
 	util    = require('util'),
 	yaml    = require('js-yaml')
 ;
-
-var config = putil.loadConfig(__dirname + '/fixtures/test-config.toml');
 
 var taxdir = path.resolve(path.join(__dirname, '..', 'taxonomy'));
 var finaltags = [];
@@ -47,15 +42,7 @@ for (i = 0; i < files.length; i++)
 }
 
 var fkeys = Object.keys(fandoms);
-console.log(fkeys.length + ' valid fandoms found: ');
+console.log(fkeys.length + ' valid fandoms found');
 console.log(finaltags.length + ' tags found');
 
-// load db models
-
-Fandom.setStorage(config.database, Rethink);
-Fandom.adapter.connect();
-
-_.each(fandoms, function(v, k)
-{
-
-});
+// store the fuckers

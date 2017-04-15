@@ -4,11 +4,7 @@ A fanfiction archive that doesn't suck, written with modern tools in node.
 
 ## Requirements
 
-A modern Unix like Ubuntu or Mac OS X.
-
-[RethinkDB](http://www.rethinkdb.com), [Redis](http://redis.io), [io.js](https://iojs.org/en/index.html).
-
-Eventually ansible roles for deployment will exist. Probably.
+A modern Unix like Ubuntu or Mac OS X. Postgres, redis, nsq. Probably elastic search. See [operations](./operations).
 
 ## Layout
 
@@ -21,16 +17,25 @@ Eventually ansible roles for deployment will exist. Probably.
 * `lib/controllers/` - application logic, grouped
 * `lib/models/` - data that resides in the db
 * `taxonomy/` - seed data for tags etc
-* `test/` - unit tests
-* `website/` - service for the web pages, express
+* `test/` - unit & integration tests
+* `website/` - service for the web pages, express? restify with benefits?
 
 ## Tasks
 
-- Write everything, really.
-- Finish porting models over from couchdb views to rethinkdb indexes
+Basic approach:
+
+- Metadata in postgres, fic content in flat files (s3 if we're spendy). Pre-render for ease of use.
+- Accept data, process in work queue, push to flat files.
+- Build webpages by constructing pre-rendered pieces as much as possible.
+- choo.js website + boostrap layout because who has time for css
+
+Note that this contains debris from a previous run at the problem. Initial tasks:
+
+- PULL CONFIG FROM .env files using dot-env.
+- Port models over from previous mess to ormnomnom
 - design & write the auth layer
 - design & write the data API
-- re-write the website, probably in reactjs or maybe just revise the backbone impl
+- Write everything, really.
 
 ## Taxonomy
 
@@ -119,8 +124,6 @@ characters:
 tags:
    - fandom-specific
    - episode-title
-
-
 
 
 ### Taxonomy TODO

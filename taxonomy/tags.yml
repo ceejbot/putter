@@ -9,6 +9,7 @@ type:
 au:
     - academia
     - apocalypse
+    - art-school
     - bakery
     - band
     - canon
@@ -18,6 +19,7 @@ au:
     - crack
     - daemons
     - fairy-tale
+    - feudal
     - fusion
     - future
     - high-school
@@ -32,20 +34,26 @@ au:
     - prison
     - romance-novel
     - royalty
+    - soulmates
     - spy
     - steampunk
+    - supernatural-elements
     - university
     - western
+    - wishverse
 genre:
     - action
     - adventure
     - angst
     - character-study
     - comedy
+    - crossover
+    - cuddlecore
     - dark
     - epistolary
     - fantasy
     - five-things
+    - fix-it
     - fixit
     - fluff
     - flufic
@@ -63,7 +71,15 @@ genre:
     - rpf
     - schmoop
     - songfic
+    - whump
+issues:
+    - alcoholism
+    - assault-recovery
+    - childhood-abuse
+    - glbt
+    - sexual-assault
 kink:
+    - aftercare
     - age
     - bareback
     - biting
@@ -71,31 +87,51 @@ kink:
     - bloodplay
     - body-modification
     - bondage
+    - cbt
+    - clothed-male-naked-female
     - clothing
+    - cmnf
+    - collars
     - crossdressing
+    - crying
     - daddy
     - dirty-talk
     - dom/sub
     - double-penetration
     - edgeplay
+    - enemas
     - exhibitionism
+    - exposure
     - food
     - frottage
     - general
     - hand
     - hypnosis
     - knifeplay
+    - latex
     - leather
     - marking
+    - masturbation
+    - measurement
     - medical
+    - one-night-stand
+    - oral-sex
     - orgasm-control
     - other
     - pain
     - pegging
+    - pet-play
     - piercing
+    - plugs
     - public-sex
+    - public-use
     - rimming
+    - rope-harness
+    - self-bondage
+    - service-top
+    - sex-toys-under-clothing
     - size
+    - snowballing
     - spanking
     - virginity
     - voice
@@ -107,19 +143,27 @@ sex:
     - anal
     - angry
     - anonymous
+    - beach
+    - first-time
     - foursome
     - group
     - handjob
     - masturbation
+    - moresome
+    - morning
     - oral
     - phone
     - ritual
     - rough
+    - telepathic
     - threesome
     - toys
+    - wedding-night
 trope:
     - alpha/beta/omega-dynamics
+    - amnesia
     - amtdi
+    - bed-sharing
     - deaging
     - drift-compatibility
     - frenemies
@@ -127,21 +171,32 @@ trope:
     - fuck-or-die
     - huddling-for-warmth
     - knotting
+    - mate-or-die
     - mpreg
     - sex-pollen
+    - soulbonding
     - soulmates
+    - virginity
+    - wingfic
     - wings
     - wngwjleo
 content:
     - abuse
+    - accidental-telepathy
     - age-difference
+    - aging
+    - airplanes
     - alchemy
     - alcohol
+    - alien-sexuality
+    - ambiguity
     - amnesia
     - androgyny
     - angels
     - animal-transformation
     - animals
+    - announcements
+    - aphrodisiacs
     - archaeology
     - archery
     - argument
@@ -155,6 +210,8 @@ content:
     - astronomy
     - au
     - authors-favorite
+    - award-winner
+    - babies
     - baby
     - backstory
     - ballet
@@ -166,7 +223,6 @@ content:
     - beatles
     - bees
     - best-friends
-    - best-friends
     - betrayal
     - bible
     - bickering
@@ -174,25 +230,41 @@ content:
     - blackmail
     - blindness
     - blood
+    - blushing
     - boarding-school
     - bonding
     - camping
     - cars
+    - cats
     - character-death
+    - chess
+    - childbirth
+    - children
     - china:ancient
+    - chips
     - chivalry
     - cigarettes
     - cleveland
+    - clothes
     - coffee
     - coming-out
     - commentary
     - computers
+    - consensual-infidelity
+    - cookies
     - cooking
+    - core-four
+    - council
     - crossover
+    - cuddlecore
+    - cuddling
+    - cybermen
     - dancing
+    - daydreams
     - death
     - depression
     - dialogue-only
+    - disguises
     - domesticity
     - drabbles
     - dragons
@@ -205,88 +277,144 @@ content:
     - england
     - enthusiastic-con
     - episode-related
+    - eyghon
     - family
     - family-of-choice
     - fantasy
+    - first-dates
     - first-kiss
+    - first-slayer
     - first-time
     - flirting
     - flowers
     - food
     - football:american
     - football:european
+    - fray
+    - friendship
+    - gallifrey
+    - gallifrey-falls
+    - gallifreyans
     - genderswap
     - ghosts
     - glbt-issues
     - gods
+    - graffiti
+    - greek-myth
     - grief
     - guitars
     - guns
     - happy
     - happy-ending
+    - hiding-in-plain-sight
     - high-school
     - hockey
     - holiday
     - homophobia
+    - honey
+    - horses
     - ice-skating
+    - immortality
     - incest
     - incomplete
     - infidelity
     - injury
+    - interfering!tardis
     - introspection
+    - jammie-dodgers
     - jealousy
     - jeans
+    - karaoke
     - kidnapping
     - kink-meme-fill
+    - kissing
     - knights
+    - lattes
     - library
     - london
-    - love
     - los-angeles
+    - love
+    - lying
     - magic
+    - marriage
+    - melaka
+    - memory-loss
+    - missing-scene
+    - mistletoe
     - motorcycles
+    - mourning
     - murder
     - myth
     - myth:greek
     - myth:norse
     - myth:sumerian
+    - nail polish
     - non-con
+    - norse-legend
+    - obliviousness
+    - on-set
     - oxford
+    - pajamas
     - pillow-talk
     - pining
     - poetry
+    - politics
     - polyamory
+    - post-becoming
     - post-canon
+    - post-gift
+    - post-grave
+    - post-helpless
+    - post-series
+    - post-witch's-familiar
     - pov:first-person
     - pov:second-person
     - pre-canon
+    - pre-series
     - pregnancy
     - proposal
     - rain
     - rape
+    - recovery
     - religion
     - remix
     - remixed
+    - reunion
     - revenge
     - roadtrip
     - rome:ancient
     - school
+    - scoobies
     - sentimental
     - sex
+    - singing
     - slavery
+    - slayers
     - snark
+    - snow
+    - socks
+    - soulmate-markings
     - souls
+    - suicidal-ideation
     - suicide
+    - surrogacy
     - swords
+    - tagfic
+    - tailoring
     - tattoos
     - tea
     - team
+    - telepathy
     - tense:future
     - tense:past
     - tense:present
     - timetravel
     - toast
     - torture
+    - treehouse
+    - trenzalore
+    - true-names
+    - tuxedos
     - unrequited-love
     - unresolved-sexual-tension
     - vacation
@@ -294,7 +422,12 @@ content:
     - vignette
     - violence
     - virginity
+    - watchers
     - wedding
+    - wedding-rings
     - werewolves
+    - western
+    - wine
+    - wolves
     - yaoi
     - yuri
