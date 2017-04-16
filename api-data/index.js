@@ -1,13 +1,54 @@
 require('dotenv').config({path: `${__dirname}/.env`, silent: true});
 const
-	_         = require('lodash'),
-	async     = require('async'),
-	assert    = require('assert'),
-	bole      = require('bole'),
-	logstring = require('common-log-string'),
-	restify   = require('restify'),
-	Models    = require('../lib/models')
+	bole   = require('bole'),
+	logstr = require('common-log-string'),
+	five   = require('take-five')
 	;
+
+var node;
+const logger = bole('api-data');
+
+module.exports = function createServer(nodename)
+{
+	node = nodename;
+	const server = five();
+
+	server.use(afterhook);
+	server.get('/ping', handlePing);
+	server.get('/status', handleStatus);
+
+	return server;
+};
+
+function handlePing(request, response, next)
+{
+	response.send(200, 'OK');
+	next();
+}
+
+function handleStatus(request, response, next)
+{
+	var status = {
+		pid:     process.pid,
+		uptime:  process.uptime(),
+		rss:     process.memoryUsage(),
+		node:    node || 'api-data',
+	};
+	response.send(200, status);
+	next();
+}
+
+function afterhook(request, response, next)
+{
+	request.on('end', () =>
+	{
+		response._time = Date.now();
+		logger.info(logstr(request, response));
+	});
+	next();
+}
+
+/*
 
 var APIServer = module.exports = function APIServer(options)
 {
@@ -26,34 +67,4 @@ var APIServer = module.exports = function APIServer(options)
 	this.server.get(options.path + '/api/1/data/ping', this.handlePing.bind(this));
 	this.server.get(options.path + '/api/1/data/status', this.handleStatus.bind(this));
 };
-
-APIServer.prototype.server  = null;
-APIServer.prototype.options = null;
-APIServer.prototype.logger  = null;
-
-APIServer.prototype.listen = function(port, host, callback)
-{
-	this.server.listen(port, host, callback);
-};
-
-APIServer.prototype.afterHook = function afterHook(request, response, route, error)
-{
-	this.logger.info(logstring(request, response));
-};
-
-APIServer.prototype.handlePing = function handlePing(request, response, next)
-{
-	response.send(200, 'OK');
-	next();
-};
-
-APIServer.prototype.handleStatus = function handleStatus(request, response, next)
-{
-	var status = {
-		pid:     process.pid,
-		uptime:  process.uptime(),
-		rss:     process.memoryUsage(),
-	};
-	response.json(200, status);
-	next();
-};
+*/

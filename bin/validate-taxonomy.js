@@ -7,12 +7,14 @@ var
 	yaml = require('js-yaml')
 	;
 
-var taxdir = path.resolve(path.join(__dirname, '..', 'taxonomy'));
+const taxdir = path.resolve(path.join(__dirname, '..', 'taxonomy'));
 
-var fandoms = {}, tags = {}, data, fandom, i, prefix, category;
+var fandoms = {},
+	tags = {},
+	data, fandom, i, prefix, category;
 
 data = fs.readFileSync(path.join(taxdir, 'tags.yml'), 'utf8');
-yaml.loadAll(data, function(doc)
+yaml.loadAll(data, doc =>
 {
 	tags = doc;
 	var tkeys = Object.keys(tags);

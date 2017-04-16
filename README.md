@@ -1,6 +1,6 @@
 # Putter
 
-A fanfiction archive that doesn't suck, written with modern tools in node.
+A fanfiction archive that doesn't suck, written with modern tools in node. See [the operations README](./operations/README.md) for docs about how to build & run locally.
 
 ## Design
 
@@ -52,7 +52,11 @@ Unsorted list of features to keep in mind:
 - writer activity log: story data graphs, comments left
 - useful logged-in start page, showing subscriptions & recent activity
 
-Sort features into a list that keeps the site moving forward: minimum viability first, then nice-to-haves. But it's good to have the wishlist in mind from the start so we don't back ourselves into corners.
+Sort features into a list that keeps the site moving forward: minimum viability first, then nice-to-haves. But it's good to have the wishlist in mind from the start so we don't back ourselves into corners. E.g., story subscription is an early feature; tag set subscription is later.
+
+## Notes on the web app
+
+Strict delineation of what's not suitable for webappery, what is, and what is prerendered. (The trick to being fast is to do as little work as possible. This includes never repeating work you've done once.) Slice it into chunks that benefit from the single-page experience as groups.
 
 ## Tags manifesto
 
@@ -70,7 +74,7 @@ Nobody wants to go back to the FF.net tagless world. Nobody wants the servers to
 
 Porqué no los dos?
 
-The problem with tagging, I believe, is in *guiding writers into using meaningful tags*. Writers will also have an urge to express themselves creatively in tagging that should also find a meaningful home. If the fandom wants to call the pairing `Twelfth Doctor/Clara Oswald` *whouffaldi*, the fandom should be able to do that. Readers who don't know the nickname should be able to find it.
+The problem with tagging, I believe, is in *guiding writers into using meaningful tags*. Writers will also have an urge to express themselves creatively in tagging that should also find a meaningful home. If the fandom wants to call the pairing `Twelfth Doctor/Clara Oswald` *whouffaldi*, a writer should be able to use that tag. Readers who don't know the nickname should be able to find it.
 
 My current thinking is that stories need two kinds of tags: standardized categorization from a fixed list, and free-form categorization at the author's whim. Lookup by the first can be made zippy because it's a fixed target. Lookup by the second should be handled by search. This also requires that a method be available to *promote* free-form tags to standardized tags as popularity demands.
 
@@ -82,19 +86,16 @@ A modern Unix like Ubuntu or Mac OS X. Postgres, redis, nsq. Probably elastic se
 
 I started laying down some foundational pieces a while ago, and here's what I did:
 
-* `api-auth/` - the authentication & authorization api, restify
-* `api-completer/` - the autocomplete service for web UI, restify
-* `api-data/` - the data api, restify
-* `bin/` - standard npm package bin scripts
-* `config/` - configuration files in [TOML](https://github.com/toml-lang/toml) format
+* `api-auth/` - the authentication & authorization api, *ready for work*
+* `api-completer/` - the autocomplete service for web UI, *not ready for work*
+* `api-data/` - the data api, *ready for work*
+* `bin/` - service runners
 * `lib/` - shared libraries
 * `lib/controllers/` - application logic, grouped
-* `lib/models/` - data that resides in the db
-* `taxonomy/` - seed data for tags etc
-* `test/` - unit & integration tests
-* `website/` - service for the web pages, express? restify with benefits?
-
-A lot of this is debris that can be ignored as I clean it up. The *taxonomy* stuff is interesting, however.
+* `lib/models/` - data that resides in the db, *not* ready for work
+* `taxonomy/` - seed data for tags etc, *ready for work*
+* `test/` - unit & integration tests, *ready for work*
+* `website/` - service for the web pages, *ready for work*
 
 ### Taxonomy
 
@@ -121,9 +122,9 @@ super-category:
     - another-tag
     - yet-another-tag
 category2:
-	- foo
-	- bar
-	- baz
+    - foo
+    - bar
+    - baz
 ```
 
 ### Tag formats
@@ -133,11 +134,7 @@ Tags cannot contain spaces. Delimiters: space, comma, semicolon. Allowed punctua
 All other punctuation is stripped on input.
 
 ```javascript
-function cleanTagText(input)
-{
-	var result = input.trim().toLowerCase().replace(/[,;\s\*\\\.\'\"\$\^\(\)=%]+/g, '');
-	return result;
-}
+input.trim().toLowerCase().replace(/[,;\s\*\\\.\'\"\$\^\(\)=%]+/g, '');
 ```
 
 Proposed tag structure:

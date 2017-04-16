@@ -1,32 +1,49 @@
 require('dotenv').config({path: `${__dirname}/.env`, silent: true});
-const five = require('take-five');
+const
+	bole   = require('bole'),
+	five   = require('take-five'),
+	logstr = require('common-log-string')
+	;
 
-const AuthServer = module.exports = function AuthServer(node)
+var node;
+const logger = bole('api-auth');
+
+module.exports = function createServer(nodename)
 {
-	this.node = node;
-	this.server = five();
-	this.server.get('/ping', this.handlePing.bind(this));
-	this.server.get('/status', this.handleStatus.bind(this));
+	node = nodename;
+	const server = five();
+	server.use(afterhook);
+
+	server.get('/ping', handlePing);
+	server.get('/status', handleStatus);
+
+	return server;
 };
 
-AuthServer.prototype.listen = function listen(port, host, callback)
-{
-	this.server.listen(port, host, callback);
-};
-
-AuthServer.prototype.handlePing = function handlePing(request, response)
+function handlePing(request, response, next)
 {
 	response.send(200, 'OK');
-};
+	next();
+}
 
-AuthServer.prototype.handleStatus = function handleStatus(request, response, next)
+function handleStatus(request, response, next)
 {
 	var status = {
 		pid:     process.pid,
 		uptime:  process.uptime(),
 		rss:     process.memoryUsage(),
-		node:    this.node,
+		node,
 	};
 	response.send(200, status);
 	next();
-};
+}
+
+function afterhook(request, response, next)
+{
+	request.on('end', () =>
+	{
+		response._time = Date.now();
+		logger.info(logstr(request, response));
+	});
+	next();
+}

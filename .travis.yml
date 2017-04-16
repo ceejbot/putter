@@ -1,9 +1,8 @@
 language: node_js
 node_js:
-    - '4'
     - '6'
     - '7'
 script:
-    - npm run travis
+    - npm run test:travis
 sudo: false
-after_success: npm run coverage
+after_success: npm run report:cov

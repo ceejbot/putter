@@ -1,7 +1,6 @@
 {
   "name": "putter",
   "description": "a fanfic archive that doesn't suck, in node",
-  "private": true,
   "version": "0.0.0",
   "author": "C J Silverio <ceejceej@gmail.com>",
   "bugs": {
@@ -19,6 +18,7 @@
     "choo": "~5.1.5",
     "common-log-string": "~0.3.0",
     "dotenv": "~4.0.0",
+    "express": "~4.15.2",
     "js-yaml": "~3.8.3",
     "lodash": "~4.17.4",
     "markdown-it": "~8.3.1",
@@ -28,6 +28,7 @@
     "ormnomnom": "~3.0.1",
     "prefix-completer": "~0.4.0",
     "prettydate": "0.0.1",
+    "pug": "~2.0.0-beta11",
     "redis": "~2.7.1",
     "restify": "~ 4.3.0",
     "serve-favicon": "~2.4.2",
@@ -58,18 +59,26 @@
   ],
   "license": "ISC",
   "main": "index.js",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/ceejbot/putter.git"
   },
   "scripts": {
-    "auth": "NODE_ENV=development node bin/run-server auth",
-    "completer": "NODE_ENV=development node bin/run-server completer",
-    "data": "NODE_ENV=development node bin/run-server data",
-    "test:style": "xo",
+    "report:cov": "nyc report --reporter=text-lcov | coveralls",
+    "run:auth": "bin/run-server.js api-auth",
+    "run:completer": "bin/run-server.js api-completer",
+    "run:data": "bin/run-server.js api-data",
+    "run:static": "bin/serve-static.js",
     "test": "nyc mocha -t 10000 --check-leaks -R spec test/test-*.js",
     "test:cov": "nyc mocha -t 10000 --check-leaks -R spec test/test-*.js",
-    "report:cov": "nyc report --reporter=text-lcov | coveralls",
+    "test:style": "xo",
     "test:travis": "npm run test:cov && npm run test:style"
+  },
+  "xo": {
+    "extends": "eslint-config-ceejbot",
+    "rules": {
+      "unicorn/prefer-starts-ends-with": 0
+    }
   }
 }

@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 
-var
-	_       = require('lodash'),
+const
 	fs      = require('fs'),
 	path    = require('path'),
-	util    = require('util'),
 	yaml    = require('js-yaml')
-;
+	;
 
-var taxdir = path.resolve(path.join(__dirname, '..', 'taxonomy'));
+const taxdir = path.resolve(path.join(__dirname, '..', 'taxonomy'));
 var finaltags = [];
-var fandoms = {}, tags = {}, data, fandom, i, prefix, category;
+var fandoms = {},
+	tags = {},
+	data, fandom, i, prefix, category;
 
 data = fs.readFileSync(path.join(taxdir, 'tags.yml'), 'utf8');
-yaml.loadAll(data, function(doc)
+yaml.loadAll(data, doc =>
 {
 	tags = doc;
 	var tkeys = Object.keys(tags);

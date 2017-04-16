@@ -2,8 +2,9 @@
 
 const
 	bole = require('bole'),
-	path = require('path'),
-	argv = require('yargs')
+	path = require('path');
+
+const argv = require('yargs')
 		.usage('run-server --node <nodename> <servertype>')
 		.demand(1)
 		.alias('n', 'node')
@@ -11,13 +12,13 @@ const
 		.help('h')
 		.alias('h', 'help')
 		.example('run-server --node auth1 api-auth', 'run an auth server named auth1')
-		.argv
-	;
+		.argv;
 
-const Server = require(path.join('..', argv._[0]));
+const kind =  argv._[0];
+const createServer = require(path.join('..', kind));
 
 const logger = bole('wrapper');
-var outputs = [];
+const outputs = [];
 if (/^dev/.test(process.env.NODE_ENV))
 {
 	var prettystream = require('bistre')({time: true});
@@ -28,8 +29,8 @@ else
 	outputs.push({level: 'info', stream: process.stdout});
 bole.output(outputs);
 
-const server = new Server(argv.node);
+const server = createServer(argv.node);
 server.listen(process.env.PORT, process.env.HOST, () =>
 {
-	logger.info(`data api service started at ${process.env.HOST}:${process.env.PORT}`);
+	logger.info(`${kind} service started at ${process.env.HOST}:${process.env.PORT}`);
 });

@@ -1,0 +1,18 @@
+// this should be an app
+nav.navbar.navbar-relative
+	.container
+		.navbar-header
+			button.navbar-toggle(type='button' data-toggle='collapse' data-target='#collapsable' aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation")
+				span.sr-only Toggle navigation
+				span.icon-bar
+				span.icon-bar
+				span.icon-bar
+			a.navbar-brand(href='/') sparky.io
+		#collapsable.collapse.navbar-collapse
+			form.navbar-form.navbar-left
+				.form-group
+					input.form-control(type='text', placeholder='search')
+				button.btn.btn-default.btn-sm(type='submit') search
+			ul.nav.navbar-nav.navbar-right
+				li: a.active(href='/') link
+				li: a.active(href='/') another
