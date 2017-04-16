@@ -2,7 +2,7 @@ html(lang='en')
 	head
 		meta(http-equiv='content-type' content='text/html; charset=utf-8')
 		meta(http-equiv='X-UA-Compatible' content='IE=edge,chrome=1')
-		meta(name='author' content='sparky.io')
+		meta(name='author' content='putter.io')
 		meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport')
 		meta(name='viewport' content='width=device-width')
 		block title
@@ -11,7 +11,7 @@ html(lang='en')
 			link(rel='stylesheet' href=static_mount + '/css/putter.css')
 			link(rel='stylesheet' type='text/css' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
 
-	body
+	body.contrast(@color1)
 		block navigation
 			include partials/navigation.pug
 
@@ -22,5 +22,5 @@ html(lang='en')
 			// footer
 
 		block scripts
-			script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-			script(src=static_mount + '/js/bootstrap.min.js')
+			// script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+			// script(src=static_mount + '/js/bootstrap.min.js')

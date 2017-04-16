@@ -41,7 +41,7 @@ function afterhook(request, response, next)
 
 function handleIndex(request, response)
 {
-	response.render('index', { title: 'sparky fic', message: 'hello world' });
+	response.render('index', { title: 'putter fic', message: 'hello world' });
 }
 
 function handlePing(request, response)

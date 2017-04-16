@@ -46,7 +46,7 @@
 
 //// SchemeLESS variable overrides
 
-@luma-upper-break:72;
+@luma-upper-break:50%;
 
 @contrast:(@luma/50);
 
@@ -258,7 +258,8 @@
 
 body,html {
     background:@1pxdeep-bg;
-    .contrast(@1pxdeep-bg);
+    // .contrast(@1pxdeep-bg);
+    color: black;
 
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
@@ -425,7 +426,8 @@ h1, h2, h3, h4, h5, h6,
 
     .navbar-color(@color) {
         background:@color;
-        .contrast(@color);
+        color: black;
+        // .contrast(@color);
     }
 
     .navbar-color(@color1a);
@@ -472,12 +474,12 @@ h1, h2, h3, h4, h5, h6,
         }
     }
 
-    .navbar-nav-color(@1pxdeep-bg);    
+    .navbar-nav-color(@1pxdeep-bg);
 
     &.color1 { .navbar-nav-color(@color1);}
     &.color2 { .navbar-nav-color(@color2);}
     &.color3 { .navbar-nav-color(@color3);}
-    &.color4 { .navbar-nav-color(@color4);}    
+    &.color4 { .navbar-nav-color(@color4);}
 }
 
 .navbar-fixed-top, .navbar-fixed-bottom {
@@ -620,7 +622,7 @@ h1, h2, h3, h4, h5, h6,
     .progress-bar-color(@color) {
         background:@color;
         .contrast(@color);
-    }   
+    }
 
     .progress-bar-color(@color1c);
     &.color1 { .progress-bar-color(@color1c);}
@@ -785,7 +787,7 @@ h1, h2, h3, h4, h5, h6,
                 background-color:@color;
                 .contrast-dim(@color);
             }
-        
+
         }
     }
 
@@ -928,7 +930,7 @@ legend {
   .input-group-addon-color(@color1b);
 
   &.color1 {.input-group-addon-color(@color1b)}
-  
+
 }
 
 //code
@@ -979,7 +981,7 @@ code, pre {
     > li {
         > a {
             border: none;
-            
+
             &:hover {
                 border:none;
             }
@@ -1055,7 +1057,7 @@ table {
         background-color:@color;
         .contrast(@color);
 
-        &.table { 
+        &.table {
             th,
             td {
                 border-top-color: @color;
@@ -1203,7 +1205,7 @@ hr {
 
     .modal-body-color(@color) {
         background:@color;
-        .contrast(@color); 
+        .contrast(@color);
     }
 
     .modal-body-color(@color1);
@@ -1316,7 +1318,7 @@ hr {
 }
 
 .panel-heading, .panel-body, .panel-footer {
-    
+
     .panel-heading-color(@color) {
         background:@color;
         .contrast(@color);
@@ -1348,7 +1350,7 @@ hr {
     &.left {
         background:transparent;
     }
-    
+
     &.right {
         left: auto;
         right: 0;
@@ -1420,7 +1422,7 @@ hr {
 
 .list-group-item {
     .list-group-item-color(@color,@active-color) {
-        
+
         background:@color;
         .contrast(@color);
         border-color:darken(@color,4%);
@@ -1512,4 +1514,3 @@ hr {
         }
     }
 }
-
