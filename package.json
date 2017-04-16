@@ -66,6 +66,7 @@
     "run:completer": "bin/run-server.js api-completer",
     "run:data": "bin/run-server.js api-data",
     "run:static": "bin/serve-static.js",
+    "run:web": "bin/run-server.js website",
     "test": "nyc mocha -t 10000 --check-leaks -R spec test/test-*.js",
     "test:cov": "nyc mocha -t 10000 --check-leaks -R spec test/test-*.js",
     "test:style": "xo",
