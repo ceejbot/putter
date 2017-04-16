@@ -52,22 +52,61 @@ Missing relevant pieces:
 - serious thinking about administrative interface
 - any kind of thinking at all about browsing & discovery
 
+### Features
+
+- above all else, serve a story *fast*
+- above all else, make story discovery *pleasant* and *fast*
+- stories, aka fic, are the focus
+- rare events can be slow (NB posting stops being rare if success happens)
+- accessibility is a first-class feature
+- site affordances shape culture: choose features mindfully
+
+Unsorted list of features to keep in mind:
+
+- search foregrounded; keep this awesome, fast, and a great way to find fic
+- fast browsing
+- administrative interface to remove content, ban members, shadowban, etc
+- email verification for new accounts
+- 2FA available
+- keep the door open to charge a nominal $5 one-time fee on signup (spam reduction)
+- signup by invitation (with pre-paid fee option if we do that)
+- keep the door open to charge for premium features to pay for their cost
+- subscription to authors, stories, and *tags* (tag sets!)
+- reader activity log: stories read, comments left, replies
+- writer activity log: story data graphs, comments left
+- useful logged-in start page, showing subscriptions & recent activity
+
+Sort features into a list that keeps the site moving forward: minimum viability first, then nice-to-haves. But it's good to have the wishlist in mind from the start so we don't back ourselves into corners.
+
 ## Taxonomy
 
-A standard tags corpus to use to seed the archive with tags we'd prefer writers to use.
+The primary job of a fic archive site is to let readers find fic to read. There are two approaches to solving this problem, as exmplified by the two big fanfiction archives. These are: *tropes* and *fandoms*.
 
-Tags from this collection will get special treatment in the user interface:
-- autocompletions for partially-typed tags
-- present in browsing interface
+The fandom-browsing reader will have a fandom or a character or pairing in mind when they begin browsing. They might be interested in reading Steve/Bucky fic, from any variation of the Captain America canons. Or they might want to look only at *Sherlock* fic, from that specific variation of the Holmes canons, without any pairing in mind. For these readers, the FF.net approach works.
 
-- tags in tags.yml
-- fandoms with character lists in fandoms.yml
+Other readers are more interested in cutting across fandoms to find a specific trope they're interested in. For instance, a reader looking for wingfic might be interested in finding wingfic in SGA fandom as well as MCU fandom.
 
-The database seeding process adds them to the appropriate catalogs. Seeding process can be re-run at any time to add new tags/fandoms/characters. It will update existing fandom data. It won't delete any new tags added by users.
+Tags can support both reader approaches. Fandoms and characters are tags with a little bit of extra meaning attached to them. The problem with tagging, I suggest, is in *guiding writers into using meaningful tags*. Writers will also have an urge to express themselves creatively in tagging that should also find a meaningful home. If the fandom wants to call the pairing `Twelfth Doctor/Clara Oswald` *whouffaldi*, the fandom should be able to do that. Readers should be able to find it.
+
+As generals fight the current war with the last one in mind, I approach the problem of a tags design with the failures of AO3 in mind. Their tagging implementation had two fatal flaws: First, it requires the constant attention of an army of volunteers. Meat *must* be present in the machine. Second, the implementation details made it difficult to scale, to the point where AO3 literally *stopped* scaling it. Tags are no longer made canonical & synned.
+
+Nobody wants to go back to the FF.net tagless world. Nobody wants the servers to fall over. Writers like free-form tags; readers like well-designed taxonomies.
+
+Por qué no los dos?
 
 ### Tags
 
-I've gone through the AO3 tag dataset & pulled out the most-used tags. I have a rough cut at what standardization might look like given the tag format proposals below.
+The `taxonomy` directory contains a standard tags corpus to use to seed the archive with tags we'd prefer writers to use.
+
+Tags from this collection will get special treatment in the user interface:
+
+- autocompletions for partially-typed tags
+- present in browsing interface
+
+A test set of tags are in [tags.yml](./taxonomy.tags.yml). A test set of fandoms with character lists is in [fandoms](./taxonomy/fandoms/).
+
+The database seeding process adds them to the appropriate catalogs. Seeding process can be re-run at any time to add new tags/fandoms/characters. It will update existing fandom data. It won't delete any new tags added by users.
+I've gone through the AO3 tag dataset & pulled out the most-used tags into `ao3-dump.json`. I have a rough cut at what standardization might look like given the tag format proposals below.
 
 My current thinking is that stories need two kinds of tags: standardized categorization from a fixed list, and free-form categorization at the author's whim. Lookup by the first can be made zippy because it's a fixed target. Lookup by the second should be handled by search. This also requires that a method be available to *promote* free-form tags to standardized tags as popularity demands.
 
@@ -93,8 +132,6 @@ allowed punctuation: `!:-_/+?&<>`
 
 All other punctuation is stripped on input.
 
-[lib/indexes/base.js](kirje/lib/indexes/base.js) contains the current implementation of tag text cleanup. It is copied here for reference:
-
 ```javascript
 function cleanTagText(input)
 {
@@ -105,7 +142,9 @@ function cleanTagText(input)
 
 Proposed tag structure:
 
-: for internal structure
+`:` for internal structure. This is the bold idea that might or might not work out: the way you distinguish the Spike of *Buffy* from the Spike of *Cowboy Bebop* is by including the fandom specifically in the character name.
+
+*Or* can enforce this in another way: if you've tagged a story with `fandom:btvs`, you get the BTVS character listing to choose from, but are prevented from choosing others unless you've added the fandom as a crossover.
 
 	kink:blindfolds
 	trope:wingfic
@@ -114,19 +153,22 @@ Proposed tag structure:
 	genre:romance
 	genre:slash
 	genre:romantic-comedy
+    btvs:season:05
+    btvs:giles
+    btvs:spike
 
-!-modifiers for character names
+`!`-modifiers for character names
 
-	hurt!character-name
+	hurt!fandom:character-name
 
 presence in the tags list forces presence in the character list
 
 
 ### Fandoms
 
-Seed data for the fandoms expected to be represented in the archive.
+Seed data for the fandoms expected to be represented in the archive, intended as a test data set right now.
 
-#### File structure
+#### Schema
 
 tag: no-space-title
 name: "The Full Title of the Show"
@@ -145,8 +187,6 @@ tags:
    - episode-title
 
 
-### Taxonomy TODO
+## License
 
-- a way to migrate new standard tags from user input -> standard list
-- all the user interface
-- dump tool for exporting current database contents to this format
+ISC.

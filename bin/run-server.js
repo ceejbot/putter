@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+require('dotenv').config({silent: true});
 var
 	assert = require('assert'),
 	bole   = require('bole'),
