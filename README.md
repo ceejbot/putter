@@ -2,28 +2,6 @@
 
 A fanfiction archive that doesn't suck, written with modern tools in node.
 
-## Requirements
-
-A modern Unix like Ubuntu or Mac OS X. Postgres, redis, nsq. Probably elastic search. See [operations](./operations).
-
-## Layout
-
-I started laying down some foundational pieces a while ago, and here's what I did:
-
-* `api-auth/` - the authentication & authorization api, restify
-* `api-completer/` - the autocomplete service for web UI, restify
-* `api-data/` - the data api, restify
-* `bin/` - standard npm package bin scripts
-* `config/` - configuration files in [TOML](https://github.com/toml-lang/toml) format
-* `lib/` - shared libraries
-* `lib/controllers/` - application logic, grouped
-* `lib/models/` - data that resides in the db
-* `taxonomy/` - seed data for tags etc
-* `test/` - unit & integration tests
-* `website/` - service for the web pages, express? restify with benefits?
-
-A lot of this is debris that can be ignored as I clean it up. The *taxonomy* stuff is interesting, however.
-
 ## Design
 
 Basic approach:
@@ -43,20 +21,18 @@ The approach will be to do these things, roughly:
 - At that point, we have proof of viability for the db & model layer as well as the api layer.
 - From there, implement uploading & viewing a story.
 
-At that point, we should either re-evaluate choices or go all-in on them.
+At that point, we will have learned enough to either re-evaluate choices or go all-in on them.
 
 Missing relevant pieces:
 
-- email provider (SparkPost or Mailgun).
-- another other external providers needed?
-- serious thinking about administrative interface
-- any kind of thinking at all about browsing & discovery
+- pit AWS vs Google Cloud for features & cost
+- email provider (SparkPost or Mailgun)
 
 ### Features
 
 - above all else, serve a story *fast*
 - above all else, make story discovery *pleasant* and *fast*
-- stories, aka fic, are the focus
+- stories, aka fic, are the focus; other media is secondary
 - rare events can be slow (NB posting stops being rare if success happens)
 - accessibility is a first-class feature
 - site affordances shape culture: choose features mindfully
@@ -78,23 +54,49 @@ Unsorted list of features to keep in mind:
 
 Sort features into a list that keeps the site moving forward: minimum viability first, then nice-to-haves. But it's good to have the wishlist in mind from the start so we don't back ourselves into corners.
 
-## Taxonomy
+## Tags manifesto
 
-The primary job of a fic archive site is to let readers find fic to read. There are two approaches to solving this problem, as exmplified by the two big fanfiction archives. These are: *tropes* and *fandoms*.
+The primary job of a fic archive site is to let readers find fic to read. There are two approaches to solving this problem, as exemplified by the two big fanfiction archives: *fandoms* and *tags*.
 
-The fandom-browsing reader will have a fandom or a character or pairing in mind when they begin browsing. They might be interested in reading Steve/Bucky fic, from any variation of the Captain America canons. Or they might want to look only at *Sherlock* fic, from that specific variation of the Holmes canons, without any pairing in mind. For these readers, the FF.net approach works.
+The fandom-browsing reader will have a fandom or a character or pairing in mind when they begin browsing. They might be interested in reading Steve/Bucky fic, from any variation of the Captain America canons. Or they might want to look only at *Sherlock* fic, from that specific variation of the Holmes canons, without any pairing in mind. For these readers, the FF.net approach works. You find fic by choosing a fandom to read in, then drilling down into specific characters.
 
-Other readers are more interested in cutting across fandoms to find a specific trope they're interested in. For instance, a reader looking for wingfic might be interested in finding wingfic in SGA fandom as well as MCU fandom.
+Other readers are more interested in cutting across fandoms to find a specific trope they're interested in. For instance, a reader looking for wingfic might be interested in finding wingfic in SGA fandom as well as MCU fandom. For these readers, the AO3 canonical tags are the way to find what they're looking for.
 
-Tags can support both reader approaches. Fandoms and characters are tags with a little bit of extra meaning attached to them. The problem with tagging, I suggest, is in *guiding writers into using meaningful tags*. Writers will also have an urge to express themselves creatively in tagging that should also find a meaningful home. If the fandom wants to call the pairing `Twelfth Doctor/Clara Oswald` *whouffaldi*, the fandom should be able to do that. Readers should be able to find it.
+Tags can support both reader approaches, and indeed under the hood do so on AO3. Fandoms and characters are tags with a little bit of extra meaning attached to them.
 
-As generals fight the current war with the last one in mind, I approach the problem of a tags design with the failures of AO3 in mind. Their tagging implementation had two fatal flaws: First, it requires the constant attention of an army of volunteers. Meat *must* be present in the machine. Second, the implementation details made it difficult to scale, to the point where AO3 literally *stopped* scaling it. Tags are no longer made canonical & synned.
+As generals fight the current war with the last one in mind, I approach the problem of a tags design with the failures of AO3 in mind. Their tagging implementation has two fatal flaws. First, it requires the constant attention of an army of volunteers. Meat *must* be present in the machine. Second, the implementation details make it difficult to scale, to the point where AO3 literally *stopped* scaling it. Tags are no longer made canonical & aliased to each other.
 
 Nobody wants to go back to the FF.net tagless world. Nobody wants the servers to fall over. Writers like free-form tags; readers like well-designed taxonomies.
 
-Por qué no los dos?
+Porqué no los dos?
 
-### Tags
+The problem with tagging, I believe, is in *guiding writers into using meaningful tags*. Writers will also have an urge to express themselves creatively in tagging that should also find a meaningful home. If the fandom wants to call the pairing `Twelfth Doctor/Clara Oswald` *whouffaldi*, the fandom should be able to do that. Readers who don't know the nickname should be able to find it.
+
+My current thinking is that stories need two kinds of tags: standardized categorization from a fixed list, and free-form categorization at the author's whim. Lookup by the first can be made zippy because it's a fixed target. Lookup by the second should be handled by search. This also requires that a method be available to *promote* free-form tags to standardized tags as popularity demands.
+
+## Operational requirements
+
+A modern Unix like Ubuntu or Mac OS X. Postgres, redis, nsq. Probably elastic search. See [operations](./operations).
+
+## Layout
+
+I started laying down some foundational pieces a while ago, and here's what I did:
+
+* `api-auth/` - the authentication & authorization api, restify
+* `api-completer/` - the autocomplete service for web UI, restify
+* `api-data/` - the data api, restify
+* `bin/` - standard npm package bin scripts
+* `config/` - configuration files in [TOML](https://github.com/toml-lang/toml) format
+* `lib/` - shared libraries
+* `lib/controllers/` - application logic, grouped
+* `lib/models/` - data that resides in the db
+* `taxonomy/` - seed data for tags etc
+* `test/` - unit & integration tests
+* `website/` - service for the web pages, express? restify with benefits?
+
+A lot of this is debris that can be ignored as I clean it up. The *taxonomy* stuff is interesting, however.
+
+### Taxonomy
 
 The `taxonomy` directory contains a standard tags corpus to use to seed the archive with tags we'd prefer writers to use.
 
@@ -105,12 +107,11 @@ Tags from this collection will get special treatment in the user interface:
 
 A test set of tags are in [tags.yml](./taxonomy.tags.yml). A test set of fandoms with character lists is in [fandoms](./taxonomy/fandoms/).
 
-The database seeding process adds them to the appropriate catalogs. Seeding process can be re-run at any time to add new tags/fandoms/characters. It will update existing fandom data. It won't delete any new tags added by users.
 I've gone through the AO3 tag dataset & pulled out the most-used tags into `ao3-dump.json`. I have a rough cut at what standardization might look like given the tag format proposals below.
 
-My current thinking is that stories need two kinds of tags: standardized categorization from a fixed list, and free-form categorization at the author's whim. Lookup by the first can be made zippy because it's a fixed target. Lookup by the second should be handled by search. This also requires that a method be available to *promote* free-form tags to standardized tags as popularity demands.
+The database seeding process adds them to the appropriate catalogs. Seeding process can be re-run at any time to add new tags/fandoms/characters. It will update existing fandom data. It won't delete any new tags added by users. \[this is a TODO not a statement of current fact]
 
-### File format
+### Tag file schema
 
 Yaml files.
 
@@ -160,8 +161,9 @@ Proposed tag structure:
 `!`-modifiers for character names
 
 	hurt!fandom:character-name
+    hurt!mcu:bucky-barnes
 
-presence in the tags list forces presence in the character list
+Presence in the tags list forces presence in the character list
 
 
 ### Fandoms
@@ -185,7 +187,6 @@ characters:
 tags:
    - fandom-specific
    - episode-title
-
 
 ## License
 
