@@ -38,8 +38,10 @@
     "yargs": "~7.1.0"
   },
   "devDependencies": {
+    "bootstrap": "~3.3.7",
     "coveralls": "~2.13.0",
     "eslint-config-ceejbot": "~1.0.4",
+    "less": "~2.7.2",
     "mocha": "~3.2.0",
     "must": "~0.13.4",
     "nyc": "~10.2.0",
@@ -63,9 +65,10 @@
     "auth": "NODE_ENV=development node bin/run-server auth",
     "completer": "NODE_ENV=development node bin/run-server completer",
     "data": "NODE_ENV=development node bin/run-server data",
-    "lint": "eslint lib test bin api-auth api-completer api-data",
+    "test:style": "xo",
     "test": "nyc mocha -t 10000 --check-leaks -R spec test/test-*.js",
-    "test-cov": "nyc report --reporter=text-lcov | coveralls",
-    "test-travis": "npm test && npm run test-cov"
+    "test:cov": "nyc mocha -t 10000 --check-leaks -R spec test/test-*.js",
+    "report:cov": "nyc report --reporter=text-lcov | coveralls",
+    "test:travis": "npm run test:cov && npm run test:style"
   }
 }
