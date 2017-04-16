@@ -9,16 +9,18 @@ BANKAI := $(addprefix $(NPM_BIN), bankai)
 LESSOPTS :=
 LESSDIR := assets/css
 CSSDIR := public/css
-CSS := $(addprefix $(CSSDIR)/,putter.css)
 CSS_INPUTS := $(wildcard $(LESSDIR)/*.less)
+CSS := $(addprefix $(CSSDIR)/,putter.css)
 
-# javascript libraries setup
+# javascript setup
+BANKAIOPTS := --optimize --uglify=false
 LIBDIR := assets/js
+JSDIR := public/js/
+JS_INPUTS := $(wildcard $(LIBDIR)/*.js)
+JS := $(addprefix $(JSDIR),bundle.js)
+
 LIBRARIES := node_modules/bootstrap/dist/js/bootstrap.js
 LIBS_MIN = $(LIBRARIES:.js=.min.js)
-
-JSDIR := public/js/
-JS_TARGETS := $(addprefix $(JSDIR), bootstrap.js)
 
 all: css js
 
@@ -30,7 +32,13 @@ $(CSSDIR)/%.css : $(LESSDIR)/%.less
 	@echo Compiling $<
 	@$(LESS) $(LESSOPTS) $< > $@
 
-js: $(JS_TARGETS)
+js: $(JS)
+
+$(JS): $(JS_INPUTS)
+	@echo Bankai $<
+	@$(BANKAI) build $(BANKAIOPTS) $^ $(JSDIR)
+	@mv $(JSDIR)/*.css $(CSSDIR)
+	@mv $(JSDIR)/*.html $(JSDIR)/../
 
 %.min.js: %.js
 	@echo Minifying $<
@@ -43,10 +51,6 @@ $(JSDIR)libraries.js: $(LIBRARIES)
 $(JSDIR)libraries.min.js: $(LIBS_MIN)
 	@echo Concatenating minified libraries
 	@cat $^ >> $@
-
-$(JSDIR)putter.js: $(APPJS)
-	@echo Browserifying $@
-	$(BROWSERIFY) $^ -o $@
 
 $(JSDIR)putter-debug.js: $(APPJS)
 	$(BROWSERIFY) --debug $^ -o $@
@@ -70,4 +74,4 @@ clean:
 	-rm $(CSS)
 	-rm $(JS_TARGETS)
 
-.PHONY: count provision cleardb inject
+.PHONY: count provision cleardb inject js
