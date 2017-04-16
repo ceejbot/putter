@@ -22,9 +22,8 @@
     "js-yaml": "~3.8.3",
     "lodash": "~4.17.4",
     "markdown-it": "~8.3.1",
-    "marked": "~0.3.5",
     "moment": "~2.18.1",
-    "numbat-emitter": "~4.0.0",
+    "nsqjs": "~0.8.4",
     "ormnomnom": "~3.0.1",
     "prefix-completer": "~0.4.0",
     "prettydate": "0.0.1",
@@ -51,14 +50,11 @@
   },
   "homepage": "https://github.com/ceejbot/putter",
   "keywords": [
-    "archive",
     "express",
     "fanfiction",
-    "microservices",
-    "restify"
+    "fic archive"
   ],
   "license": "ISC",
-  "main": "index.js",
   "private": true,
   "repository": {
     "type": "git",

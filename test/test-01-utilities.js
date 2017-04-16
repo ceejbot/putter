@@ -6,9 +6,9 @@ var
 	putil  = require('../lib/utilities')
 	;
 
-describe('utilities', function()
+describe('utilities', () =>
 {
-	it('can generate a lot of random IDs', function()
+	it('can generate a lot of random IDs', () =>
 	{
 		var gen;
 		for (var i = 1; i < 200; i++)
@@ -18,13 +18,13 @@ describe('utilities', function()
 		}
 	});
 
-	it('can generate a long random ID', function()
+	it('can generate a long random ID', () =>
 	{
 		var gen = putil.randomID(500);
 		gen.length.must.equal(500);
 	});
 
-	it('can load TOML files', function()
+	it('can load TOML files', () =>
 	{
 		var result = putil.loadConfig(path.join(__dirname, 'fixtures', 'test-config.toml'));
 		result.must.be.an.object();
@@ -32,5 +32,5 @@ describe('utilities', function()
 		result.database.must.be.an.object();
 	});
 
-	it('has tests for the logger function');
+	it('has tests for the cleanTagText function');
 });

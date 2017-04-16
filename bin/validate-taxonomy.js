@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var
+const
 	fs   = require('fs'),
 	path = require('path'),
 	util = require('util'),
@@ -11,9 +11,9 @@ const taxdir = path.resolve(path.join(__dirname, '..', 'taxonomy'));
 
 var fandoms = {},
 	tags = {},
-	data, fandom, i, prefix, category;
+	i, prefix;
 
-data = fs.readFileSync(path.join(taxdir, 'tags.yml'), 'utf8');
+const data = fs.readFileSync(path.join(taxdir, 'tags.yml'), 'utf8');
 yaml.loadAll(data, doc =>
 {
 	tags = doc;
@@ -25,9 +25,10 @@ yaml.loadAll(data, doc =>
 			prefix = '';
 		else
 			prefix = tkeys[i] + ':';
-		category = tags[tkeys[i]];
-		for (var j = 0; j < category.length; j++)
-			finaltags.push(prefix + category[j]);
+		tags[tkeys[i]].forEach(cat =>
+		{
+			finaltags.push(prefix + cat);
+		});
 	}
 
 	finaltags.sort();
@@ -35,16 +36,16 @@ yaml.loadAll(data, doc =>
 	console.log(util.inspect(finaltags));
 });
 
-var fdir = path.join(taxdir, 'fandoms');
-var files = fs.readdirSync(fdir);
+const fdir = path.join(taxdir, 'fandoms');
+const files = fs.readdirSync(fdir);
 
-for (i = 0; i < files.length; i++)
+files.forEach(file =>
 {
-	data = fs.readFileSync(path.join(fdir, files[i]), 'utf8');
-	fandom = yaml.load(data);
+	const data = fs.readFileSync(path.join(fdir, file), 'utf8');
+	const fandom = yaml.load(data);
 	fandoms[fandom.tag] = fandom;
-}
+});
 
-var fkeys = Object.keys(fandoms);
+const fkeys = Object.keys(fandoms);
 console.log(fkeys.length + ' valid fandoms found: ');
 console.log(util.inspect(fkeys));
