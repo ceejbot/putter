@@ -6,6 +6,7 @@ NPM_BIN := node_modules/.bin/
 LESS := $(addprefix $(NPM_BIN), lessc)
 LOGGER := $(addprefix $(NPM_BIN), bistre)
 BROWSERIFY := $(addprefix $(NPM_BIN), browserify)
+BANKAI := $(addprefix $(NPM_BIN), bankai)
 
 # CSS setup
 LESSOPTS :=
