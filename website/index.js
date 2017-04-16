@@ -13,8 +13,6 @@ module.exports = function createServer(options)
 	app.set('views', `${__dirname}/views`);
 	app.set('view engine', 'pug');
 
-	app.locals.static_mount = process.env.STATIC_MOUNT;
-
 	// TODO mount middleware after having selected it
 	app.use(afterhook);
 	app.use(handleError);
@@ -23,6 +21,14 @@ module.exports = function createServer(options)
 	app.get('/', handleIndex);
 	app.get('/ping', handlePing);
 	app.get('/status', handleStatus);
+
+	if (process.env.STATIC_MOUNT === '/')
+	{
+		app.use(express.static(`${__dirname}/../public`));
+		app.locals.static_mount = '';
+	}
+	else
+		app.locals.static_mount = process.env.STATIC_MOUNT;
 
 	logger.info('express app configured');
 
