@@ -1,4 +1,0 @@
-[database]
-host     = "localhost"
-port     = 28015
-database = "putter"
