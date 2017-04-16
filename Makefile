@@ -1,6 +1,3 @@
-DATE=$(shell date)
-BANNER= // Putter Assets Build $(DATE)
-
 # use locally-installed tools
 NPM_BIN := node_modules/.bin/
 LESS := $(addprefix $(NPM_BIN), lessc)
@@ -13,6 +10,7 @@ LESSOPTS :=
 LESSDIR := assets/css
 CSSDIR := public/css
 CSS := $(addprefix $(CSSDIR)/,putter.css)
+CSS_INPUTS := $(wildcard $(LESSDIR)/*.less)
 
 # javascript libraries setup
 LIBDIR := assets/js
@@ -26,6 +24,8 @@ all: css js
 
 css: $(CSS)
 
+$(CSS) : $(CSS_INPUTS)
+
 $(CSSDIR)/%.css : $(LESSDIR)/%.less
 	@echo Compiling $<
 	@$(LESS) $(LESSOPTS) $< > $@
@@ -38,12 +38,10 @@ js: $(JS_TARGETS)
 
 $(JSDIR)libraries.js: $(LIBRARIES)
 	@echo Concatenating third-party libraries
-	@echo $(BANNER) > $@
 	@cat $^ | sed 's/^M//' >> $@
 
 $(JSDIR)libraries.min.js: $(LIBS_MIN)
 	@echo Concatenating minified libraries
-	@echo $(BANNER) > $@
 	@cat $^ >> $@
 
 $(JSDIR)putter.js: $(APPJS)
@@ -68,11 +66,8 @@ cleardb:
 inject:
 	cd test && ./inject-data.js
 
-run:
-	cd pages && node app.js | ../$(LOGGER)
-
 clean:
 	-rm $(CSS)
 	-rm $(JS_TARGETS)
 
-.PHONY: count provision cleardb run inject
+.PHONY: count provision cleardb inject
