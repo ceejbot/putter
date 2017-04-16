@@ -1,4 +1,5 @@
-var
+require('dotenv').config({path: `${__dirname}/.env`, silent: true});
+const
 	_         = require('lodash'),
 	async     = require('async'),
 	assert    = require('assert'),

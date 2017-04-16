@@ -18,7 +18,7 @@ The approach will be to do these things, roughly:
 
 - Implement enough of a front-end app to show a signup page.
 - Implement enough of a backend app to support signup & login.
-- At that point, we have proof of viability for the db & model layer as well as the api layer.
+- This forces us to have a working db & model layer as well as an api layer.
 - From there, implement uploading & viewing a story.
 
 At that point, we will have learned enough to either re-evaluate choices or go all-in on them.
@@ -115,6 +115,7 @@ The database seeding process adds them to the appropriate catalogs. Seeding proc
 
 Yaml files.
 
+```yaml
 super-category:
     - tag-text
     - another-tag
@@ -123,13 +124,11 @@ category2:
 	- foo
 	- bar
 	- baz
+```
 
 ### Tag formats
 
-Tags cannot contain spaces.
-
-delimiters: space, comma, semicolon
-allowed punctuation: `!:-_/+?&<>`
+Tags cannot contain spaces. Delimiters: space, comma, semicolon. Allowed punctuation: `!:-_/+?&<>`
 
 All other punctuation is stripped on input.
 
@@ -165,13 +164,13 @@ Proposed tag structure:
 
 Presence in the tags list forces presence in the character list
 
-
 ### Fandoms
 
 Seed data for the fandoms expected to be represented in the archive, intended as a test data set right now.
 
 #### Schema
 
+```yaml
 tag: no-space-title
 name: "The Full Title of the Show"
 sortname: title of the show with stopwords removed
@@ -187,6 +186,7 @@ characters:
 tags:
    - fandom-specific
    - episode-title
+```
 
 ## License
 

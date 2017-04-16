@@ -1,4 +1,5 @@
-var
+require('dotenv').config({path: `${__dirname}/.env`, silent: true});
+const
 	_         = require('lodash'),
 	async     = require('async'),
 	assert    = require('assert'),
@@ -7,7 +8,7 @@ var
 	restify   = require('restify')
 	;
 
-var AutoComplete = module.exports = function AutoComplete(options)
+const AutoComplete = module.exports = function AutoComplete(options)
 {
 	assert(options, 'you must pass an options object to the constructor');
 	assert(options.hasOwnProperty('path') && _.isString(options.path), 'you must pass a `path` to mount the route on in the options');
