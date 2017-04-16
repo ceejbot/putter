@@ -8,6 +8,8 @@ A modern Unix like Ubuntu or Mac OS X. Postgres, redis, nsq. Probably elastic se
 
 ## Layout
 
+I started laying down some foundational pieces a while ago, and here's what I did:
+
 * `api-auth/` - the authentication & authorization api, restify
 * `api-completer/` - the autocomplete service for web UI, restify
 * `api-data/` - the data api, restify
@@ -20,22 +22,35 @@ A modern Unix like Ubuntu or Mac OS X. Postgres, redis, nsq. Probably elastic se
 * `test/` - unit & integration tests
 * `website/` - service for the web pages, express? restify with benefits?
 
-## Tasks
+A lot of this is debris that can be ignored as I clean it up. The *taxonomy* stuff is interesting, however.
+
+## Design
 
 Basic approach:
 
-- Metadata in postgres, fic content in flat files (s3 if we're spendy). Pre-render for ease of use.
+- Metadata in postgres, fic content in flat files (s3 if we're spendy). Pre-render to avoid repeated work.
 - Accept data, process in work queue, push to flat files.
 - Build webpages by constructing pre-rendered pieces as much as possible.
-- choo.js website + boostrap layout because who has time for css
+- Use postgres with models implemented in [ormnomnom](https://github.com/chrisdickinson/ormnomnom).
+- [choo](https://github.com/yoshuawuyts/choo) website + boostrap layout because who has time for css.
+- restify is the fallback REST/json API server choice, but we should evaluate [take-five](https://github.com/scriptollc/take-five).
+- Use ElasticSearch to do full-text searching.
 
-Note that this contains debris from a previous run at the problem. Initial tasks:
+The approach will be to do these things, roughly:
 
-- PULL CONFIG FROM .env files using dot-env.
-- Port models over from previous mess to ormnomnom
-- design & write the auth layer
-- design & write the data API
-- Write everything, really.
+- Implement enough of a front-end app to show a signup page.
+- Implement enough of a backend app to support signup & login.
+- At that point, we have proof of viability for the db & model layer as well as the api layer.
+- From there, implement uploading & viewing a story.
+
+At that point, we should either re-evaluate choices or go all-in on them.
+
+Missing relevant pieces:
+
+- email provider (SparkPost or Mailgun).
+- another other external providers needed?
+- serious thinking about administrative interface
+- any kind of thinking at all about browsing & discovery
 
 ## Taxonomy
 
@@ -45,12 +60,16 @@ Tags from this collection will get special treatment in the user interface:
 - autocompletions for partially-typed tags
 - present in browsing interface
 
-tags in tags.yml
-fandoms with character lists in fandoms.yml
+- tags in tags.yml
+- fandoms with character lists in fandoms.yml
 
 The database seeding process adds them to the appropriate catalogs. Seeding process can be re-run at any time to add new tags/fandoms/characters. It will update existing fandom data. It won't delete any new tags added by users.
 
 ### Tags
+
+I've gone through the AO3 tag dataset & pulled out the most-used tags. I have a rough cut at what standardization might look like given the tag format proposals below.
+
+My current thinking is that stories need two kinds of tags: standardized categorization from a fixed list, and free-form categorization at the author's whim. Lookup by the first can be made zippy because it's a fixed target. Lookup by the second should be handled by search. This also requires that a method be available to *promote* free-form tags to standardized tags as popularity demands.
 
 ### File format
 
