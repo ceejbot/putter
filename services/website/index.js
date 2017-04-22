@@ -24,7 +24,7 @@ module.exports = function createServer(options)
 
 	if (process.env.STATIC_MOUNT === 'self')
 	{
-		app.use(express.static(`${__dirname}/../public`));
+		app.use(express.static(`${__dirname}/../../public`));
 		app.locals.static_mount = '';
 	}
 	else

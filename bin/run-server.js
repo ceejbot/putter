@@ -15,7 +15,7 @@ const argv = require('yargs')
 		.argv;
 
 const kind =  argv._[0];
-const createServer = require(path.join('..', kind));
+const createServer = require(path.join('..', 'services', kind));
 
 const logger = bole('wrapper');
 const outputs = [];

@@ -70,16 +70,16 @@ A modern Unix like Ubuntu or Mac OS X. Postgres, redis, nsq. Probably elastic se
 
 I started laying down some foundational pieces a while ago, and here's what I did:
 
-* `api-auth/` - the authentication & authorization api, *ready for work*
-* `api-completer/` - the autocomplete service for web UI, *not ready for work*
-* `api-data/` - the data api, *ready for work*
 * `bin/` - service runners
 * `lib/` - shared libraries
 * `lib/controllers/` - application logic, grouped
 * `lib/models/` - data that resides in the db, *not* ready for work
+* `services/api-auth/` - the authentication & authorization api, *ready for work*
+* `services/api-completer/` - the autocomplete service for web UI, *not ready for work*
+* `services/api-data/` - the data api, *ready for work*
+* `services/website/` - service for the web pages, *ready for work*
 * `taxonomy/` - seed data for tags etc, *ready for work*
 * `test/` - unit & integration tests, *ready for work*
-* `website/` - service for the web pages, *ready for work*
 
 ## License
 

@@ -30,20 +30,65 @@ person
     ➜ many handles
         handle / icon uri / timestamps / deleted tombstone
         ➜ many stories
-            title / summary / tags/ notes / timestamps / tombstone
+            title / summary / tags/ notes / timestamps / tombstone / banner
             ➜ many chapters
                 timestamps / title / body / notes
             ➜ comments (on story, not on chapters)
+            ➜ many subscriptions-to
         ➜ many reviews
-            story / body
+            story_id / body
             ➜ comments
     ➜ many subscriptions
+    ➜ one event log
+        timestamp / verb / reference to other noun
+fandom
+    id, tag, name, description
+    ➜ many related fandoms
+    ➜ many characters (strings)
+    ➜ many tags (strings)
+    ➜ many subscriptions-to
 
 comment: owner id / timestamps / referencing id / body
 ```
 
+Things that can be commented on: stories, reviews.
+
+Things that can be subscribed to: handles, stories, fandoms, tags. These will generate notifications, throttled.
+
+Things that can be favorited: tags, fandoms. These will just show up on browsable lists on the signed-in homepage.
+
+## needed for beta
+
+- signup
+- email verification
+- login/logout
+- posting stories, multichaptered
+- editing chapters, stories, tags
+- leaving comments on stories
 
 These features alone are enough to make the site useful.
+
+Second round:
+
+- subscription/notification to stories & authors.
+- search
+- reviews
+
+Later:
+- graphical decor: icons, banners
+- event log
+- subscriptions to tag expressions, e.g., `fandom:btvs && char:giles`
+
+##
+
+- Home page: not signed in
+    * recent fic & reviews, time-sorted
+    * header with signin/signup prompt
+- Home page: signed in
+    * your event log
+    * your subscriptions
+- header: not signed in: search/browse/docs/signin
+- header: signed in: search/browse/docs/home
 
 ## Tags manifesto
 

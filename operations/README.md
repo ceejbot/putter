@@ -9,6 +9,13 @@ Run `operations/bin/macos.sh` to install brew & use it to install a number of de
 - nsq
 - node 6 via nvm
 
+To create databases for development, run these npm scripts:
+
+```
+npm run db:create
+npm run db:up
+```
+
 For now, to run any service copy the `.env.example` file in its root directory to `.env`, edit, and then run `./bin/run-server.js <dirname>`.
 
 The env file starts looking like this:

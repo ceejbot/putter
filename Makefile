@@ -62,7 +62,9 @@ count:
 	@cloc . --exclude-dir=node_modules,pages/public,assets,components --exclude-lang=HTML,CSS,YAML
 
 provision:
-	./provision/provision.js | $(LOGGER)
+	@echo Creating development db and running migrations...
+	#@ DB_NAME=putter_dev npm run db:create
+	@npm run db:up
 
 cleardb:
 	./provision/cleardb.js | $(LOGGER)
