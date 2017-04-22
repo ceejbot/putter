@@ -2,6 +2,8 @@
 
 A fanfiction archive that doesn't suck, written with modern tools in node. See [the operations README](./operations/README.md) for docs about how to build & run locally.
 
+Please note that this project is released with a [Contributor Code of Conduct](code-of-conduct.md). By participating in this project you agree to abide by its terms.
+
 ## Design
 
 Basic approach:
@@ -54,29 +56,11 @@ Unsorted list of features to keep in mind:
 
 Sort features into a list that keeps the site moving forward: minimum viability first, then nice-to-haves. But it's good to have the wishlist in mind from the start so we don't back ourselves into corners. E.g., story subscription is an early feature; tag set subscription is later.
 
+See also the [docs directory](./docs) for a tagging manifesto and detailed data designs.
+
 ## Notes on the web app
 
-Strict delineation of what's not suitable for webappery, what is, and what is prerendered. (The trick to being fast is to do as little work as possible. This includes never repeating work you've done once.) Slice it into chunks that benefit from the single-page experience as groups.
-
-## Tags manifesto
-
-The primary job of a fic archive site is to let readers find fic to read. There are two approaches to solving this problem, as exemplified by the two big fanfiction archives: *fandoms* and *tags*.
-
-The fandom-browsing reader will have a fandom or a character or pairing in mind when they begin browsing. They might be interested in reading Steve/Bucky fic, from any variation of the Captain America canons. Or they might want to look only at *Sherlock* fic, from that specific variation of the Holmes canons, without any pairing in mind. For these readers, the FF.net approach works. You find fic by choosing a fandom to read in, then drilling down into specific characters.
-
-Other readers are more interested in cutting across fandoms to find a specific trope they're interested in. For instance, a reader looking for wingfic might be interested in finding wingfic in SGA fandom as well as MCU fandom. For these readers, the AO3 canonical tags are the way to find what they're looking for.
-
-Tags can support both reader approaches, and indeed under the hood do so on AO3. Fandoms and characters are tags with a little bit of extra meaning attached to them.
-
-As generals fight the current war with the last one in mind, I approach the problem of a tags design with the failures of AO3 in mind. Their tagging implementation has two fatal flaws. First, it requires the constant attention of an army of volunteers. Meat *must* be present in the machine. Second, the implementation details make it difficult to scale, to the point where AO3 literally *stopped* scaling it. Tags are no longer made canonical & aliased to each other.
-
-Nobody wants to go back to the FF.net tagless world. Nobody wants the servers to fall over. Writers like free-form tags; readers like well-designed taxonomies.
-
-Porqué no los dos?
-
-The problem with tagging, I believe, is in *guiding writers into using meaningful tags*. Writers will also have an urge to express themselves creatively in tagging that should also find a meaningful home. If the fandom wants to call the pairing `Twelfth Doctor/Clara Oswald` *whouffaldi*, a writer should be able to use that tag. Readers who don't know the nickname should be able to find it.
-
-My current thinking is that stories need two kinds of tags: standardized categorization from a fixed list, and free-form categorization at the author's whim. Lookup by the first can be made zippy because it's a fixed target. Lookup by the second should be handled by search. This also requires that a method be available to *promote* free-form tags to standardized tags as popularity demands.
+TODO: Strict delineation of what's not suitable for webappery, what is, and what is prerendered. (The trick to being fast is to do as little work as possible. This includes never repeating work you've done once.) Slice it into chunks that benefit from the single-page experience as groups.
 
 ## Operational requirements
 
@@ -96,94 +80,6 @@ I started laying down some foundational pieces a while ago, and here's what I di
 * `taxonomy/` - seed data for tags etc, *ready for work*
 * `test/` - unit & integration tests, *ready for work*
 * `website/` - service for the web pages, *ready for work*
-
-### Taxonomy
-
-The `taxonomy` directory contains a standard tags corpus to use to seed the archive with tags we'd prefer writers to use.
-
-Tags from this collection will get special treatment in the user interface:
-
-- autocompletions for partially-typed tags
-- present in browsing interface
-
-A test set of tags are in [tags.yml](./taxonomy.tags.yml). A test set of fandoms with character lists is in [fandoms](./taxonomy/fandoms/).
-
-I've gone through the AO3 tag dataset & pulled out the most-used tags into `ao3-dump.json`. I have a rough cut at what standardization might look like given the tag format proposals below.
-
-The database seeding process adds them to the appropriate catalogs. Seeding process can be re-run at any time to add new tags/fandoms/characters. It will update existing fandom data. It won't delete any new tags added by users. \[this is a TODO not a statement of current fact]
-
-### Tag file schema
-
-Yaml files.
-
-```yaml
-super-category:
-    - tag-text
-    - another-tag
-    - yet-another-tag
-category2:
-    - foo
-    - bar
-    - baz
-```
-
-### Tag formats
-
-Tags cannot contain spaces. Delimiters: space, comma, semicolon. Allowed punctuation: `!:-_/+?&<>`
-
-All other punctuation is stripped on input.
-
-```javascript
-input.trim().toLowerCase().replace(/[,;\s\*\\\.\'\"\$\^\(\)=%]+/g, '');
-```
-
-Proposed tag structure:
-
-`:` for internal structure. This is the bold idea that might or might not work out: the way you distinguish the Spike of *Buffy* from the Spike of *Cowboy Bebop* is by including the fandom specifically in the character name.
-
-*Or* can enforce this in another way: if you've tagged a story with `fandom:btvs`, you get the BTVS character listing to choose from, but are prevented from choosing others unless you've added the fandom as a crossover.
-
-	kink:blindfolds
-	trope:wingfic
-	au:coffeeshop
-	genre:action
-	genre:romance
-	genre:slash
-	genre:romantic-comedy
-    btvs:season:05
-    btvs:giles
-    btvs:spike
-
-`!`-modifiers for character names
-
-	hurt!fandom:character-name
-    hurt!mcu:bucky-barnes
-
-Presence in the tags list forces presence in the character list
-
-### Fandoms
-
-Seed data for the fandoms expected to be represented in the archive, intended as a test data set right now.
-
-#### Schema
-
-```yaml
-tag: no-space-title
-name: "The Full Title of the Show"
-sortname: title of the show with stopwords removed
-related: related-fandom-1, related-fandom-2
-deescription: |
-   Perky high school cheerleader fights the forces of darkness,
-   assisted by her friends and the high school librarian. Wikipedia
-   link if appropriate.
-characters:
-   - Fred
-   - Barney
-   - Wilma
-tags:
-   - fandom-specific
-   - episode-title
-```
 
 ## License
 

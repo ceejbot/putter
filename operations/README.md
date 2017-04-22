@@ -19,7 +19,7 @@ HOST=localhost
 PORT=3000
 ```
 
-Run `npm run` to get a dump of the run scripts available. All services should be runnable via an npm script. To build assets right now, run `make css` or `make js` or `make all`. (TODO only css works right now.) Assets are checked in.
+Run `npm run` to get a dump of the run scripts available. All services should be runnable via an npm script. To build assets right now, run `make css` or `make js` or `make all`. (TODO only css works right now.) Assets are checked in. To run bankai in watch mode: `npm run run:bankai`.
 
 ```
 Lifecycle scripts included in putter:

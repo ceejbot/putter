@@ -22,13 +22,14 @@ module.exports = function createServer(options)
 	app.get('/ping', handlePing);
 	app.get('/status', handleStatus);
 
-	if (process.env.STATIC_MOUNT === '/')
+	if (process.env.STATIC_MOUNT === 'self')
 	{
 		app.use(express.static(`${__dirname}/../public`));
 		app.locals.static_mount = '';
 	}
 	else
 		app.locals.static_mount = process.env.STATIC_MOUNT;
+	app.locals.js_mount = process.env.JS_MOUNT;
 
 	logger.info('express app configured');
 

@@ -1,8 +1,10 @@
-const
+'use strict';
+
+var
 	html = require('choo/html'),
 	choo = require('choo');
 
-const app = choo();
+var app = choo();
 app.use(logger);
 app.use(countStore);
 app.route('/', signupView);
@@ -97,7 +99,7 @@ function signinView(state, emit)
 
 function logger(state, emitter)
 {
-	emitter.on('*', (messageName, data) =>
+	emitter.on('*', function(messageName, data)
 	{
 		console.log('event', messageName, data);
 	});
@@ -106,7 +108,7 @@ function logger(state, emitter)
 function countStore(state, emitter)
 {
 	state.count = 0;
-	emitter.on('increment', count =>
+	emitter.on('increment', function(count)
 	{
 		state.count += count;
 		emitter.emit('render');
