@@ -4,7 +4,7 @@ const
 	bole   = require('bole'),
 	logstr = require('common-log-string'),
 	five   = require('take-five'),
-	Person  = require('../../../lib/models/person')
+	Person  = require('../../lib/models/person')
 	;
 
 var node;
@@ -80,7 +80,7 @@ function postLogin(request, response, next)
 			// prompt for otp using WWW-Authenticate
 			response.send(401, 'need otp');
 		}
-		else if (!!answer)
+		else if (answer instanceof Person)
 		{
 			// we got a person back!
 			// save a login session etc etc
@@ -89,24 +89,3 @@ function postLogin(request, response, next)
 		next();
 	});
 }
-
-/*
-
-var APIServer = module.exports = function APIServer(options)
-{
-	assert(options, 'you must pass an options object to the constructor');
-	assert(options.hasOwnProperty('path') && _.isString(options.path), 'you must pass a `path` to mount the route on in the options');
-
-	this.options = options;
-	this.rules = options.rules;
-	this.logger = bole('data');
-
-	this.server = restify.createServer(options);
-	this.server.use(restify.bodyParser());
-	this.server.use(restify.queryParser());
-	this.server.on('after', this.logEachRequest.bind(this));
-
-	this.server.get(options.path + '/api/1/data/ping', this.handlePing.bind(this));
-	this.server.get(options.path + '/api/1/data/status', this.handleStatus.bind(this));
-};
-*/

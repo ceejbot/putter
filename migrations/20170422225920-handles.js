@@ -39,5 +39,5 @@ exports.down = function(db)
 
 exports._meta =
 {
-	"version": 1
+	version: 1
 };
