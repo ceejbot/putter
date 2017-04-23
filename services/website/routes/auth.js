@@ -3,7 +3,7 @@
 const
 	axios   = require('axios'),
 	body    = require('body-parser'),
-	express = require('express'),
+	express = require('express')
 	;
 
 const router = express.Router();
@@ -16,6 +16,12 @@ router.get('/signin', getSignIn);
 router.post('/signin', postSignIn);
 router.post('/signout', postSignOut);
 
+function getSignUp(request, response)
+{
+	// render the view
+	response.status(501).send('not implemented');
+}
+
 function postSignUp(request, response)
 {
 	request.logger.info(JSON.stringify(request.body));
@@ -26,6 +32,12 @@ function postSignUp(request, response)
 	// save
 	// redirect to home page
 
+	response.status(501).send('not implemented');
+}
+
+function getSignIn(request, response)
+{
+	// render the view
 	response.status(501).send('not implemented');
 }
 
