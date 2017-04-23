@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 
+require('dotenv').config();
 const
 	bole = require('bole'),
 	path = require('path');
 
 const argv = require('yargs')
-		.usage('run-server --node <nodename> <servertype>')
-		.demand(1)
-		.alias('n', 'node')
-		.describe('n', 'a name for this node')
-		.help('h')
-		.alias('h', 'help')
-		.example('run-server --node auth1 api-auth', 'run an auth server named auth1')
-		.argv;
+	.usage('run-server --node <nodename> <servertype>')
+	.demand(1)
+	.alias('n', 'node')
+	.describe('n', 'a name for this node')
+	.help('h')
+	.alias('h', 'help')
+	.example('run-server --node auth1 api-auth', 'run an auth server named auth1')
+	.argv;
 
 const kind =  argv._[0];
 const createServer = require(path.join('..', 'services', kind));

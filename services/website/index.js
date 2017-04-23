@@ -1,19 +1,49 @@
-require('dotenv').config({path: `${__dirname}/.env`, silent: true});
+'use strict';
+
 const
-	bole    = require('bole'),
-	logstr  = require('common-log-string'),
-	express = require('express'),
-	logger  = bole('web')
+	bole         = require('bole'),
+	cookieParser = require('cookie-parser'),
+	conredis     = require('connect-redis'),
+	csurf        = require('csurf'),
+	express      = require('express'),
+	helmet       = require('helmet'),
+	logstr       = require('common-log-string'),
+	session      = require('express-session'),
+	uuid         = require('uuid'),
+	logger       = bole('web')
 	;
 
 module.exports = function createServer(options)
 {
+	// TODO this is stupid hackery; fix eventually
+	process.env.PORT = process.env.PORT_WEB;
+
 	const app = express();
 
+	const sessionOpts = {
+		secret: process.env.SESSION_SECRET,
+		store: new (conredis(session))({ url: process.env.REDIS }),
+		resave: false,
+		saveUninitialized: true,
+		cookie: {},
+	};
+
+	if (app.get('env') === 'production')
+	{
+		app.set('trust proxy', 1);
+		sessionOpts.cookie.secure = true;
+	}
+
+	app.set('trust proxy', 1);
 	app.set('views', `${__dirname}/views`);
 	app.set('view engine', 'pug');
 
 	// TODO mount middleware after having selected it
+	app.use(requestid);
+	app.use(helmet());
+	app.use(cookieParser(process.env.COOKIE_SECRET, {}));
+	// app.use(csurf({ cookie: true }));
+	app.use(session(sessionOpts));
 	app.use(afterhook);
 	app.use(handleError);
 
@@ -21,6 +51,7 @@ module.exports = function createServer(options)
 	app.get('/', handleIndex);
 	app.get('/ping', handlePing);
 	app.get('/status', handleStatus);
+	app.use('/', require('./routes/auth'));
 
 	if (process.env.STATIC_MOUNT === 'self')
 	{
@@ -36,12 +67,20 @@ module.exports = function createServer(options)
 	return app;
 };
 
+function requestid(request, response, next)
+{
+	request._time = Date.now();
+	request.id = uuid.v4();
+	request.logger = bole(request.id);
+	next();
+}
+
 function afterhook(request, response, next)
 {
 	request.on('end', () =>
 	{
 		response._time = Date.now();
-		logger.info(logstr(request, response));
+		request.logger.info(logstr(request, response));
 	});
 	next();
 }

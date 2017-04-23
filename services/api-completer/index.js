@@ -1,4 +1,7 @@
-require('dotenv').config({path: `${__dirname}/.env`, silent: true});
+'use strict';
+
+// TODO won't run at all yet
+
 const
 	_         = require('lodash'),
 	async     = require('async'),

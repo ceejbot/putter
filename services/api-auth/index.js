@@ -1,4 +1,5 @@
-require('dotenv').config({path: `${__dirname}/.env`, silent: true});
+'use strict';
+
 const
 	bole   = require('bole'),
 	five   = require('take-five'),
@@ -10,6 +11,7 @@ const logger = bole('api-auth');
 
 module.exports = function createServer(nodename)
 {
+	process.env.PORT = process.env.PORT_AUTH;
 	node = nodename;
 	const server = five();
 	server.use(afterhook);
