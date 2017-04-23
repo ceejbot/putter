@@ -34,7 +34,6 @@ module.exports = function createServer(options)
 		sessionOpts.cookie.secure = true;
 	}
 
-	app.set('trust proxy', 1);
 	app.set('views', `${__dirname}/views`);
 	app.set('view engine', 'pug');
 
@@ -49,9 +48,8 @@ module.exports = function createServer(options)
 
 	// TODO mount routes after having written them
 	app.get('/', handleIndex);
-	app.get('/ping', handlePing);
-	app.get('/status', handleStatus);
 	app.use('/', require('./routes/auth'));
+	app.use('/', require('./routes/monitor'));
 
 	if (process.env.STATIC_MOUNT === 'self')
 	{
@@ -69,17 +67,16 @@ module.exports = function createServer(options)
 
 function requestid(request, response, next)
 {
-	request._time = Date.now();
-	request.id = uuid.v4();
+	request.id = uuid.v1();
 	request.logger = bole(request.id);
 	next();
 }
 
 function afterhook(request, response, next)
 {
+	response._time = Date.now();
 	request.on('end', () =>
 	{
-		response._time = Date.now();
 		request.logger.info(logstr(request, response));
 	});
 	next();
@@ -88,21 +85,6 @@ function afterhook(request, response, next)
 function handleIndex(request, response)
 {
 	response.render('index', { title: 'putter fic', message: 'hello world' });
-}
-
-function handlePing(request, response)
-{
-	response.status(200).send('OK');
-}
-
-function handleStatus(request, response)
-{
-	var status = {
-		pid:     process.pid,
-		uptime:  process.uptime(),
-		rss:     process.memoryUsage(),
-	};
-	response.status(200).send(status);
 }
 
 function handleError(err, request, response, next)

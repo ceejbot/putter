@@ -1,4 +1,4 @@
-# operations
+# running it
 
 Ansible roles for setting things up in production; bash scripts for setting things up on an OS X box.
 
@@ -9,6 +9,8 @@ Run `operations/bin/macos.sh` to install brew & use it to install a number of de
 - nsq
 - node 6 via nvm
 
+To configure your development services, copy the `.env.example` file in the project root to `.env` and edit. In particular, generate some long random secrets. Then you can use any of the the `npm run run:<name>` scripts. Run `npm run` to get a dump of the other run scripts available. All services should be runnable via an npm script.
+
 To create databases for development, run these npm scripts:
 
 ```
@@ -16,38 +18,6 @@ npm run db:create
 npm run db:up
 ```
 
-For now, to run any service copy the `.env.example` file in its root directory to `.env`, edit, and then run `./bin/run-server.js <dirname>`.
+To create a new database migration: `npm run db:migration -- create <name>`. Then edit the newly-generated file in the `migrations/` directory.
 
-The env file starts looking like this:
-
-```
-NODE_ENV=development
-HOST=localhost
-PORT=3000
-```
-
-Run `npm run` to get a dump of the run scripts available. All services should be runnable via an npm script. To build assets right now, run `make css` or `make js` or `make all`. (TODO only css works right now.) Assets are checked in. To run bankai in watch mode: `npm run run:bankai`.
-
-```
-Lifecycle scripts included in putter:
-  test
-    nyc mocha -t 10000 --check-leaks -R spec test/test-*.js
-
-available via `npm run-script`:
-  report:cov
-    nyc report --reporter=text-lcov | coveralls
-  run:auth
-    bin/run-server.js api-auth
-  run:completer
-    bin/run-server.js api-completer
-  run:data
-    bin/run-server.js api-data
-  run:static
-    bin/serve-static.js
-  test:cov
-    nyc mocha -t 10000 --check-leaks -R spec test/test-*.js
-  test:style
-    xo
-  test:travis
-    npm run test:cov && npm run test:style
-```
+To build assets for deploy, run `make css` or `make js` or `make all`. Compiled assets are committed to the `public/` directory. To run bankai in watch mode: `npm run run:bankai`.
