@@ -24,13 +24,5 @@ describe('utilities', () =>
 		gen.length.must.equal(500);
 	});
 
-	it('can load TOML files', () =>
-	{
-		var result = putil.loadConfig(path.join(__dirname, 'fixtures', 'test-config.toml'));
-		result.must.be.an.object();
-		result.must.have.property('database');
-		result.database.must.be.an.object();
-	});
-
 	it('has tests for the cleanTagText function');
 });

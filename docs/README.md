@@ -70,9 +70,10 @@ These features alone are enough to make the site useful.
 
 Second round:
 
-- subscription/notification to stories & authors.
+- subscription/notification to stories & authors
 - search
 - reviews
+- story analytics
 
 Later:
 - graphical decor: icons, banners
