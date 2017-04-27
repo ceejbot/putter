@@ -1,4 +1,5 @@
 /*global describe:true, it:true, before:true, after:true */
+'use strict';
 
 var
 	demand = require('must'),

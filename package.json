@@ -87,7 +87,8 @@
   "xo": {
     "extends": "eslint-config-ceejbot",
     "rules": {
-      "unicorn/prefer-starts-ends-with": 0
+      "unicorn/prefer-starts-ends-with": 0,
+      "prefer-arrow-callback": 0
     }
   }
 }
