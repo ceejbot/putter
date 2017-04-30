@@ -2,9 +2,10 @@
 
 const
 	bole   = require('bole'),
+	dbconn = require('../../lib/db-conn'),
 	logstr = require('common-log-string'),
 	five   = require('take-five'),
-	Person  = require('../../lib/models/person')
+	Person = require('../../lib/models/person')
 	;
 
 var node;
@@ -19,10 +20,10 @@ module.exports = function createServer(nodename)
 	server.use(afterhook);
 	server.get('/ping', handlePing);
 	server.get('/status', handleStatus);
-	server.post('/v1/users/user/:user/login', postLogin);
-	server.post('/v1/users/user', postUser);
 
-	// TODO configure the database etc
+	require('./routes-user')(server);
+
+	dbconn();
 
 	return server;
 };
@@ -53,39 +54,4 @@ function afterhook(request, response, next)
 		logger.info(logstr(request, response));
 	});
 	next();
-}
-
-// TODO start breaking out into separate files
-function postUser(request, response, next)
-{
-	response.send(501, 'not implemented');
-	next();
-}
-
-function postLogin(request, response, next)
-{
-	Person.authenticate({
-		email: request.body.email,
-		password: request.body.password
-	}).then(answer =>
-	{
-		if (answer === 'no')
-		{
-			// failure
-			// WWW-Authenticate required
-			response.send(401, 'failed');
-		}
-		else if (answer === 'otp_required')
-		{
-			// prompt for otp using WWW-Authenticate
-			response.send(401, 'need otp');
-		}
-		else if (answer instanceof Person)
-		{
-			// we got a person back!
-			// save a login session etc etc
-			// redirect to home page
-		}
-		next();
-	});
 }

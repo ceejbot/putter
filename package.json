@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "async": "~2.3.0",
-    "aws-sdk": "~2.45.0",
+    "aws-sdk": "~2.48.0",
     "axios": "~0.16.1",
     "bankai": "~7.5.0",
     "bcrypt": "~1.0.2",
@@ -47,12 +47,12 @@
   },
   "devDependencies": {
     "bootstrap": "~3.3.7",
-    "coveralls": "~2.13.0",
+    "coveralls": "~2.13.1",
     "eslint-config-ceejbot": "~1.0.4",
     "less": "~2.7.2",
     "mocha": "~3.3.0",
     "must": "~0.13.4",
-    "nyc": "~10.2.0",
+    "nyc": "~10.3.0",
     "xo": "~0.18.1"
   },
   "homepage": "https://github.com/ceejbot/putter",
