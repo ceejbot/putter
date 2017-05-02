@@ -1,5 +1,7 @@
 # Putter
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ceejbot/putter.svg)](https://greenkeeper.io/)
+
 A fanfiction archive that doesn't suck, written with modern tools in node. See [the operations README](./operations/README.md) for docs about how to build & run locally.
 
 Please note that this project is released with a [Contributor Code of Conduct](code-of-conduct.md). By participating in this project you agree to abide by its terms.
