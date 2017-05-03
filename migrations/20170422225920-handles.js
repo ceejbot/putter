@@ -33,7 +33,7 @@ exports.down = function(db)
 	return db.runSql('DROP TABLE IF EXISTS handles;')
 	.then(() =>
 	{
-		return db.runSql('DROP TYPE IF EXISTS handle_person_id_idx;');
+		return db.runSql('DROP INDEX IF EXISTS handle_person_id_idx;');
 	});
 };
 

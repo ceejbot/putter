@@ -21,10 +21,10 @@ exports.up = function(db)
 		deleted: { type: type.DATE_TIME }
 	}}).then(() =>
 	{
-		return db.runSql('CREATE UNIQUE INDEX token_person_id_idx ON tokens (token, person_id) WHERE deleted IS NULL');
+		return db.runSql('ALTER TABLE tokens ADD CONSTRAINT tokens_person_id_fk FOREIGN KEY (person_id) REFERENCES persons (id) MATCH FULL');
 	}).then(() =>
 	{
-		return db.runSql('ALTER TABLE tokens ADD CONSTRAINT tokens_person_id_fk FOREIGN KEY (person_id) REFERENCES persons (id) MATCH FULL');
+		return db.addIndex('tokens', 'tokens_token', 'token');
 	});
 };
 
@@ -34,7 +34,11 @@ exports.down = function(db)
 	.then(() =>
 	{
 		return db.runSql('DROP TYPE IF EXISTS token_person_id_idx;');
+	}).then(() =>
+	{
+		return db.runSql('DROP INDEX IF EXISTS tokens_token;');
 	});
+;
 };
 
 exports._meta =
