@@ -17,7 +17,7 @@ function signupView(state, emit)
 <div class="panel panel-primary">
 	<div class="panel-heading">Sign up</div>
 	<div class="panel-body">
-		<form class="form-horizontal" action="/signup" method="POST">
+		<form class="form-horizontal" action="/signup" method="POST" enctype="application/x-www-form-urlencoded">
 			<div class="form-group">
 				<label for="signup_handle" class="col-sm-2">Handle</label>
 				<div class="col-sm-6">
@@ -40,7 +40,7 @@ function signupView(state, emit)
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-6">
-					<button type="submit" class="btn btn-default" onclick=${signup}>Sign up</button>
+					<button type="submit" class="btn btn-default">Sign up</button>
 				</div>
 			</div>
 		</form>

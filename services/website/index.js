@@ -43,6 +43,7 @@ module.exports = function createServer(options)
 	app.use(cookieParser(process.env.COOKIE_SECRET, {}));
 	// app.use(csurf({ cookie: true }));
 	app.use(session(sessionOpts));
+
 	app.use(afterhook);
 	app.use(handleError);
 

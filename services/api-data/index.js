@@ -4,8 +4,7 @@ const
 	bole   = require('bole'),
 	dbconn = require('../../lib/db-conn'),
 	logstr = require('common-log-string'),
-	five   = require('take-five'),
-	Person = require('../../lib/models/person')
+	five   = require('take-five')
 	;
 
 var node;

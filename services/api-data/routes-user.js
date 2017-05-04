@@ -1,5 +1,14 @@
 'use strict';
 
+const 
+	bole    = require('bole'),
+	Joi     = require('joi'),
+	Person  = require('../../lib/models/person'),
+	schemas = require('../../lib/schemas')
+	;
+
+const logger = bole('user-routes');
+
 const userroutes = module.exports = function mount(server)
 {
 	server.post('/v1/users/user/:user/login', postLogin);
@@ -8,8 +17,29 @@ const userroutes = module.exports = function mount(server)
 
 function postUser(request, response, next)
 {
-	response.send(501, 'not implemented');
-	next();
+	const ctx = {
+		email: request.body.email,
+		password: request.body.password,
+	};
+	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
+	if (invalid)
+	{
+		logger.info({ message: invalid.message, function: 'postUser'});
+		response.send(400, invalid.message);
+		return;
+	}
+
+	Person.create(ctx)
+	.then(person =>
+	{
+		response.send(201);
+		next();
+	})
+	.catch(err =>
+	{
+		logger.error({ message: err.message, function: 'postUser'});
+		response.send(500, err.message);
+	});
 }
 
 function postLogin(request, response, next)
