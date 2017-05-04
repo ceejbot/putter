@@ -1,6 +1,6 @@
 'use strict';
 
-const 
+const
 	bole    = require('bole'),
 	Joi     = require('joi'),
 	Person  = require('../../lib/models/person'),
@@ -32,8 +32,15 @@ function postUser(request, response, next)
 	Person.create(ctx)
 	.then(person =>
 	{
+		// TODO use handle from post to make first handle
+		// TODO log the person in; send validation email;
 		response.send(201);
 		next();
+	})
+	.catch(Person.objects.Conflict, err =>
+	{
+		logger.info({ message: 'duplicate email address made it through', email: ctx.email });
+		response.send(409, err.message);
 	})
 	.catch(err =>
 	{

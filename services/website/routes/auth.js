@@ -17,9 +17,10 @@ router.get('/signin', getSignIn);
 router.post('/signin', formParser, postSignIn);
 router.post('/signout', formParser, postSignOut);
 
-const DATA_API = `http://${process.env.HOST_DATA}:${process.env.PORT_DATA}`;
-axios.defaults.baseURL = DATA_API;
-axios.defaults.headers.post['content-type'] = 'application/json';
+const requester = axios.create({
+	baseURL: `http://${process.env.HOST_DATA}:${process.env.PORT_DATA}`,
+});
+requester.defaults.headers.post['content-type'] = 'application/json';
 
 function getSignUp(request, response)
 {
@@ -29,16 +30,6 @@ function getSignUp(request, response)
 
 function postSignUp(request, response)
 {
-	// TODO
-	// validate input
-	// use axios to make request to data api to create person
-	// log the person in; send validation email;
-	// redirect to create-handle page
-
-	request.logger.info('------');
-	request.logger.info(JSON.stringify(request.body));
-	request.logger.info('------');
-
 	const ctx = {
 		handle: request.body.signup_handle,
 		email: request.body.signup_email,
@@ -52,10 +43,26 @@ function postSignUp(request, response)
 		return;
 	}
 
-	axios.post(`${DATA_API}/v1/users/user`, ctx).then(response =>
+	request.logger.info(ctx);
+
+	function validateStatus(code)
 	{
-		response.redirect(301, '/create-handle');
-	}).catch(err => 
+		return code !== 201 && code !== 409;
+	}
+
+	requester.post(`/v1/users/user`, ctx).then(rez =>
+	{
+		if (rez.status === 409)
+		{
+			// TODO flash messages etc
+			// TOOD this is email address conflict
+			response.render('index', { title: 'woops', message: 'email address in use' });
+			return;
+		}
+
+		// TODO flash messages etc
+		response.redirect(301, '/');
+	}).catch(err =>
 	{
 		request.logger.error(err);
 		// TODO errors might include things like "email already in use"

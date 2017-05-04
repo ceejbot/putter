@@ -16,10 +16,10 @@ exports.up = function(db, callback)
 		db.runSql("DROP TYPE IF EXISTS person_standing_type; CREATE TYPE person_standing_type AS ENUM ('good', 'pending', 'unpaid', 'suspended', 'spammer', 'hellbanned', 'banned');", () =>
 		{
 			db.createTable('persons', { columns: {
-				id: { type: type.INTEGER, primaryKey: true, autoIncrement: true },
+				id: { type: type.INTEGER, unsigned: true, primaryKey: true, autoIncrement: true },
 				hashedpass: { type: type.STRING },
 				tfa_secret: { type: type.STRING },
-				email: { type: type.STRING },
+				email: { type: type.STRING, unique: true },
 				email_verified: { type: type.BOOLEAN },
 				validation_key: { type: type.STRING },
 				standing: { type: type.STRING },
