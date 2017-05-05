@@ -24,6 +24,9 @@ exports.up = function(db)
 		return db.runSql('CREATE UNIQUE INDEX handle_person_id_idx ON handles (handle, person_id) WHERE deleted IS NULL');
 	}).then(() =>
 	{
+		return db.addIndex('handles', 'handles_handle', 'handle');
+	}).then(() =>
+	{
 		return db.runSql('ALTER TABLE handles ADD CONSTRAINT handles_person_id_fk FOREIGN KEY (person_id) REFERENCES persons (id) MATCH FULL');
 	});
 };

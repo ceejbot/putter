@@ -45,12 +45,9 @@ function postSignUp(request, response)
 
 	request.logger.info(ctx);
 
-	function validateStatus(code)
-	{
-		return code !== 201 && code !== 409;
-	}
+	function validateStatus(code) { return code !== 201 && code !== 409; }
 
-	requester.post(`/v1/users/user`, ctx).then(rez =>
+	requester.post(`/v1/users/user`, ctx, { validateStatus }).then(rez =>
 	{
 		if (rez.status === 409)
 		{
@@ -64,8 +61,7 @@ function postSignUp(request, response)
 		response.redirect(301, '/');
 	}).catch(err =>
 	{
-		request.logger.error(err);
-		// TODO errors might include things like "email already in use"
+		request.logger.error(`unexpected error while creating user: ${err.message}; email: ${ctx.email}`);
 		response.status(500).send('something has gone wrong');
 	});
 }
