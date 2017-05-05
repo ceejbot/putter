@@ -76,10 +76,31 @@ function postSignIn(request, response)
 {
 	request.logger.info(JSON.stringify(request.body));
 
-	// validate input
-	// use axios to make request to data api
+	const ctx = {
+		email: request.body.signin_email,
+		password: request.body.signin_password,
+	};
+	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
+	if (invalid)
+	{
+		// TODO flash messages etc
+		response.render('index', { title: 'putter fic', message: 'errors', errors: invalid });
+		return;
+	}
 
-	response.status(501).send('not implemented');
+	request.logger.info(ctx);
+	request.logger.info(`/v1/users/email/${ctx.email}/login`);
+
+	requester.post(`/v1/users/email/${ctx.email}/login`, ctx)
+	.then(rez =>
+	{
+		console.log(rez);
+		response.render('index', { title: 'putter fic', message: 'probably we just logged in' });
+	}).catch(err =>
+	{
+		request.logger.error(`unexpected error while logging in: ${err.message}; email: ${ctx.email}`);
+		response.status(500).send('something has gone wrong');
+	});
 }
 
 function postSignOut(request, response)

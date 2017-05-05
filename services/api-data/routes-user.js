@@ -14,7 +14,7 @@ const logger = bole('user-routes');
 const userroutes = module.exports = function mount(server)
 {
 	server.get('/v1/users/email/:email', getUserByEmail);
-	server.post('/v1/users/user/:user/login', postLogin);
+	server.post('/v1/users/email/:email/login', postLogin);
 	server.post('/v1/users/user', postUser);
 };
 
@@ -94,11 +94,20 @@ function postUser(request, response, next)
 
 function postLogin(request, response, next)
 {
-	Person.authenticate({
+	// TODO validate input
+	const ctx = {
 		email: request.body.email,
 		password: request.body.password,
 		otp: request.headers['x-putter-otp'],
-	}).then(answer =>
+	};
+	console.log(ctx);
+
+	Person.objects.get({ email: ctx.email, 'deleted:isNull': true, })
+	.then(person =>
+	{
+		return person.authenticate(ctx);
+	})
+	.then(answer =>
 	{
 		if (answer === 'no')
 		{
@@ -111,12 +120,25 @@ function postLogin(request, response, next)
 			response.setHeader('x-putter-otp', 'required');
 			response.send(401, 'need otp');
 		}
-		else if (answer instanceof Person)
+		else
 		{
 			// we got a person back!
 			// save a login session etc etc
 			// redirect to home page
+			response.json(200, answer.serialize());
 		}
+		next();
+	})
+	.catch(Person.objects.NotFound, err =>
+	{
+		console.log(err);
+		response.send(404, 'not found');
+		next();
+	})
+	.catch(err =>
+	{
+		logger.error({ message: err.message, function: 'getUserByEmail'});
+		response.send(500, err.message);
 		next();
 	});
 }

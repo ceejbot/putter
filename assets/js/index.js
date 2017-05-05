@@ -21,21 +21,21 @@ function signupView(state, emit)
 			<div class="form-group">
 				<label for="signup_handle" class="col-sm-2">Handle</label>
 				<div class="col-sm-6">
-					<input type="text" class="form-control" id="signup_handle" placeholder="Handle" aria-describedby="handle-help">
+					<input type="text" class="form-control" id="signup_handle" name="signup_handle" placeholder="Handle" aria-describedby="handle-help">
 					<p class="help-block" id="handle-help">The name you'll be known on the site as.</p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="signup_email" class="col-sm-2">Email address</label>
 				<div class="col-sm-6">
-					<input type="email" class="form-control" id="signup_email" placeholder="Email" aria-describedby="email-help">
+					<input type="email" class="form-control" id="signup_email" name="signup_email" placeholder="Email" aria-describedby="email-help">
 					<p class="help-block" id="email-help">A valid email address is required. Never made public.</p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="signup_password" class="col-sm-2">Password</label>
 				<div class="col-sm-6">
-					<input type="password" class="form-control" id="signup_password" placeholder="Password">
+					<input type="password" class="form-control" id="signup_password" name="signup_password" placeholder="Password">
 				</div>
 			</div>
 			<div class="form-group">
@@ -67,13 +67,13 @@ function signinView(state, emit)
 			<div class="form-group">
 				<label for="signin_email" class="col-sm-2">Email address</label>
 				<div class="col-sm-8">
-					<input type="email" class="form-control" id="signin_email" placeholder="Email" aria-describedby="email-help">
+					<input type="email" class="form-control" id="signin_email" name="signin_email" placeholder="Email" aria-describedby="email-help">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="signin_password" class="col-sm-2">Password</label>
 				<div class="col-sm-8">
-					<input type="password" class="form-control" id="signin_password" placeholder="Password">
+					<input type="password" class="form-control" id="signin_password" name="signin_password" placeholder="Password">
 				</div>
 			</div>
 			<div class="form-group">
