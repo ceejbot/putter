@@ -85,7 +85,7 @@ function afterhook(request, response, next)
 
 function handleIndex(request, response)
 {
-	response.render('index', { title: 'putter fic', message: 'hello world' });
+	response.render('index', { title: 'putter fic', message: '' });
 }
 
 function handleError(err, request, response, next)

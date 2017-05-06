@@ -14,39 +14,30 @@ app.mount('#signup');
 function signupView(state, emit)
 {
 	return html`
-<div class="panel panel-primary">
-	<div class="panel-heading">Sign up</div>
-	<div class="panel-body">
-		<form class="form-horizontal" action="/signup" method="POST" enctype="application/x-www-form-urlencoded">
-			<div class="form-group">
-				<label for="signup_handle" class="col-sm-2">Handle</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" id="signup_handle" name="signup_handle" placeholder="Handle" aria-describedby="handle-help">
-					<p class="help-block" id="handle-help">The name you'll be known on the site as.</p>
-				</div>
+<div class="fl w-100">
+	<div class="bg-washed-blue ma4 center w-50 br4 mb3">
+		<h3 class="w-80 center mt3"">Sign up</h3>
+		<form action="/signup" method="POST" enctype="application/x-www-form-urlencoded">
+			<div class="w-80 center mt3">
+			<input type="text" class="" id="signup_handle" name="signup_handle" placeholder="Handle" aria-describedby="handle-help">
+			<span class="f7-l" id="handle-help">The name you'll be known on the site as.</span>
 			</div>
-			<div class="form-group">
-				<label for="signup_email" class="col-sm-2">Email address</label>
-				<div class="col-sm-6">
-					<input type="email" class="form-control" id="signup_email" name="signup_email" placeholder="Email" aria-describedby="email-help">
-					<p class="help-block" id="email-help">A valid email address is required. Never made public.</p>
-				</div>
+
+			<div class="w-80 center mt3">
+			<input type="email" class="" id="signup_email" name="signup_email" placeholder="Email" aria-describedby="email-help">
+			<span class="f7-l" id="email-help">A valid email address is required. Never made public.</span>
 			</div>
-			<div class="form-group">
-				<label for="signup_password" class="col-sm-2">Password</label>
-				<div class="col-sm-6">
-					<input type="password" class="form-control" id="signup_password" name="signup_password" placeholder="Password">
-				</div>
+
+			<div class="w-80 center mt3">
+			<input type="password" class="" id="signup_password" name="signup_password" placeholder="Password" aria-describedby="password-help">
+			<span class="f7-l" id="password-help">Make it long.</span>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-6">
-					<button type="submit" class="btn btn-default">Sign up</button>
-				</div>
+
+			<div class="w-80 center mt3">
+			<button type="submit" class="btn btn--full btn--blue">Sign up</button>
+			<span class="f7-l">Already have an account? <a href="/signin">Sign in.</a></span>
 			</div>
 		</form>
-	</div>
-	<div class="panel-footer">
-		<span class="small">Already have an account? <a href="/signin">Sign in.</a></span>
 	</div>
 </div>`;
 

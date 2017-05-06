@@ -95,6 +95,7 @@ function postSignIn(request, response)
 	.then(rez =>
 	{
 		console.log(rez);
+		response.session.user_id = rez.body.id; // TODO verify that this is where it is
 		response.render('index', { title: 'putter fic', message: 'probably we just logged in' });
 	}).catch(err =>
 	{
@@ -106,7 +107,7 @@ function postSignIn(request, response)
 function postSignOut(request, response)
 {
 	// validate input
-	// use axios to make request to data api to kill session
+	// use axios to make request to data api to kill session token
 	// nuke cookie
 
 	request.logger.info(JSON.stringify(request.body));

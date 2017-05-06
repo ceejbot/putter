@@ -100,7 +100,6 @@ function postLogin(request, response, next)
 		password: request.body.password,
 		otp: request.headers['x-putter-otp'],
 	};
-	console.log(ctx);
 
 	Person.objects.get({ email: ctx.email, 'deleted:isNull': true, })
 	.then(person =>
@@ -111,6 +110,7 @@ function postLogin(request, response, next)
 	{
 		if (answer === 'no')
 		{
+			logger.info(`auth attempt failed; email=${ctx.email}`);
 			response.setHeader('www-authenticate', 'basic');
 			response.send(401, 'failed');
 		}
@@ -122,16 +122,13 @@ function postLogin(request, response, next)
 		}
 		else
 		{
-			// we got a person back!
-			// save a login session etc etc
-			// redirect to home page
 			response.json(200, answer.serialize());
 		}
 		next();
 	})
 	.catch(Person.objects.NotFound, err =>
 	{
-		console.log(err);
+		logger.info(`login failed for not-found user; email=${ctx.email}`);
 		response.send(404, 'not found');
 		next();
 	})

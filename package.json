@@ -50,13 +50,14 @@
     "yargs": "~8.0.1"
   },
   "devDependencies": {
-    "bootstrap": "~3.3.7",
     "coveralls": "~2.13.1",
     "eslint-config-ceejbot": "~1.0.4",
     "less": "~2.7.2",
     "mocha": "~3.3.0",
     "must": "~0.13.4",
     "nyc": "~10.3.0",
+    "tachyons": "~4.7.1",
+    "tachyons-buttons": "~1.1.0",
     "xo": "~0.18.2"
   },
   "homepage": "https://github.com/ceejbot/putter",

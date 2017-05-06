@@ -1,16 +1,13 @@
 # use locally-installed tools
-NPM_BIN := node_modules/.bin/
-LESS := $(addprefix $(NPM_BIN), lessc)
-LOGGER := $(addprefix $(NPM_BIN), bistre)
-BROWSERIFY := $(addprefix $(NPM_BIN), browserify)
-BANKAI := $(addprefix $(NPM_BIN), bankai)
+export PATH := ./node_modules/.bin/:$(PATH)
 
 # CSS setup
 LESSOPTS :=
 LESSDIR := assets/css
 CSSDIR := public/css
 CSS_INPUTS := $(wildcard $(LESSDIR)/*.less)
-CSS := $(addprefix $(CSSDIR)/,putter.css)
+VENDOR_CSS := $(addprefix node_modules/,tachyons/css/tachyons.min.css tachyons-buttons/tachyons-buttons.min.css)
+CSS := $(addprefix $(CSSDIR)/,putter.css) $(addprefix $(CSSDIR)/,$(notdir $(VENDOR_CSS)))
 
 # javascript setup
 BANKAIOPTS := --optimize --uglify=false
@@ -24,19 +21,24 @@ LIBS_MIN = $(LIBRARIES:.js=.min.js)
 
 all: css js
 
-css: $(CSS)
+fooble:
+	@echo $(CSS)
 
-$(CSS) : $(CSS_INPUTS)
+css: $(CSS)
 
 $(CSSDIR)/%.css : $(LESSDIR)/%.less
 	@echo Compiling $<
-	@$(LESS) $(LESSOPTS) $< > $@
+	@lessc $(LESSOPTS) $< > $@
+
+$(CSSDIR)/%.min.css : node_modules/*/%.min.css
+	@echo Copying $<
+	@cp $< $@
 
 js: $(JS)
 
 $(JS): $(JS_INPUTS)
 	@echo Bankai $<
-	@$(BANKAI) build $(BANKAIOPTS) $^ $(JSDIR)
+	@bankai build $(BANKAIOPTS) $^ $(JSDIR)
 	@mv $(JSDIR)/*.css $(CSSDIR)
 	@mv $(JSDIR)/*.html $(JSDIR)/../
 
@@ -53,7 +55,7 @@ $(JSDIR)libraries.min.js: $(LIBS_MIN)
 	@cat $^ >> $@
 
 $(JSDIR)putter-debug.js: $(APPJS)
-	$(BROWSERIFY) --debug $^ -o $@
+	browserify --debug $^ -o $@
 
 directories:
 	@-mkdir $(CSSDIR) $(JSDIR) log
@@ -67,7 +69,7 @@ provision:
 	@npm run db:up
 
 cleardb:
-	./provision/cleardb.js | $(LOGGER)
+	./provision/cleardb.js | bistre
 
 inject:
 	cd test && ./inject-data.js

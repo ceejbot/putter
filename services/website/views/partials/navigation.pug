@@ -1,18 +1,10 @@
 // TODO this should be an app
-nav.navbar.navbar-relative
-	.container
-		.navbar-header
-			button.navbar-toggle(type='button' data-toggle='collapse' data-target='#collapsable' aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation")
-				span.sr-only Toggle navigation
-				span.icon-bar
-				span.icon-bar
-				span.icon-bar
-			a.navbar-brand(href='/') putter.io
-		#collapsable.collapse.navbar-collapse
-			form.navbar-form.navbar-left
-				.form-group
-					input.form-control(type='text', placeholder='search')
-				button.btn.btn-default.btn-sm(type='submit') search
-			ul.nav.navbar-nav.navbar-right
-				li: a.active(href='/') link
-				li: a.active(href='/') another
+header.fl.w-100.pa3.ph5-ns.bg-dark-gray.white
+	.db.dt-ns.mw9.center.w-100
+		.db.dtc-ns.v-mid.tl.w-50
+			a.dib.f5.f4-ns.fw6.mt0.mb1.link.white-70(href='/' title='home') Putter
+		nav.db.dtc-ns.v-mid.w-100.tl.tr-ns.mt2.mt0-ns
+			a.f6.fw6.hover-blue.link.white-70.mr2.mr3-m.mr4-l.dib(href='https://github.com/ceejbot/putter') Source
+			a.f6.fw6.hover-blue.link.white-70.mr2.mr3-m.mr4-l.dib(href='/signup') Sign up
+			a.f6.fw6.hover-blue.link.white-70.mr2.mr3-m.mr4-l.dib(href='/signin') Sign in
+			a.f6.fw6.hover-blue.link.white-70.mr2.mr3-m.mr4-l.dib(href='/profile') Profile

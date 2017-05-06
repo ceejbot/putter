@@ -8,10 +8,12 @@ html(lang='en')
 		block title
 			title= title
 		block links
+			link(rel='stylesheet' href=static_mount + '/css/tachyons.min.css')
+			link(rel='stylesheet' href=static_mount + '/css/tachyons-buttons.min.css')
 			link(rel='stylesheet' href=static_mount + '/css/putter.css')
 			link(rel='stylesheet' type='text/css' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
 
-	body.contrast(@color1)
+	body.w-100.lato
 		block navigation
 			include partials/navigation.pug
 
@@ -23,6 +25,5 @@ html(lang='en')
 
 		block scripts
 			// script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-			// script(src=static_mount + '/js/bootstrap.min.js')
 		block pagescripts
 			// override me!
