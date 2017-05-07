@@ -1,12 +1,11 @@
 extends user-template.pug
 
 block content
-	main.w-100.bt.b--black-10.bg-white
-		section
-			#main
-		section
-			p= message
-			p= errors
+	section
+		#main
+	section
+		p= message
+		p= errors
 
 block pagescripts
 	script(src=js_mount + '/bundle.js')

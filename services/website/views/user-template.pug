@@ -13,15 +13,21 @@ html(lang='en')
 
 	body.w-100.lato
 		block navigation
-			include partials/navigation.pug
+			if user
+				include partials/nav-logged-in.pug
+			else
+				include partials/nav-no-user.pug
 
-		block content
-			// override me!
+		main.fl.w-100.pa3.ph5-ns.bg-white.black
+			.db.dt-ns.mw9.center.w-100
+				block content
+					// override me!
 
 		block footer
 			// footer
 
 		block scripts
+			// not intended to be overridden
 			// script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
 		block pagescripts
 			// override me!

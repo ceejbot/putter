@@ -46,6 +46,7 @@ module.exports = function createServer(options)
 
 	app.use(afterhook);
 	app.use(handleError);
+	app.use(sessionContext);
 
 	// TODO mount routes after having written them
 	app.get('/', handleIndex);
@@ -70,6 +71,17 @@ function requestid(request, response, next)
 {
 	request.id = uuid.v1();
 	request.logger = bole(request.id);
+	next();
+}
+
+function sessionContext(request, response, next)
+{
+	if (!request.session || !request.session.user) return next();
+
+	// TODO validate session token against data API
+
+	// And look up anything we think we might use every time for the session.
+	response.locals.user = request.session.user.email;
 	next();
 }
 

@@ -1,0 +1,12 @@
+header.fl.w-100.pa3.ph5-ns.bg-black.white
+	.db.dt-ns.mw9.center.w-100
+		.db.dtc-ns.v-mid.tl.w-50
+			a.dib.f5.f4-ns.fw6.mt0.mb1.link.white-70(href='/' title='home') Putter
+		nav.db.dtc-ns.v-mid.w-100.tl.tr-ns.mt2.mt0-ns
+			a.f6.fw6.hover-blue.link.white-70.mr2.mr3-m.mr4-l.dib(href="https://github.com/ceejbot/putter") Source &nbsp;
+				i.fa.fa-github.fa-lg.mr1
+			a.f6.fw6.hover-blue.link.white-70.mr2.mr3-m.mr4-l.dib(href="/profile")= user
+			span.dib
+				form(method="POST" action='/signout')
+					button.f6.link.dim.br1.ba.ph3.pv2.mb2.dib.white.bg-dark-gray(type='submit') Sign out &nbsp;
+						i.fa.fa-sign-out.fa-sm.mr1

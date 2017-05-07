@@ -110,6 +110,7 @@ function postLogin(request, response, next)
 	{
 		if (answer instanceof Person)
 		{
+			// TODO should generate session token & return it in the response
 			response.send(200, answer.serializeForAPI());
 		}
 		else if (answer === 'otp_required')
@@ -128,6 +129,7 @@ function postLogin(request, response, next)
 		{
 			logger.info(`got weird answer: ${typeof answer}`);
 			logger.info(JSON.stringify(answer));
+			response.send(500, 'failure of the login machinery');
 		}
 		next();
 	})

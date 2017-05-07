@@ -2,14 +2,13 @@
 
 var
 	html = require('choo/html'),
-	choo = require('choo'),
-	head = require('./head');
+	choo = require('choo');
 
 var app = choo();
 app.use(logger);
 app.route('/', mainView);
-app.route('/signup', signupView)
-app.route('/signin', signinView)
+app.route('/signup', signupView);
+app.route('/signin', signinView);
 app.mount('#main');
 
 function logger(state, emitter)

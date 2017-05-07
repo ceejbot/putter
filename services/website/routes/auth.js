@@ -11,6 +11,8 @@ const
 const formParser = body.urlencoded({ extended: false });
 const router = express.Router();
 
+const COOKIE_LIFESPAN = 2 * 365 * 24 * 60 * 60; // 2 years
+
 router.get('/signup', getSignUp);
 router.post('/signup', formParser, postSignUp);
 router.get('/signin', getSignIn);
@@ -44,7 +46,8 @@ function postSignUp(request, response)
 
 	function validateStatus(code) { return code !== 201 && code !== 409; }
 
-	requester.post(`/v1/users/user`, ctx, { validateStatus }).then(rez =>
+	requester.post('/v1/users/user', ctx, { validateStatus })
+	.then(rez =>
 	{
 		if (rez.status === 409)
 		{
@@ -70,13 +73,11 @@ function getSignIn(request, response)
 
 function postSignIn(request, response)
 {
-	request.logger.info(JSON.stringify(request.body));
-
 	const ctx = {
 		email: request.body.email,
 		password: request.body.password,
 	};
-	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
+	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNIN);
 	if (invalid)
 	{
 		// TODO flash messages etc
@@ -84,32 +85,61 @@ function postSignIn(request, response)
 		return;
 	}
 
-	requester.post(`/v1/users/email/${ctx.email}/login`, ctx)
+	// Non-error responses include OTP challenges & incorrect credentials.
+	function validateStatus(code) { return code === 200 || code === 401 || code === 404; }
+
+	requester.post(`/v1/users/email/${ctx.email}/login`, ctx, { validateStatus })
 	.then(rez =>
 	{
-		request.session.user_id = rez.data.id; // TODO verify that this is where it is
-		request.session.save(err =>
+		if (rez.status === 200)
 		{
-			if (err)
-				request.logger.error(`problem saving session; proceeding; err=${err.message}`);
-			response.cookie('user', ctx.email, { expires: new Date(Date.now() + 900000) });
-			response.redirect(301, '/');
-		});
+			// TODO response should also include session token!!
+			request.session.user = {
+				id: rez.data.id,
+				email: rez.data.email,
+				token: rez.data.token
+			};
+			request.session.save(err =>
+			{
+				if (err)
+					request.logger.error(`problem saving session; proceeding; err=${err.message}`);
+				request.logger.info(`successful login; email=${rez.data.email}`);
+				response.cookie('login', ctx.email, { expires: new Date(Date.now() + COOKIE_LIFESPAN) });
+				response.redirect(301, '/');
+			});
+		}
+		else if (rez.status === 401 && rez.header['x-putter-otp'])
+		{
+			// TODO prompt for OTP
+			request.logger.info(`OTP prompt required for login; email=${rez.data.email}`);
+			response.render('index', { title: 'putter fic', message: 'we should prompt for your OTP now' });
+			return;
+		}
+		else
+		{
+			// TODO everybody else gets a "who what?"
+			request.logger.info(`login failure; email=${rez.data.email}`);
+			response.render('index', { title: 'putter fic', message: 'could not log in with those credentials; try again' });
+		}
 	}).catch(err =>
 	{
 		request.logger.error(`unexpected error while logging in: ${err.message}; email: ${ctx.email}`);
-		response.status(500).send('something has gone wrong');
+		response.render('index', { title: 'putter fic', message: err.message });
 	});
 }
 
 function postSignOut(request, response)
 {
-	// validate input
+	// TODO validate csrf etc
 	// use axios to make request to data api to kill session token
-	// nuke cookie
-
-	request.logger.info(JSON.stringify(request.body));
-	response.status(501).send('not implemented');
+	request.session.user = {};
+	request.session.save(err =>
+	{
+		if (err)
+			request.logger.error(`problem saving session; proceeding; err=${err.message}`);
+		response.cookie('login', '', { expires: new Date(Date.now() + COOKIE_LIFESPAN) });
+		response.redirect(301, '/');
+	});
 }
 
 module.exports = router;
