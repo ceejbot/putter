@@ -17,6 +17,7 @@ module.exports = function createServer(options)
 {
 	// TODO this is stupid hackery; fix eventually
 	process.env.PORT = process.env.PORT_WEB;
+	process.env.HOST = process.env.HOST_WEB;
 
 	const app = express();
 

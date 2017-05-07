@@ -83,7 +83,7 @@
     "run:completer": "bin/run-server.js api-completer",
     "run:data": "bin/run-server.js api-data",
     "run:web": "bin/run-server.js website",
-    "test": "nyc mocha -t 10000 --check-leaks -R spec test/test-*.js",
+    "test": "mocha -t 10000 --check-leaks -R spec test/test-*.js",
     "test:cov": "nyc mocha -t 10000 --check-leaks -R spec test/test-*.js",
     "test:db": "createdbjs putter_test; DB_USER=${PGUSER:-$USER} DB_NAME=putter_test npm run db:up",
     "test:style": "xo",

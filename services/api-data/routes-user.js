@@ -6,25 +6,28 @@ const
 	Joi     = require('joi'),
 	Person  = require('../../lib/models/person'),
 	schemas = require('../../lib/schemas'),
-	session = require('@npm/pg-db-session')
+	session = require('@npm/pg-db-session'),
+	Token   = require('../../lib/models/token')
 	;
 
 const logger = bole('user-routes');
 
 const userroutes = module.exports = function mount(server)
 {
-	server.get('/v1/users/email/:email', getUserByEmail);
-	server.post('/v1/users/email/:email/login', postLogin);
-	server.post('/v1/users/user', postUser);
+	server.post('/v1/people/person', postPerson);
+	server.get('/v1/people/email/:email', getPersonByEmail);
+	server.post('/v1/people/email/:email/login', postLogin);
+	server.post('/v1/people/person/:person/token', postPersonToken);
+	server.get('/v1/people/person/:person/token/:token', getPersonToken);
 };
 
-function getUserByEmail(request, response, next)
+function getPersonByEmail(request, response, next)
 {
 	// TODO this needs an auth token to validate that the request is okay (or CORS to block it, pref both)
 	const {invalid, _} = Joi.validate(request.body.email, Joi.string().isEmail());
 	if (invalid)
 	{
-		logger.info({ message: invalid.message, function: getUserByEmail});
+		logger.info({ message: invalid.message, function: getPersonByEmail});
 		response.send(400, invalid.message);
 	}
 
@@ -39,12 +42,12 @@ function getUserByEmail(request, response, next)
 	})
 	.catch(err =>
 	{
-		logger.error({ message: err.message, function: 'getUserByEmail'});
+		logger.error({ message: err.message, function: 'getPersonByEmail'});
 		response.send(500, err.message);
 	});
 }
 
-function postUser(request, response, next)
+function postPerson(request, response, next)
 {
 	const ctx = {
 		email: request.body.email,
@@ -54,7 +57,7 @@ function postUser(request, response, next)
 	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
 	if (invalid)
 	{
-		logger.info({ message: invalid.message, function: 'postUser'});
+		logger.info({ message: invalid.message, function: 'postPerson'});
 		response.send(400, invalid.message);
 		return;
 	}
@@ -69,7 +72,7 @@ function postUser(request, response, next)
 	})
 	.then(handle =>
 	{
-		logger.info(`user created; email=${ctx.email}; handle=${ctx.handle}`);
+		logger.info(`person created; email=${ctx.email}; handle=${ctx.handle}`);
 		// TODO log the person in; send validation email;
 		response.send(201);
 		next();
@@ -82,12 +85,12 @@ function postUser(request, response, next)
 	.catch(Handle.objects.error, err =>
 	{
 		// boy do I want transactions right now
-		logger.error({ message: err.message, function: 'postUser'});
+		logger.error({ message: err.message, function: 'postPerson'});
 		response.send(500, err.message);
 	})
 	.catch(err =>
 	{
-		logger.error({ message: err.message, function: 'postUser'});
+		logger.error({ message: err.message, function: 'postPerson'});
 		response.send(500, err.message);
 	});
 }
@@ -108,44 +111,97 @@ function postLogin(request, response, next)
 	})
 	.then(answer =>
 	{
-		if (answer instanceof Person)
-		{
-			// TODO should generate session token & return it in the response
-			response.send(200, answer.serializeForAPI());
-		}
-		else if (answer === 'otp_required')
-		{
-			// prompt for otp using WWW-Authenticate
-			response.setHeader('x-putter-otp', 'required');
-			response.send(401, 'need otp');
-		}
-		else if (answer === 'no')
-		{
-			logger.info(`auth attempt failed; email=${ctx.email}`);
-			response.setHeader('www-authenticate', 'basic');
-			response.send(401, 'failed');
-		}
-		else
-		{
-			logger.info(`got weird answer: ${typeof answer}`);
-			logger.info(JSON.stringify(answer));
-			response.send(500, 'failure of the login machinery');
-		}
+		return Token.create(answer, ['read', 'comment', 'post']);
+	})
+	.then(token =>
+	{
+		response.send(200, { token: token.serializeForAPI(), person: token.person.serializeForAPI() });
+	})
+	.catch(Person.Errors.OTPRequired, err =>
+	{
+		// prompt for otp using WWW-Authenticate
+		response.setHeader('x-putter-otp', 'required');
+		response.send(401, 'need otp');
+		next();
+	})
+	.catch(Person.Errors.BadAuth, err =>
+	{
+		logger.info(`auth attempt failed; email=${ctx.email}`);
+		response.setHeader('www-authenticate', 'basic');
+		response.send(401, 'failed');
 		next();
 	})
 	.catch(Person.objects.NotFound, err =>
 	{
-		logger.info(`login failed for not-found user; email=${ctx.email}`);
-		response.send(404, 'not found');
+		logger.info(`login failed for not-found person; email=${ctx.email}`);
+		response.setHeader('www-authenticate', 'basic');
+		response.send(401, 'failed');
 		next();
 	})
 	.catch(err =>
 	{
-		logger.error({ message: err.message, function: 'getUserByEmail'});
+		logger.error({ message: err.message, function: 'getPersonByEmail'});
 		response.send(500, err.message);
 		next();
 	});
 }
 
-userroutes.postUser = postUser;
+function postPersonToken(request, response, next)
+{
+	var perms = 0;
+	request.body.perms.forEach(p =>
+	{
+		perms |= Token.PERMS[p];
+	})
+
+	const ctx = {
+		person_id: request.body.user_id,
+		permissions: perms,
+	};
+
+	Token.create(ctx)
+	.then(t =>
+	{
+		response.send(200, t.token);
+	})
+	.catch(err =>
+	{
+		logger.error({ message: err.message, function: 'postPersonToken'});
+		response.send(500, err.message);
+		next();
+	});
+}
+
+function getPersonToken(request, response, next)
+{
+	const ctx = {
+		token: request.body.token,
+		person_id: request.body.user_id,
+	};
+
+	Token.find(ctx)
+	.then(result =>
+	{
+		if (!token)
+		{
+			response.send(404, 'token not found');
+			return next();
+		}
+
+		response.send(200, token.serializeForAPI());
+	})
+	.catch(err =>
+	{
+		logger.error({ message: err.message, function: 'getPersonToken'});
+		response.send(500, err.message);
+		next();
+	});
+
+}
+
+// exposed for testing
+userroutes.getPersonByEmail = getPersonByEmail;
+userroutes.getPersonToken = getPersonToken;
 userroutes.postLogin = postLogin;
+userroutes.postPerson = postPerson;
+userroutes.postPersonToken = postPersonToken;

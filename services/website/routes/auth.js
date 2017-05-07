@@ -46,7 +46,7 @@ function postSignUp(request, response)
 
 	function validateStatus(code) { return code !== 201 && code !== 409; }
 
-	requester.post('/v1/users/user', ctx, { validateStatus })
+	requester.post('/v1/people/person', ctx, { validateStatus })
 	.then(rez =>
 	{
 		if (rez.status === 409)
@@ -88,22 +88,22 @@ function postSignIn(request, response)
 	// Non-error responses include OTP challenges & incorrect credentials.
 	function validateStatus(code) { return code === 200 || code === 401 || code === 404; }
 
-	requester.post(`/v1/users/email/${ctx.email}/login`, ctx, { validateStatus })
+	requester.post(`/v1/people/email/${ctx.email}/login`, ctx, { validateStatus })
 	.then(rez =>
 	{
 		if (rez.status === 200)
 		{
 			// TODO response should also include session token!!
 			request.session.user = {
-				id: rez.data.id,
-				email: rez.data.email,
-				token: rez.data.token
+				id: rez.data.person.id,
+				email: rez.data.person.email,
+				token: rez.data.token.token
 			};
 			request.session.save(err =>
 			{
 				if (err)
 					request.logger.error(`problem saving session; proceeding; err=${err.message}`);
-				request.logger.info(`successful login; email=${rez.data.email}`);
+				request.logger.info(`successful login; email=${rez.data.person.email}`);
 				response.cookie('login', ctx.email, { expires: new Date(Date.now() + COOKIE_LIFESPAN) });
 				response.redirect(301, '/');
 			});

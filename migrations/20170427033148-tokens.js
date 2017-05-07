@@ -16,9 +16,7 @@ exports.up = function(db)
 		person_id: { type: type.INTEGER },
 		token: { type: type.STRING },
 		permissions: { type: type.INTEGER },
-		created: { type: type.DATE_TIME },
-		modified: { type: type.DATE_TIME },
-		deleted: { type: type.DATE_TIME }
+		created: { type: type.DATE_TIME }
 	}}).then(() =>
 	{
 		return db.runSql('ALTER TABLE tokens ADD CONSTRAINT tokens_person_id_fk FOREIGN KEY (person_id) REFERENCES persons (id) MATCH FULL');
