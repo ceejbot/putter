@@ -24,16 +24,15 @@ requester.defaults.headers.post['content-type'] = 'application/json';
 
 function getSignUp(request, response)
 {
-	// render the view
-	response.status(501).send('not implemented');
+	response.redirect('/#signup');
 }
 
 function postSignUp(request, response)
 {
 	const ctx = {
-		handle: request.body.signup_handle,
-		email: request.body.signup_email,
-		password: request.body.signup_password,
+		handle: request.body.handle,
+		email: request.body.email,
+		password: request.body.password,
 	};
 	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
 	if (invalid)
@@ -42,8 +41,6 @@ function postSignUp(request, response)
 		response.render('index', { title: 'putter fic', message: 'errors', errors: invalid });
 		return;
 	}
-
-	request.logger.info(ctx);
 
 	function validateStatus(code) { return code !== 201 && code !== 409; }
 
@@ -58,7 +55,7 @@ function postSignUp(request, response)
 		}
 
 		// TODO flash messages etc
-		response.redirect(301, '/');
+		response.redirect(301, '/#signin');
 	}).catch(err =>
 	{
 		request.logger.error(`unexpected error while creating user: ${err.message}; email: ${ctx.email}`);
@@ -68,8 +65,7 @@ function postSignUp(request, response)
 
 function getSignIn(request, response)
 {
-	// render the view
-	response.status(501).send('not implemented');
+	response.redirect('/#signin');
 }
 
 function postSignIn(request, response)
@@ -77,8 +73,8 @@ function postSignIn(request, response)
 	request.logger.info(JSON.stringify(request.body));
 
 	const ctx = {
-		email: request.body.signin_email,
-		password: request.body.signin_password,
+		email: request.body.email,
+		password: request.body.password,
 	};
 	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
 	if (invalid)
@@ -88,15 +84,17 @@ function postSignIn(request, response)
 		return;
 	}
 
-	request.logger.info(ctx);
-	request.logger.info(`/v1/users/email/${ctx.email}/login`);
-
 	requester.post(`/v1/users/email/${ctx.email}/login`, ctx)
 	.then(rez =>
 	{
-		console.log(rez);
-		response.session.user_id = rez.body.id; // TODO verify that this is where it is
-		response.render('index', { title: 'putter fic', message: 'probably we just logged in' });
+		request.session.user_id = rez.data.id; // TODO verify that this is where it is
+		request.session.save(err =>
+		{
+			if (err)
+				request.logger.error(`problem saving session; proceeding; err=${err.message}`);
+			response.cookie('user', ctx.email, { expires: new Date(Date.now() + 900000) });
+			response.redirect(301, '/');
+		});
 	}).catch(err =>
 	{
 		request.logger.error(`unexpected error while logging in: ${err.message}; email: ${ctx.email}`);

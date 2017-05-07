@@ -2,12 +2,10 @@
 export PATH := ./node_modules/.bin/:$(PATH)
 
 # CSS setup
-LESSOPTS :=
 LESSDIR := assets/css
 CSSDIR := public/css
 CSS_INPUTS := $(wildcard $(LESSDIR)/*.less)
-VENDOR_CSS := $(addprefix node_modules/,tachyons/css/tachyons.min.css tachyons-buttons/tachyons-buttons.min.css)
-CSS := $(addprefix $(CSSDIR)/,putter.css) $(addprefix $(CSSDIR)/,$(notdir $(VENDOR_CSS)))
+CSS := $(addprefix $(CSSDIR)/,putter.css)
 
 # javascript setup
 BANKAIOPTS := --optimize --uglify=false
@@ -28,11 +26,7 @@ css: $(CSS)
 
 $(CSSDIR)/%.css : $(LESSDIR)/%.less
 	@echo Compiling $<
-	@lessc $(LESSOPTS) $< > $@
-
-$(CSSDIR)/%.min.css : node_modules/*/%.min.css
-	@echo Copying $<
-	@cp $< $@
+	@tachyons $< > $@ --minify
 
 js: $(JS)
 

@@ -2,91 +2,15 @@
 
 var
 	html = require('choo/html'),
-	choo = require('choo');
+	choo = require('choo'),
+	head = require('./head');
 
 var app = choo();
 app.use(logger);
-app.use(countStore);
-app.route('/', signupView);
-app.route('/signin', signinView);
-app.mount('#signup');
-
-function signupView(state, emit)
-{
-	return html`
-<div class="fl w-100">
-	<div class="bg-washed-blue ma4 center w-50 br4 mb3">
-		<h3 class="w-80 center mt3"">Sign up</h3>
-		<form action="/signup" method="POST" enctype="application/x-www-form-urlencoded">
-			<div class="w-80 center mt3">
-			<input type="text" class="" id="signup_handle" name="signup_handle" placeholder="Handle" aria-describedby="handle-help">
-			<span class="f7-l" id="handle-help">The name you'll be known on the site as.</span>
-			</div>
-
-			<div class="w-80 center mt3">
-			<input type="email" class="" id="signup_email" name="signup_email" placeholder="Email" aria-describedby="email-help">
-			<span class="f7-l" id="email-help">A valid email address is required. Never made public.</span>
-			</div>
-
-			<div class="w-80 center mt3">
-			<input type="password" class="" id="signup_password" name="signup_password" placeholder="Password" aria-describedby="password-help">
-			<span class="f7-l" id="password-help">Make it long.</span>
-			</div>
-
-			<div class="w-80 center mt3">
-			<button type="submit" class="btn btn--full btn--blue">Sign up</button>
-			<span class="f7-l">Already have an account? <a href="/signin">Sign in.</a></span>
-			</div>
-		</form>
-	</div>
-</div>`;
-
-	function signup()
-	{
-		// TODO submit the form
-		emit('increment', 1);
-	}
-}
-
-function signinView(state, emit)
-{
-	return html`
-<div class="panel panel-primary">
-	<div class="panel-heading">Sign in</div>
-	<div class="panel-body">
-		<form class="form-horizontal" action="/signin" method="POST">
-			<div class="form-group">
-				<label for="signin_email" class="col-sm-2">Email address</label>
-				<div class="col-sm-8">
-					<input type="email" class="form-control" id="signin_email" name="signin_email" placeholder="Email" aria-describedby="email-help">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="signin_password" class="col-sm-2">Password</label>
-				<div class="col-sm-8">
-					<input type="password" class="form-control" id="signin_password" name="signin_password" placeholder="Password">
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default" onclick=${signin}>
-						<span class="glyphicon glyphicon-login" aria-hidden="true"></span>
-						Sign in
-					</button>
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="panel-footer">
-		<span class="small">Need an account? <a href="/">Sign up.</a></span>
-	</div>
-</div>`;
-
-	function signin()
-	{
-		emit('increment', 1);
-	}
-}
+app.route('/', mainView);
+app.route('/signup', signupView)
+app.route('/signin', signinView)
+app.mount('#main');
 
 function logger(state, emitter)
 {
@@ -96,12 +20,76 @@ function logger(state, emitter)
 	});
 }
 
-function countStore(state, emitter)
+function mainView(state, emit)
 {
-	state.count = 0;
-	emitter.on('increment', function(count)
+	var which = window.location.hash.replace(/^#/, '');
+	if (which.length > 0)
+		location.href = "/" + which;
+
+	return html`<div class="fl w-100">teaser view goes here.</div>`;
+}
+
+function signupView(state, emit)
+{
+	return html`
+<div class="fl w-100">
+	<form action="/signup" method="POST" class="pa4 ma4 black-80 bg-washed-blue">
+		<div class="measure-narrow ma4">
+			<h3 class="w-80 mt3">Sign up</h3>
+
+			<label for="handle" class="f6 b db mb2">Handle</label>
+			<input class="input-reset ba b--black-20 pa2 mb2 db w-100" type="text" id="handle" name="handle" aria-describedby="handle-desc">
+			<small id="handle-desc" class="f6 lh-copy black-60 db mb2">
+			You need at least one public pseud or handle. You can make other handles later.
+			</small>
+
+			<label for="email" class="f6 b db mb2">Email</label>
+			<input class="input-reset ba b--black-20 pa2 mb2 db w-100" type="email" id="email" name="email" aria-describedby="email-desc">
+			<small id="email-desc" class="f6 lh-copy black-60 db mb2">A valid email address is required. Never made public.</small>
+
+			<label for="password" class="f6 b db mb2">Password</label>
+			<input class="input-reset ba b--black-20 pa2 mb2 db w-100" type="password" id="password" name="password" aria-describedby="password-desc">
+			<small id="password-desc" class="f6 lh-copy black-60 db mb2">Make it long.</small>
+
+			<button type="submit" class="btn btn--blue w-100">Sign up</button>
+			<small class="f6 lh-copy black-60 db mb2">Already have an account? <a href="/signin">Sign in.</a></small>
+		</div>
+	</form>
+</div>`;
+
+	function signup()
 	{
-		state.count += count;
-		emitter.emit('render');
-	});
+		// TODO input validation
+		// TODO submit form
+	}
+}
+
+function signinView(state, emit)
+{
+	return html`
+<div class="fl w-100">
+	<form action="/signin" method="POST" class="pa4 ma4 black-80 bg-washed-blue">
+		<div class="measure-narrow ma4">
+			<h3 class="w-80 mt3">Sign in</h3>
+
+			<label for="email" class="f6 b db mb2">Email</label>
+			<input class="input-reset ba b--black-20 pa2 mb2 db w-100" placeholder="youremail@example.com" type="email" id="email" name="email" aria-describedby="email-desc">
+
+			<label for="password" class="f6 b db mb2">Password</label>
+			<input class="input-reset ba b--black-20 pa2 mb2 db w-100" placeholder="your password" type="password" id="password" name="password" aria-describedby="password-desc">
+
+			<button type="submit" class="btn btn--blue w-100">
+				Sign in
+				<i class="fa fa-sign-in fa-lg mr1"></i>
+			</button>
+			<small class="f6 lh-copy black-60 db mb2">Need an account? <a href="/signup">Sign up.</a></small>
+		</div>
+	</form>
+</div>`;
+
+	function signin()
+	{
+		// TODO input validation
+		// TODO submit form
+	}
 }

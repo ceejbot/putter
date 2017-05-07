@@ -108,11 +108,9 @@ function postLogin(request, response, next)
 	})
 	.then(answer =>
 	{
-		if (answer === 'no')
+		if (answer instanceof Person)
 		{
-			logger.info(`auth attempt failed; email=${ctx.email}`);
-			response.setHeader('www-authenticate', 'basic');
-			response.send(401, 'failed');
+			response.send(200, answer.serializeForAPI());
 		}
 		else if (answer === 'otp_required')
 		{
@@ -120,9 +118,16 @@ function postLogin(request, response, next)
 			response.setHeader('x-putter-otp', 'required');
 			response.send(401, 'need otp');
 		}
+		else if (answer === 'no')
+		{
+			logger.info(`auth attempt failed; email=${ctx.email}`);
+			response.setHeader('www-authenticate', 'basic');
+			response.send(401, 'failed');
+		}
 		else
 		{
-			response.json(200, answer.serialize());
+			logger.info(`got weird answer: ${typeof answer}`);
+			logger.info(JSON.stringify(answer));
 		}
 		next();
 	})

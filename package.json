@@ -9,10 +9,8 @@
   "dependencies": {
     "@npm/pg-db-session": "~1.3.2",
     "async": "~2.3.0",
-    "asynx": "0.0.3",
     "aws-sdk": "~2.48.0",
     "axios": "~0.16.1",
-    "bankai": "~7.5.0",
     "bcrypt": "~1.0.2",
     "bistre": "~1.0.1",
     "bluebird": "~3.5.0",
@@ -50,14 +48,15 @@
     "yargs": "~8.0.1"
   },
   "devDependencies": {
+    "bankai": "~7.6.1",
     "coveralls": "~2.13.1",
     "eslint-config-ceejbot": "~1.0.4",
-    "less": "~2.7.2",
     "mocha": "~3.3.0",
     "must": "~0.13.4",
     "nyc": "~10.3.0",
     "tachyons": "~4.7.1",
     "tachyons-buttons": "~1.1.0",
+    "tachyons-cli": "~1.0.11",
     "xo": "~0.18.2"
   },
   "homepage": "https://github.com/ceejbot/putter",
