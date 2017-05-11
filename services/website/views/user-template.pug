@@ -19,6 +19,24 @@ html(lang='en')
 				include partials/nav-no-user.pug
 
 		main.fl.w-100.pa3.ph5-ns.bg-white.black
+			.db.dt-ns.mw9.center.w-50
+				section
+					if flash.info.length
+						.flex.items-center.pa2.bg-washed-blue.dark-blue.ba.br2
+							i.fa.fa-info.fa-sm.mr1
+							span.lh-title.ml3= flash.info
+					if flash.success.length
+						.flex.items-center.pa2.bg-washed-green.dark-green.ba.br2
+							i.fa.fa-check.fa-sm.mr1
+							span.lh-title.ml3= flash.success
+					if flash.error.length
+						.flex.items-center.pa2.bg-washed-red.dark-red.ba.br2
+							i.fa.fa-bug.fa-sm.mr1
+							span.lh-title.ml3= flash.error
+					if flash.warning.length
+						.flex.items-center.pa2.bg-washed-yellow.orange.ba.br2
+							i.fa.fa-warning.fa-sm.mr1
+							span.lh-title.ml3= flash.warning
 			.db.dt-ns.mw9.center.w-100
 				block content
 					// override me!

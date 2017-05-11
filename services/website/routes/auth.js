@@ -39,8 +39,8 @@ function postSignUp(request, response)
 	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
 	if (invalid)
 	{
-		// TODO flash messages etc
-		response.render('index', { title: 'putter fic', message: 'errors', errors: invalid });
+		request.flash('error', invalid);
+		response.redirect(301, '/#signup');
 		return;
 	}
 
@@ -51,18 +51,18 @@ function postSignUp(request, response)
 	{
 		if (rez.status === 409)
 		{
-			// TODO flash messages etc
-			// TOOD this is email address conflict
-			response.render('index', { title: 'woops', message: 'email address in use' });
+			request.flash('error', 'email address in use; have you forgotten your password?');
+			response.redirect(301, '/#signup');
 			return;
 		}
 
-		// TODO flash messages etc
+		request.flash('info', 'you\'ve signed up! email is on the way. now sign in');
 		response.redirect(301, '/#signin');
 	}).catch(err =>
 	{
 		request.logger.error(`unexpected error while creating user: ${err.message}; email: ${ctx.email}`);
-		response.status(500).send('something has gone wrong');
+		request.flash('error', 'something has gone wrong on signup; this was not your fault');
+		response.redirect(301, '/#signup');
 	});
 }
 
@@ -80,8 +80,8 @@ function postSignIn(request, response)
 	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNIN);
 	if (invalid)
 	{
-		// TODO flash messages etc
-		response.render('index', { title: 'putter fic', message: 'errors', errors: invalid });
+		request.flash('warning', errors.invalid);
+		response.redirect('/#signin');
 		return;
 	}
 
@@ -93,7 +93,6 @@ function postSignIn(request, response)
 	{
 		if (rez.status === 200)
 		{
-			// TODO response should also include session token!!
 			request.session.user = {
 				id: rez.data.person.id,
 				email: rez.data.person.email,
@@ -105,6 +104,7 @@ function postSignIn(request, response)
 					request.logger.error(`problem saving session; proceeding; err=${err.message}`);
 				request.logger.info(`successful login; email=${rez.data.person.email}`);
 				response.cookie('login', ctx.email, { expires: new Date(Date.now() + COOKIE_LIFESPAN) });
+				request.flash('info', 'welcome back!');
 				response.redirect(301, '/');
 			});
 		}
@@ -112,19 +112,22 @@ function postSignIn(request, response)
 		{
 			// TODO prompt for OTP
 			request.logger.info(`OTP prompt required for login; email=${rez.data.email}`);
-			response.render('index', { title: 'putter fic', message: 'we should prompt for your OTP now' });
+			request.flash('info', 'we should prompt you for your OTP now');
+			response.redirect(301, '/#otp');
 			return;
 		}
 		else
 		{
 			// TODO everybody else gets a "who what?"
 			request.logger.info(`login failure; email=${rez.data.email}`);
-			response.render('index', { title: 'putter fic', message: 'could not log in with those credentials; try again' });
+			request.flash('error', 'we could not log you in with those credentials');
+			response.redirect(301, '/#signin');
 		}
 	}).catch(err =>
 	{
 		request.logger.error(`unexpected error while logging in: ${err.message}; email: ${ctx.email}`);
-		response.render('index', { title: 'putter fic', message: err.message });
+		request.flash('error', 'something has gone wrong on sign in; this was not your fault');
+		response.redirect(301, '/#signin');
 	});
 }
 
@@ -138,6 +141,7 @@ function postSignOut(request, response)
 		if (err)
 			request.logger.error(`problem saving session; proceeding; err=${err.message}`);
 		response.cookie('login', '', { expires: new Date(Date.now() + COOKIE_LIFESPAN) });
+		request.flash('info', 'you have signed out');
 		response.redirect(301, '/');
 	});
 }

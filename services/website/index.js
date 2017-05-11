@@ -6,6 +6,7 @@ const
 	conredis     = require('connect-redis'),
 	csurf        = require('csurf'),
 	express      = require('express'),
+	flash        = require('connect-flash'),
 	helmet       = require('helmet'),
 	logstr       = require('common-log-string'),
 	session      = require('express-session'),
@@ -44,6 +45,7 @@ module.exports = function createServer(options)
 	app.use(cookieParser(process.env.COOKIE_SECRET, {}));
 	// app.use(csurf({ cookie: true }));
 	app.use(session(sessionOpts));
+	app.use(flash());
 
 	app.use(afterhook);
 	app.use(handleError);
@@ -83,6 +85,12 @@ function sessionContext(request, response, next)
 
 	// And look up anything we think we might use every time for the session.
 	response.locals.user = request.session.user.email;
+	response.locals.flash = {
+		info: request.flash('info'),
+		error: request.flash('error'),
+		warning:  request.flash('warning'),
+		success:  request.flash('success'),
+	};
 	next();
 }
 
@@ -98,7 +106,11 @@ function afterhook(request, response, next)
 
 function handleIndex(request, response)
 {
-	response.render('index', { title: 'putter fic', message: '' });
+	request.flash('info', 'this is a test');
+	// TODO oh so much context
+	response.render('index', {
+		title: 'puttering around',
+	});
 }
 
 function handleError(err, request, response, next)
