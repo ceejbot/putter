@@ -19,6 +19,7 @@ const userroutes = module.exports = function mount(server)
 	server.post('/v1/people/email/:email/login', postLogin);
 	server.post('/v1/people/person/:person/token', postPersonToken);
 	server.get('/v1/people/person/:person/token/:token', getPersonToken);
+	server.post('/v1/people/person/:person/token/:token/touch', postTokenTouch);
 };
 
 function getPersonByEmail(request, response, next)
@@ -152,7 +153,7 @@ function postPersonToken(request, response, next)
 	request.body.perms.forEach(p =>
 	{
 		perms |= Token.PERMS[p];
-	})
+	});
 
 	const ctx = {
 		person_id: request.body.user_id,
@@ -175,20 +176,18 @@ function postPersonToken(request, response, next)
 function getPersonToken(request, response, next)
 {
 	const ctx = {
-		token: request.body.token,
-		person_id: request.body.user_id,
+		token: request.urlParams.token,
+		person_id: request.urlParams.person,
 	};
 
 	Token.find(ctx)
-	.then(result =>
+	.then(token =>
 	{
 		if (!token)
-		{
 			response.send(404, 'token not found');
-			return next();
-		}
-
-		response.send(200, token.serializeForAPI());
+		else
+			response.send(200, token.serializeForAPI());
+		next();
 	})
 	.catch(err =>
 	{
@@ -196,7 +195,44 @@ function getPersonToken(request, response, next)
 		response.send(500, err.message);
 		next();
 	});
+}
 
+function postTokenTouch(request, response, next)
+{
+	const ctx = {
+		token: request.urlParams.token,
+		person_id: request.urlParams.person,
+	};
+	const update = {
+		ip: request.body.ip,
+		os: request.body.os,
+		browser: request.body.browser,
+	};
+
+	Token.find(ctx)
+	.then(token =>
+	{
+		if (!token)
+			response.send(404, 'token not found');
+		else
+			response.send(200, token.serializeForAPI());
+		next();
+
+		// out of band
+		return token.touch(update).then(() =>
+		{
+			logger.debug('touched token');
+		}).catch(err =>
+		{
+			logger.error(`caught error updating token; err=${err.message}; token=${token.id}`);
+		});
+	})
+	.catch(err =>
+	{
+		logger.error({ message: err.message, function: 'getPersonToken'});
+		response.send(500, err.message);
+		next();
+	});
 }
 
 // exposed for testing
@@ -205,3 +241,4 @@ userroutes.getPersonToken = getPersonToken;
 userroutes.postLogin = postLogin;
 userroutes.postPerson = postPerson;
 userroutes.postPersonToken = postPersonToken;
+userroutes.postTokenTouch = postTokenTouch;

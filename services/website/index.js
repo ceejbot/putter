@@ -1,17 +1,19 @@
 'use strict';
 
 const
-	bole         = require('bole'),
-	cookieParser = require('cookie-parser'),
-	conredis     = require('connect-redis'),
-	csurf        = require('csurf'),
-	express      = require('express'),
-	flash        = require('connect-flash'),
-	helmet       = require('helmet'),
-	logstr       = require('common-log-string'),
-	session      = require('express-session'),
-	uuid         = require('uuid'),
-	logger       = bole('web')
+	axios    = require('axios'),
+	bole     = require('bole'),
+	cookies  = require('cookie-parser'),
+	conredis = require('connect-redis'),
+	csurf    = require('csurf'),
+	express  = require('express'),
+	flash    = require('connect-flash'),
+	helmet   = require('helmet'),
+	logstr   = require('common-log-string'),
+	session  = require('express-session'),
+	uaparser = require('ua-parser-js'),
+	uuid     = require('uuid'),
+	logger   = bole('web')
 	;
 
 module.exports = function createServer(options)
@@ -42,8 +44,8 @@ module.exports = function createServer(options)
 	// TODO mount middleware after having selected it
 	app.use(requestid);
 	app.use(helmet());
-	app.use(cookieParser(process.env.COOKIE_SECRET, {}));
-	// app.use(csurf({ cookie: true }));
+	app.use(cookies(process.env.COOKIE_SECRET, {}));
+	if (app.get('env') === 'production') app.use(csurf({ cookie: true }));
 	app.use(session(sessionOpts));
 	app.use(flash());
 
@@ -53,8 +55,8 @@ module.exports = function createServer(options)
 
 	// TODO mount routes after having written them
 	app.get('/', handleIndex);
-	app.use('/', require('./routes/auth'));
-	app.use('/', require('./routes/monitor'));
+	app.use('/', require('./auth'));
+	app.use('/', require('./monitor'));
 
 	if (process.env.STATIC_MOUNT === 'self')
 	{
@@ -74,24 +76,59 @@ function requestid(request, response, next)
 {
 	request.id = uuid.v1();
 	request.logger = bole(request.id);
+	request.fetch = axios.create({
+		baseURL: `http://${process.env.HOST_DATA}:${process.env.PORT_DATA}`,
+		headers: {
+			post: { 'content-type': 'application/json'},
+			'x-request-id': request.id,
+		}
+	});
+
 	next();
 }
 
 function sessionContext(request, response, next)
 {
-	if (!request.session || !request.session.user) return next();
-
-	// TODO validate session token against data API
-
-	// And look up anything we think we might use every time for the session.
-	response.locals.user = request.session.user.email;
 	response.locals.flash = {
 		info: request.flash('info'),
 		error: request.flash('error'),
 		warning:  request.flash('warning'),
 		success:  request.flash('success'),
 	};
-	next();
+
+	if (!request.session || !request.session.user) return next();
+
+	const user = request.session.user;
+	const ua = uaparser(request.headers['user-agent']);
+
+	const data = {
+		ip: request.socket.remoteAddress,
+		os: `${ua.os.name}@${ua.os.version}`,
+		browser: `${ua.browser.name}@${ua.browser.version}`,
+	};
+	// record when we saw this session, while validating it
+	function validateStatus(code) { return code === 200 || code === 404; }
+	request.fetch.post(`/v1/people/person/${user.id}/token/${user.token}/touch`, data, { validateStatus })
+	.then(rez =>
+	{
+		if (rez.status === 200)
+		{
+			// And look up anything we think we might use every time for the session.
+			response.locals.user = request.session.user.email;
+		}
+		else
+		{
+			// token's bunk. remove it from the session & move on.
+			session.user = null;
+		}
+
+		next();
+
+	}).catch(err =>
+	{
+		request.logger.error(`problem fetching session data: ${err.message}`);
+		next();
+	});
 }
 
 function afterhook(request, response, next)

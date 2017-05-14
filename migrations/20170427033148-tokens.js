@@ -16,10 +16,18 @@ exports.up = function(db)
 		person_id: { type: type.INTEGER },
 		token: { type: type.STRING },
 		permissions: { type: type.INTEGER },
-		created: { type: type.DATE_TIME }
+		created: { type: type.DATE_TIME },
+		touched: { type: type.DATE_TIME },
+		ip: { type: type.STRING },
+		os: { type: type.STRING },
+		browser: { type: type.STRING },
+
 	}}).then(() =>
 	{
 		return db.runSql('ALTER TABLE tokens ADD CONSTRAINT tokens_person_id_fk FOREIGN KEY (person_id) REFERENCES persons (id) MATCH FULL');
+	}).then(() =>
+	{
+		return db.addIndex('tokens', 'tokens_person_id_token_idx', ['person_id', 'token']);
 	}).then(() =>
 	{
 		return db.addIndex('tokens', 'tokens_token', 'token');
@@ -31,7 +39,7 @@ exports.down = function(db)
 	return db.runSql('DROP TABLE IF EXISTS tokens;')
 	.then(() =>
 	{
-		return db.runSql('DROP TYPE IF EXISTS token_person_id_idx;');
+		return db.runSql('DROP INDEX IF EXISTS token_person_id_idx;');
 	}).then(() =>
 	{
 		return db.runSql('DROP INDEX IF EXISTS tokens_token;');

@@ -1,11 +1,10 @@
 'use strict';
 
 const
-	axios   = require('axios'),
 	body    = require('body-parser'),
 	express = require('express'),
 	Joi     = require('joi'),
-	schemas = require('../../../lib/schemas')
+	schemas = require('../../lib/schemas')
 	;
 
 const formParser = body.urlencoded({ extended: false });
@@ -18,11 +17,6 @@ router.post('/signup', formParser, postSignUp);
 router.get('/signin', getSignIn);
 router.post('/signin', formParser, postSignIn);
 router.post('/signout', formParser, postSignOut);
-
-const requester = axios.create({
-	baseURL: `http://${process.env.HOST_DATA}:${process.env.PORT_DATA}`,
-});
-requester.defaults.headers.post['content-type'] = 'application/json';
 
 function getSignUp(request, response)
 {
@@ -46,7 +40,7 @@ function postSignUp(request, response)
 
 	function validateStatus(code) { return code !== 201 && code !== 409; }
 
-	requester.post('/v1/people/person', ctx, { validateStatus })
+	request.fetch.post('/v1/people/person', ctx, { validateStatus })
 	.then(rez =>
 	{
 		if (rez.status === 409)
@@ -88,7 +82,7 @@ function postSignIn(request, response)
 	// Non-error responses include OTP challenges & incorrect credentials.
 	function validateStatus(code) { return code === 200 || code === 401 || code === 404; }
 
-	requester.post(`/v1/people/email/${ctx.email}/login`, ctx, { validateStatus })
+	request.fetch.post(`/v1/people/email/${ctx.email}/login`, ctx, { validateStatus })
 	.then(rez =>
 	{
 		if (rez.status === 200)
