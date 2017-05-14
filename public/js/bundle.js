@@ -1,211 +1,176 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-const html = require(2), choo = require(3);
-const app = choo();
+'use strict';
+var getFormData = require(5), html = require(2), choo = require(3);
+var app = choo();
 app.use(logger);
-app.use(countStore);
-app.route('/', signupView);
+app.route('/', mainView);
+app.route('/signup', signupView);
 app.route('/signin', signinView);
-app.mount('#signup');
+app.mount('#main');
+function logger(state, emitter) {
+    emitter.on('*', function (messageName, data) {
+        console.log('event', messageName, data);
+    });
+}
+function mainView(state, emit) {
+    var which = window.location.hash.replace(/^#/, '');
+    if (which.length > 0)
+        location.href = '/' + which;
+    return (function () {
+      
+      var ac = require(19)
+      var bel0 = document.createElement("div")
+bel0.setAttribute("class", "fl w-100")
+ac(bel0, ["teaser view goes here."])
+      return bel0
+    }());
+}
 function signupView(state, emit) {
     return (function () {
       
-      var ac = require(18)
-      var bel23 = document.createElement("div")
-bel23.setAttribute("class", "panel panel-primary")
-var bel0 = document.createElement("div")
-bel0.setAttribute("class", "panel-heading")
+      var ac = require(19)
+      var bel15 = document.createElement("div")
+bel15.setAttribute("class", "fl w-100")
+var bel14 = document.createElement("form")
+bel14.setAttribute("action", "/signup")
+bel14.setAttribute("method", "POST")
+bel14.setAttribute("class", "pa4 ma4 black-80 bg-washed-blue")
+var bel13 = document.createElement("div")
+bel13.setAttribute("class", "measure-narrow ma4")
+var bel0 = document.createElement("h3")
+bel0.setAttribute("class", "w-80 mt3")
 ac(bel0, ["Sign up"])
-var bel19 = document.createElement("div")
-bel19.setAttribute("class", "panel-body")
-var bel18 = document.createElement("form")
-bel18.setAttribute("action", "/signup")
-bel18.setAttribute("method", "POST")
-bel18.setAttribute("class", "form-horizontal")
-var bel5 = document.createElement("div")
-bel5.setAttribute("class", "form-group")
 var bel1 = document.createElement("label")
-bel1.setAttribute("htmlFor", "signup_handle")
-bel1.setAttribute("class", "col-sm-2")
+bel1.setAttribute("for", "handle")
+bel1.setAttribute("class", "f6 b db mb2")
 ac(bel1, ["Handle"])
-var bel4 = document.createElement("div")
-bel4.setAttribute("class", "col-sm-6")
 var bel2 = document.createElement("input")
 bel2.setAttribute("type", "text")
-bel2.setAttribute("id", "signup_handle")
-bel2.setAttribute("placeholder", "Handle")
-bel2.setAttribute("aria-describedby", "handle-help")
-bel2.setAttribute("class", "form-control")
-var bel3 = document.createElement("p")
-bel3.setAttribute("id", "handle-help")
-bel3.setAttribute("class", "help-block")
-ac(bel3, ["The name you'll be known on the site as."])
-ac(bel4, ["\n\t\t\t\t\t",bel2,"\n\t\t\t\t\t",bel3,"\n\t\t\t\t"])
-ac(bel5, ["\n\t\t\t\t",bel1,"\n\t\t\t\t",bel4,"\n\t\t\t"])
-var bel10 = document.createElement("div")
-bel10.setAttribute("class", "form-group")
-var bel6 = document.createElement("label")
-bel6.setAttribute("htmlFor", "signup_email")
-bel6.setAttribute("class", "col-sm-2")
-ac(bel6, ["Email address"])
-var bel9 = document.createElement("div")
-bel9.setAttribute("class", "col-sm-6")
-var bel7 = document.createElement("input")
-bel7.setAttribute("type", "email")
-bel7.setAttribute("id", "signup_email")
-bel7.setAttribute("placeholder", "Email")
-bel7.setAttribute("aria-describedby", "email-help")
-bel7.setAttribute("class", "form-control")
-var bel8 = document.createElement("p")
-bel8.setAttribute("id", "email-help")
-bel8.setAttribute("class", "help-block")
-ac(bel8, ["A valid email address is required. Never made public."])
-ac(bel9, ["\n\t\t\t\t\t",bel7,"\n\t\t\t\t\t",bel8,"\n\t\t\t\t"])
-ac(bel10, ["\n\t\t\t\t",bel6,"\n\t\t\t\t",bel9,"\n\t\t\t"])
-var bel14 = document.createElement("div")
-bel14.setAttribute("class", "form-group")
-var bel11 = document.createElement("label")
-bel11.setAttribute("htmlFor", "signup_password")
-bel11.setAttribute("class", "col-sm-2")
-ac(bel11, ["Password"])
-var bel13 = document.createElement("div")
-bel13.setAttribute("class", "col-sm-6")
-var bel12 = document.createElement("input")
-bel12.setAttribute("type", "password")
-bel12.setAttribute("id", "signup_password")
-bel12.setAttribute("placeholder", "Password")
-bel12.setAttribute("class", "form-control")
-ac(bel13, ["\n\t\t\t\t\t",bel12,"\n\t\t\t\t"])
-ac(bel14, ["\n\t\t\t\t",bel11,"\n\t\t\t\t",bel13,"\n\t\t\t"])
-var bel17 = document.createElement("div")
-bel17.setAttribute("class", "form-group")
-var bel16 = document.createElement("div")
-bel16.setAttribute("class", "col-sm-offset-2 col-sm-6")
-var bel15 = document.createElement("button")
-bel15.setAttribute("type", "submit")
-bel15["onclick"] = arguments[0]
-bel15.setAttribute("class", "btn btn-default")
-ac(bel15, ["Sign up"])
-ac(bel16, ["\n\t\t\t\t\t",bel15,"\n\t\t\t\t"])
-ac(bel17, ["\n\t\t\t\t",bel16,"\n\t\t\t"])
-ac(bel18, ["\n\t\t\t",bel5,"\n\t\t\t",bel10,"\n\t\t\t",bel14,"\n\t\t\t",bel17,"\n\t\t"])
-ac(bel19, ["\n\t\t",bel18,"\n\t"])
-var bel22 = document.createElement("div")
-bel22.setAttribute("class", "panel-footer")
-var bel21 = document.createElement("span")
-bel21.setAttribute("class", "small")
-var bel20 = document.createElement("a")
-bel20.setAttribute("href", "/signin")
-ac(bel20, ["Sign in."])
-ac(bel21, ["Already have an account? ",bel20])
-ac(bel22, ["\n\t\t",bel21,"\n\t"])
-ac(bel23, ["\n\t",bel0,"\n\t",bel19,"\n\t",bel22,"\n"])
-      return bel23
+bel2.setAttribute("id", "handle")
+bel2.setAttribute("name", "handle")
+bel2.setAttribute("aria-describedby", "handle-desc")
+bel2.setAttribute("class", "input-reset ba b--black-20 pa2 mb2 db w-100")
+var bel3 = document.createElement("small")
+bel3.setAttribute("id", "handle-desc")
+bel3.setAttribute("class", "f6 lh-copy black-60 db mb2")
+ac(bel3, ["\n\t\t\tYou need at least one public pseud or handle. You can make other handles later.\n\t\t\t"])
+var bel4 = document.createElement("label")
+bel4.setAttribute("for", "email")
+bel4.setAttribute("class", "f6 b db mb2")
+ac(bel4, ["Email"])
+var bel5 = document.createElement("input")
+bel5.setAttribute("type", "email")
+bel5.setAttribute("id", "email")
+bel5.setAttribute("name", "email")
+bel5.setAttribute("aria-describedby", "email-desc")
+bel5.setAttribute("class", "input-reset ba b--black-20 pa2 mb2 db w-100")
+var bel6 = document.createElement("small")
+bel6.setAttribute("id", "email-desc")
+bel6.setAttribute("class", "f6 lh-copy black-60 db mb2")
+ac(bel6, ["A valid email address is required. Never made public."])
+var bel7 = document.createElement("label")
+bel7.setAttribute("for", "password")
+bel7.setAttribute("class", "f6 b db mb2")
+ac(bel7, ["Password"])
+var bel8 = document.createElement("input")
+bel8.setAttribute("type", "password")
+bel8.setAttribute("id", "password")
+bel8.setAttribute("name", "password")
+bel8.setAttribute("aria-describedby", "password-desc")
+bel8.setAttribute("class", "input-reset ba b--black-20 pa2 mb2 db w-100")
+var bel9 = document.createElement("small")
+bel9.setAttribute("id", "password-desc")
+bel9.setAttribute("class", "f6 lh-copy black-60 db mb2")
+ac(bel9, ["Make it long."])
+var bel10 = document.createElement("button")
+bel10.setAttribute("type", "submit")
+bel10["onsubmit"] = arguments[0]
+bel10.setAttribute("class", "btn btn--blue w-100")
+ac(bel10, ["Sign up"])
+var bel12 = document.createElement("small")
+bel12.setAttribute("class", "f6 lh-copy black-60 db mb2")
+var bel11 = document.createElement("a")
+bel11.setAttribute("href", "/signin")
+ac(bel11, ["Sign in."])
+ac(bel12, ["Already have an account? ",bel11])
+ac(bel13, ["\n\t\t\t",bel0,"\n\n\t\t\t",bel1,"\n\t\t\t",bel2,"\n\t\t\t",bel3,"\n\n\t\t\t",bel4,"\n\t\t\t",bel5,"\n\t\t\t",bel6,"\n\n\t\t\t",bel7,"\n\t\t\t",bel8,"\n\t\t\t",bel9,"\n\n\t\t\t",bel10,"\n\t\t\t",bel12,"\n\t\t"])
+ac(bel14, ["\n\t\t",bel13,"\n\t"])
+ac(bel15, ["\n\t",bel14,"\n"])
+      return bel15
     }(signup));
-    function signup() {
-        emit('increment', 1);
+    function signup(e) {
+        var data = getFormData(e.target);
+        e.preventDefault();
     }
 }
 function signinView(state, emit) {
     return (function () {
       
-      var ac = require(18)
-      var bel18 = document.createElement("div")
-bel18.setAttribute("class", "panel panel-primary")
-var bel0 = document.createElement("div")
-bel0.setAttribute("class", "panel-heading")
+      var ac = require(19)
+      var bel11 = document.createElement("div")
+bel11.setAttribute("class", "fl w-100")
+var bel10 = document.createElement("form")
+bel10.setAttribute("action", "/signin")
+bel10.setAttribute("method", "POST")
+bel10.setAttribute("class", "pa4 ma4 black-80 bg-washed-blue")
+var bel9 = document.createElement("div")
+bel9.setAttribute("class", "measure-narrow ma4")
+var bel0 = document.createElement("h3")
+bel0.setAttribute("class", "w-80 mt3")
 ac(bel0, ["Sign in"])
-var bel14 = document.createElement("div")
-bel14.setAttribute("class", "panel-body")
-var bel13 = document.createElement("form")
-bel13.setAttribute("action", "/signin")
-bel13.setAttribute("method", "POST")
-bel13.setAttribute("class", "form-horizontal")
-var bel4 = document.createElement("div")
-bel4.setAttribute("class", "form-group")
 var bel1 = document.createElement("label")
-bel1.setAttribute("htmlFor", "signin_email")
-bel1.setAttribute("class", "col-sm-2")
-ac(bel1, ["Email address"])
-var bel3 = document.createElement("div")
-bel3.setAttribute("class", "col-sm-8")
+bel1.setAttribute("for", "email")
+bel1.setAttribute("class", "f6 b db mb2")
+ac(bel1, ["Email"])
 var bel2 = document.createElement("input")
+bel2.setAttribute("placeholder", "youremail@example.com")
 bel2.setAttribute("type", "email")
-bel2.setAttribute("id", "signin_email")
-bel2.setAttribute("placeholder", "Email")
-bel2.setAttribute("aria-describedby", "email-help")
-bel2.setAttribute("class", "form-control")
-ac(bel3, ["\n\t\t\t\t\t",bel2,"\n\t\t\t\t"])
-ac(bel4, ["\n\t\t\t\t",bel1,"\n\t\t\t\t",bel3,"\n\t\t\t"])
-var bel8 = document.createElement("div")
-bel8.setAttribute("class", "form-group")
-var bel5 = document.createElement("label")
-bel5.setAttribute("htmlFor", "signin_password")
-bel5.setAttribute("class", "col-sm-2")
-ac(bel5, ["Password"])
-var bel7 = document.createElement("div")
-bel7.setAttribute("class", "col-sm-8")
-var bel6 = document.createElement("input")
-bel6.setAttribute("type", "password")
-bel6.setAttribute("id", "signin_password")
-bel6.setAttribute("placeholder", "Password")
-bel6.setAttribute("class", "form-control")
-ac(bel7, ["\n\t\t\t\t\t",bel6,"\n\t\t\t\t"])
-ac(bel8, ["\n\t\t\t\t",bel5,"\n\t\t\t\t",bel7,"\n\t\t\t"])
-var bel12 = document.createElement("div")
-bel12.setAttribute("class", "form-group")
-var bel11 = document.createElement("div")
-bel11.setAttribute("class", "col-sm-offset-2 col-sm-10")
-var bel10 = document.createElement("button")
-bel10.setAttribute("type", "submit")
-bel10["onclick"] = arguments[0]
-bel10.setAttribute("class", "btn btn-default")
-var bel9 = document.createElement("span")
-bel9.setAttribute("aria-hidden", "true")
-bel9.setAttribute("class", "glyphicon glyphicon-login")
-ac(bel10, ["\n\t\t\t\t\t\t",bel9,"\n\t\t\t\t\t\tSign in\n\t\t\t\t\t"])
-ac(bel11, ["\n\t\t\t\t\t",bel10,"\n\t\t\t\t"])
-ac(bel12, ["\n\t\t\t\t",bel11,"\n\t\t\t"])
-ac(bel13, ["\n\t\t\t",bel4,"\n\t\t\t",bel8,"\n\t\t\t",bel12,"\n\t\t"])
-ac(bel14, ["\n\t\t",bel13,"\n\t"])
-var bel17 = document.createElement("div")
-bel17.setAttribute("class", "panel-footer")
-var bel16 = document.createElement("span")
-bel16.setAttribute("class", "small")
-var bel15 = document.createElement("a")
-bel15.setAttribute("href", "/")
-ac(bel15, ["Sign up."])
-ac(bel16, ["Need an account? ",bel15])
-ac(bel17, ["\n\t\t",bel16,"\n\t"])
-ac(bel18, ["\n\t",bel0,"\n\t",bel14,"\n\t",bel17,"\n"])
-      return bel18
-    }(signin));
+bel2.setAttribute("id", "email")
+bel2.setAttribute("name", "email")
+bel2.setAttribute("aria-describedby", "email-desc")
+bel2.setAttribute("class", "input-reset ba b--black-20 pa2 mb2 db w-100")
+var bel3 = document.createElement("label")
+bel3.setAttribute("for", "password")
+bel3.setAttribute("class", "f6 b db mb2")
+ac(bel3, ["Password"])
+var bel4 = document.createElement("input")
+bel4.setAttribute("placeholder", "your password")
+bel4.setAttribute("type", "password")
+bel4.setAttribute("id", "password")
+bel4.setAttribute("name", "password")
+bel4.setAttribute("aria-describedby", "password-desc")
+bel4.setAttribute("class", "input-reset ba b--black-20 pa2 mb2 db w-100")
+var bel6 = document.createElement("button")
+bel6.setAttribute("type", "submit")
+bel6.setAttribute("class", "btn btn--blue w-100")
+var bel5 = document.createElement("i")
+bel5.setAttribute("class", "fa fa-sign-in fa-lg mr1")
+ac(bel6, ["\n\t\t\t\tSign in\n\t\t\t\t",bel5,"\n\t\t\t"])
+var bel8 = document.createElement("small")
+bel8.setAttribute("class", "f6 lh-copy black-60 db mb2")
+var bel7 = document.createElement("a")
+bel7.setAttribute("href", "/signup")
+ac(bel7, ["Sign up."])
+ac(bel8, ["Need an account? ",bel7])
+ac(bel9, ["\n\t\t\t",bel0,"\n\n\t\t\t",bel1,"\n\t\t\t",bel2,"\n\n\t\t\t",bel3,"\n\t\t\t",bel4,"\n\n\t\t\t",bel6,"\n\t\t\t",bel8,"\n\t\t"])
+ac(bel10, ["\n\t\t",bel9,"\n\t"])
+ac(bel11, ["\n\t",bel10,"\n"])
+      return bel11
+    }());
     function signin() {
-        emit('increment', 1);
     }
 }
-function logger(state, emitter) {
-    emitter.on('*', (messageName, data) => {
-        console.log('event', messageName, data);
-    });
-}
-function countStore(state, emitter) {
-    state.count = 0;
-    emitter.on('increment', count => {
-        state.count += count;
-        emitter.emit('render');
-    });
-}
-},{"18":18,"2":2,"3":3}],2:[function(require,module,exports){
+},{"19":19,"2":2,"3":3,"5":5}],2:[function(require,module,exports){
 module.exports = {};
 },{}],3:[function(require,module,exports){
 var documentReady = require(4);
-var nanohistory = require(6);
-var nanorouter = require(13);
-var nanomount = require(11);
-var nanomorph = require(8);
-var nanohref = require(7);
-var nanoraf = require(12);
-var nanobus = require(5);
+var nanohistory = require(7);
+var nanorouter = require(14);
+var nanomount = require(12);
+var nanomorph = require(9);
+var nanohref = require(8);
+var nanoraf = require(13);
+var nanobus = require(6);
 module.exports = Choo;
 function Choo(opts) {
     opts = opts || {};
@@ -225,6 +190,7 @@ function Choo(opts) {
         toString: toString,
         use: register,
         mount: mount,
+        router: router,
         route: route,
         start: start
     };
@@ -252,12 +218,12 @@ function Choo(opts) {
                 window.performance.measure('choo:render', 'choo:renderStart', 'choo:renderEnd');
             }
         });
-        bus.on('render', rerender);
+        bus.prependListener('render', rerender);
         if (opts.history !== false) {
             nanohistory(function (href) {
                 bus.emit('pushState');
             });
-            bus.on('pushState', function (href) {
+            bus.prependListener('pushState', function (href) {
                 if (href)
                     window.history.pushState({}, null, href);
                 bus.emit('render');
@@ -314,7 +280,7 @@ function createLocation() {
     var hash = window.location.hash.replace(/^#/, '/');
     return pathname + hash;
 }
-},{"11":11,"12":12,"13":13,"4":4,"5":5,"6":6,"7":7,"8":8}],4:[function(require,module,exports){
+},{"12":12,"13":13,"14":14,"4":4,"6":6,"7":7,"8":8,"9":9}],4:[function(require,module,exports){
 'use strict';
 module.exports = ready;
 function ready(callback) {
@@ -327,6 +293,132 @@ function ready(callback) {
     });
 }
 },{}],5:[function(require,module,exports){
+'use strict';
+exports.__esModule = true;
+var NODE_LIST_CLASSES = {
+    '[object HTMLCollection]': true,
+    '[object NodeList]': true,
+    '[object RadioNodeList]': true
+};
+var IGNORED_ELEMENT_TYPES = {
+    'button': true,
+    'fieldset': true,
+    'reset': true,
+    'submit': true
+};
+var CHECKED_INPUT_TYPES = {
+    'checkbox': true,
+    'radio': true
+};
+var TRIM_RE = /^\s+|\s+$/g;
+var slice = Array.prototype.slice;
+var toString = Object.prototype.toString;
+function getFormData(form) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? { trim: false } : arguments[1];
+    if (!form) {
+        throw new Error('A form is required by getFormData, was given form=' + form);
+    }
+    var data = {};
+    var elementName = undefined;
+    var elementNames = [];
+    var elementNameLookup = {};
+    for (var i = 0, l = form.elements.length; i < l; i++) {
+        var element = form.elements[i];
+        if (IGNORED_ELEMENT_TYPES[element.type] || element.disabled) {
+            continue;
+        }
+        elementName = element.name || element.id;
+        if (elementName && !elementNameLookup[elementName]) {
+            elementNames.push(elementName);
+            elementNameLookup[elementName] = true;
+        }
+    }
+    for (var i = 0, l = elementNames.length; i < l; i++) {
+        elementName = elementNames[i];
+        var value = getNamedFormElementData(form, elementName, options);
+        if (value != null) {
+            data[elementName] = value;
+        }
+    }
+    return data;
+}
+function getNamedFormElementData(form, elementName) {
+    var options = arguments.length <= 2 || arguments[2] === undefined ? { trim: false } : arguments[2];
+    if (!form) {
+        throw new Error('A form is required by getNamedFormElementData, was given form=' + form);
+    }
+    if (!elementName && toString.call(elementName) !== '[object String]') {
+        throw new Error('A form element name is required by getNamedFormElementData, was given elementName=' + elementName);
+    }
+    var element = form.elements[elementName];
+    if (!element || element.disabled) {
+        return null;
+    }
+    if (!NODE_LIST_CLASSES[toString.call(element)]) {
+        return getFormElementValue(element, options.trim);
+    }
+    var data = [];
+    var allRadios = true;
+    for (var i = 0, l = element.length; i < l; i++) {
+        if (element[i].disabled) {
+            continue;
+        }
+        if (allRadios && element[i].type !== 'radio') {
+            allRadios = false;
+        }
+        var value = getFormElementValue(element[i], options.trim);
+        if (value != null) {
+            data = data.concat(value);
+        }
+    }
+    if (allRadios && data.length === 1) {
+        return data[0];
+    }
+    return data.length > 0 ? data : null;
+}
+function getFormElementValue(element, trim) {
+    var value = null;
+    var type = element.type;
+    if (type === 'select-one') {
+        if (element.options.length) {
+            value = element.options[element.selectedIndex].value;
+        }
+        return value;
+    }
+    if (type === 'select-multiple') {
+        value = [];
+        for (var i = 0, l = element.options.length; i < l; i++) {
+            if (element.options[i].selected) {
+                value.push(element.options[i].value);
+            }
+        }
+        if (value.length === 0) {
+            value = null;
+        }
+        return value;
+    }
+    if (type === 'file' && 'files' in element) {
+        if (element.multiple) {
+            value = slice.call(element.files);
+            if (value.length === 0) {
+                value = null;
+            }
+        } else {
+            value = element.files[0];
+        }
+        return value;
+    }
+    if (!CHECKED_INPUT_TYPES[type]) {
+        value = trim ? element.value.replace(TRIM_RE, '') : element.value;
+    } else if (element.checked) {
+        value = element.value;
+    }
+    return value;
+}
+getFormData.getNamedFormElementData = getNamedFormElementData;
+exports['default'] = getFormData;
+module.exports = exports['default'];
+},{}],6:[function(require,module,exports){
 module.exports = Nanobus;
 function Nanobus() {
     if (!(this instanceof Nanobus))
@@ -336,10 +428,11 @@ function Nanobus() {
 }
 Nanobus.prototype.emit = function (eventName, data) {
     var listeners = this._listeners[eventName];
-    if (listeners && listeners.length)
-        this._emit(listeners, data);
-    if (this._starListeners.length) {
-        this._emit(this._starListeners, eventName, data);
+    if (listeners && listeners.length > 0) {
+        this._emit(this.listeners(eventName), data);
+    }
+    if (this._starListeners.length > 0) {
+        this._emit(this.listeners('*'), eventName, data);
     }
     return this;
 };
@@ -353,9 +446,28 @@ Nanobus.prototype.on = Nanobus.prototype.addListener = function (eventName, list
     }
     return this;
 };
+Nanobus.prototype.prependListener = function (eventName, listener) {
+    if (eventName === '*') {
+        this._starListeners.unshift(listener);
+    } else {
+        if (!this._listeners[eventName])
+            this._listeners[eventName] = [];
+        this._listeners[eventName].unshift(listener);
+    }
+    return this;
+};
 Nanobus.prototype.once = function (eventName, listener) {
-    this.on(eventName, once);
     var self = this;
+    this.on(eventName, once);
+    function once() {
+        listener.apply(self, arguments);
+        self.removeListener(eventName, once);
+    }
+    return this;
+};
+Nanobus.prototype.prependOnceListener = function (eventName, listener) {
+    var self = this;
+    this.prependListener(eventName, once);
     function once() {
         listener.apply(self, arguments);
         self.removeListener(eventName, once);
@@ -394,7 +506,7 @@ Nanobus.prototype.removeAllListeners = function (eventName) {
     return this;
 };
 Nanobus.prototype.listeners = function (eventName) {
-    var listeners = this._listeners[eventName];
+    var listeners = eventName !== '*' ? this._listeners[eventName] : this._starListeners;
     var ret = [];
     if (listeners) {
         var ilength = listeners.length;
@@ -417,14 +529,14 @@ Nanobus.prototype._emit = function (arr, eventName, data) {
             listener(data);
     }
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = history;
 function history(cb) {
     window.onpopstate = function () {
         cb(document.location);
     };
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = href;
 var noRoutingAttrName = 'data-no-routing';
 function href(cb, root) {
@@ -452,8 +564,8 @@ function href(cb, root) {
         cb(node);
     };
 }
-},{}],8:[function(require,module,exports){
-var morph = require(10);
+},{}],9:[function(require,module,exports){
+var morph = require(11);
 var rootLabelRegex = /^data-onloadid/;
 var ELEMENT_NODE = 1;
 module.exports = nanomorph;
@@ -519,7 +631,7 @@ function persistStatefulRoot(newNode, oldNode) {
         }
     }
 }
-},{"10":10}],9:[function(require,module,exports){
+},{"11":11}],10:[function(require,module,exports){
 module.exports = [
     'onclick',
     'ondblclick',
@@ -554,8 +666,8 @@ module.exports = [
     'onfocusin',
     'onfocusout'
 ];
-},{}],10:[function(require,module,exports){
-var events = require(9);
+},{}],11:[function(require,module,exports){
+var events = require(10);
 var eventsLength = events.length;
 var ELEMENT_NODE = 1;
 var TEXT_NODE = 3;
@@ -694,8 +806,8 @@ function updateAttribute(newNode, oldNode, name) {
         }
     }
 }
-},{"9":9}],11:[function(require,module,exports){
-var nanomorph = require(8);
+},{"10":10}],12:[function(require,module,exports){
+var nanomorph = require(9);
 module.exports = nanomount;
 function nanomount(target, newTree) {
     if (target.nodeName === 'BODY') {
@@ -708,7 +820,7 @@ function nanomount(target, newTree) {
     }
     var tree = nanomorph(target, newTree);
 }
-},{"8":8}],12:[function(require,module,exports){
+},{"9":9}],13:[function(require,module,exports){
 'use strict';
 module.exports = nanoraf;
 function nanoraf(render, raf) {
@@ -732,8 +844,8 @@ function nanoraf(render, raf) {
         args = arguments;
     };
 }
-},{}],13:[function(require,module,exports){
-var wayfarer = require(14);
+},{}],14:[function(require,module,exports){
+var wayfarer = require(15);
 var isLocalFile = /file:\/\//.test(typeof window === 'object' && window.location && window.location.origin);
 var electron = '^(file://|/)(.*.html?/?)?';
 var protocol = '^(http(s)?(://))?(www.)?';
@@ -750,6 +862,7 @@ function Nanorouter(opts) {
     var curry = opts.curry || false;
     var prevCallback = null;
     var prevRoute = null;
+    emit.router = router;
     emit.on = on;
     return emit;
     function on(routename, listener) {
@@ -778,8 +891,8 @@ function pathname(route, isElectron) {
         route = route.replace(prefix, '');
     return route.replace(suffix, '').replace(normalize, '/');
 }
-},{"14":14}],14:[function(require,module,exports){
-var trie = require(17);
+},{"15":15}],15:[function(require,module,exports){
+var trie = require(18);
 module.exports = Wayfarer;
 function Wayfarer(dft) {
     if (!(this instanceof Wayfarer))
@@ -819,7 +932,7 @@ function Wayfarer(dft) {
         throw new Error('route \'' + route + '\' did not match');
     }
 }
-},{"17":17}],15:[function(require,module,exports){
+},{"18":18}],16:[function(require,module,exports){
 module.exports = extend;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 function extend() {
@@ -834,7 +947,7 @@ function extend() {
     }
     return target;
 }
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = extend;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 function extend(target) {
@@ -848,9 +961,9 @@ function extend(target) {
     }
     return target;
 }
-},{}],17:[function(require,module,exports){
-var mutate = require(16);
-var xtend = require(15);
+},{}],18:[function(require,module,exports){
+var mutate = require(17);
+var xtend = require(16);
 module.exports = Trie;
 function Trie() {
     if (!(this instanceof Trie))
@@ -937,7 +1050,7 @@ Trie.prototype.mount = function (route, trie) {
         delete node.nodes[''].nodes;
     }
 };
-},{"15":15,"16":16}],18:[function(require,module,exports){
+},{"16":16,"17":17}],19:[function(require,module,exports){
 module.exports = function yoyoifyAppendChild(el, childs) {
     for (var i = 0; i < childs.length; i++) {
         var node = childs[i];
@@ -949,6 +1062,8 @@ module.exports = function yoyoifyAppendChild(el, childs) {
             node = node.toString();
         }
         if (typeof node === 'string') {
+            if (/^[\n\r\s]+$/.test(node))
+                continue;
             if (el.lastChild && el.lastChild.nodeName === '#text') {
                 el.lastChild.nodeValue += node;
                 continue;

@@ -8,7 +8,7 @@ CSS_INPUTS := $(wildcard $(LESSDIR)/*.less)
 CSS := $(addprefix $(CSSDIR)/,putter.css)
 
 # templates for front-end app
-TEMPLATEDIR := templates
+TEMPLATEDIR := templates/shared
 HTMLDIR := assets/html
 PUGFILES := $(wildcard $(TEMPLATEDIR)/*.pug)
 HTML := $(patsubst $(TEMPLATEDIR)/%.pug,$(HTMLDIR)/%.html,$(PUGFILES))
@@ -23,12 +23,7 @@ JS := $(addprefix $(JSDIR),bundle.js)
 LIBRARIES := node_modules/bootstrap/dist/js/bootstrap.js
 LIBS_MIN = $(LIBRARIES:.js=.min.js)
 
-all: css js
-
-fooble:
-	@echo $(TINPUT)
-	@echo $(TFILES)
-	@echo $(HTML)
+all: css js html
 
 css: $(CSS)
 
@@ -44,8 +39,7 @@ $(HTMLDIR)/%.html: $(TEMPLATEDIR)/%.pug
 
 js: $(JS)
 
-$(JS): $(JS_INPUTS) html
-	@echo Bankai $<
+$(JS): $(JS_INPUTS)
 	@bankai build $(BANKAIOPTS) $^ $(JSDIR)
 	@-mv $(JSDIR)/*.css $(CSSDIR)
 	@-mv $(JSDIR)/*.html $(JSDIR)/../
@@ -68,22 +62,19 @@ $(JSDIR)putter-debug.js: $(APPJS)
 directories:
 	@-mkdir $(CSSDIR) $(JSDIR) log
 
-count:
-	@cloc . --exclude-dir=node_modules,pages/public,assets,components --exclude-lang=HTML,CSS,YAML
-
 provision:
 	@echo Creating development db and running migrations...
-	#@ DB_NAME=putter_dev npm run db:create
+	@ DB_NAME=putter_dev npm run db:create
 	@npm run db:up
 
-cleardb:
-	./provision/cleardb.js | bistre
+migrate-up:
+	@npm run db:up
 
-inject:
-	cd test && ./inject-data.js
+migrate-down:
+	@npm run db:down
 
 clean:
 	-rm $(CSS)
 	-rm $(JS_TARGETS)
 
-.PHONY: count provision cleardb inject js css html fooble
+.PHONY: provision migrate-up migrate-down js css html fooble

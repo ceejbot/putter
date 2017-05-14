@@ -36,7 +36,7 @@ module.exports = function createServer(options)
 		sessionOpts.cookie.secure = true;
 	}
 
-	app.set('views', `${__dirname}/views`);
+	app.set('views', `${__dirname}/../../templates`);
 	app.set('view engine', 'pug');
 
 	// TODO mount middleware after having selected it

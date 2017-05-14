@@ -83,7 +83,7 @@
   "scripts": {
     "db:create": "createdbjs ${DB_NAME:-putter_test}",
     "db:migration": "bin/run-migration.sh",
-    "db:down": "bin/run-migration.sh -- down",
+    "db:down": "bin/run-migration.sh -- down --count 1000",
     "db:up": "bin/run-migration.sh -- up",
     "report:cov": "nyc report --reporter=text-lcov | coveralls",
     "run:auth": "bin/run-server.js api-auth",
