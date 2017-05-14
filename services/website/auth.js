@@ -38,7 +38,7 @@ function postSignUp(request, response)
 		return;
 	}
 
-	function validateStatus(code) { return code !== 201 && code !== 409; }
+	function validateStatus(code) { return code === 201 && code === 409; }
 
 	request.fetch.post('/v1/people/person', ctx, { validateStatus })
 	.then(rez =>
