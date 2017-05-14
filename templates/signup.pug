@@ -1,0 +1,19 @@
+.fl.w-100
+	form.pa4.ma4.black-80.bg-washed-blue(action='/signup' method='POST')
+		.measure-narrow.ma4
+			h3.w-80.mt3 Sign up
+				label.f6.b.db.mb2(for='handle') Handle
+				input#handle.input-reset.ba.b--black-20.pa2.mb2.db.w-100(type='text' aria-describedby='handle-desc')
+				small#handle-desc.f6.lh-copy.black-60.db.mb2 You need at least one public pseud or handle. You can make other handles later.
+
+				label.f6.b.db.mb2(for='email') Email
+				input#email.input-reset.ba.b--black-20.pa2.mb2.db.w-100(type='email' aria-describedby='email-desc')
+				small#email-desc.f6.lh-copy.black-60.db.mb2 A valid email address is required. Never made public.
+
+				label.f6.b.db.mb2(for='password') Password
+				input#password.input-reset.ba.b--black-20.pa2.mb2.db.w-100(type='password' aria-describedby='password-desc')
+				small#password-desc.f6.lh-copy.black-60.db.mb2 Make it long.
+
+				button.btn.btn--blue.w-100(type='submit' onsubmit='${signup}') Sign up
+				small.f6.lh-copy.black-60.db.mb2 Already have an account?
+					a(href='/signin') Sign in.

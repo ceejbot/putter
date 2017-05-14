@@ -7,6 +7,12 @@ CSSDIR := public/css
 CSS_INPUTS := $(wildcard $(LESSDIR)/*.less)
 CSS := $(addprefix $(CSSDIR)/,putter.css)
 
+# templates for front-end app
+TEMPLATEDIR := templates
+HTMLDIR := assets/html
+PUGFILES := $(wildcard $(TEMPLATEDIR)/*.pug)
+HTML := $(patsubst $(TEMPLATEDIR)/%.pug,$(HTMLDIR)/%.html,$(PUGFILES))
+
 # javascript setup
 BANKAIOPTS := --optimize --uglify=false
 LIBDIR := assets/js
@@ -20,7 +26,9 @@ LIBS_MIN = $(LIBRARIES:.js=.min.js)
 all: css js
 
 fooble:
-	@echo $(CSS)
+	@echo $(TINPUT)
+	@echo $(TFILES)
+	@echo $(HTML)
 
 css: $(CSS)
 
@@ -28,13 +36,19 @@ $(CSSDIR)/%.css : $(LESSDIR)/%.less
 	@echo Compiling $<
 	@tachyons $< > $@ --minify
 
+html: $(HTML)
+
+$(HTMLDIR)/%.html: $(TEMPLATEDIR)/%.pug
+	@echo compiling $<
+	@pug --pretty < $< > $@
+
 js: $(JS)
 
-$(JS): $(JS_INPUTS)
+$(JS): $(JS_INPUTS) html
 	@echo Bankai $<
 	@bankai build $(BANKAIOPTS) $^ $(JSDIR)
-	@mv $(JSDIR)/*.css $(CSSDIR)
-	@mv $(JSDIR)/*.html $(JSDIR)/../
+	@-mv $(JSDIR)/*.css $(CSSDIR)
+	@-mv $(JSDIR)/*.html $(JSDIR)/../
 
 %.min.js: %.js
 	@echo Minifying $<
@@ -72,4 +86,4 @@ clean:
 	-rm $(CSS)
 	-rm $(JS_TARGETS)
 
-.PHONY: count provision cleardb inject js
+.PHONY: count provision cleardb inject js css html fooble

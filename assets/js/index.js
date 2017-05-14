@@ -1,6 +1,7 @@
 'use strict';
 
 var
+	getFormData = require('get-form-data'),
 	html = require('choo/html'),
 	choo = require('choo');
 
@@ -50,16 +51,18 @@ function signupView(state, emit)
 			<input class="input-reset ba b--black-20 pa2 mb2 db w-100" type="password" id="password" name="password" aria-describedby="password-desc">
 			<small id="password-desc" class="f6 lh-copy black-60 db mb2">Make it long.</small>
 
-			<button type="submit" class="btn btn--blue w-100">Sign up</button>
+			<button type="submit" onsubmit=${signup} class="btn btn--blue w-100">Sign up</button>
 			<small class="f6 lh-copy black-60 db mb2">Already have an account? <a href="/signin">Sign in.</a></small>
 		</div>
 	</form>
 </div>`;
 
-	function signup()
+	function signup(e)
 	{
+		var data = getFormData(e.target);
 		// TODO input validation
 		// TODO submit form
+		e.preventDefault();
 	}
 }
 

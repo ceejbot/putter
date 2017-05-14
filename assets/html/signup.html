@@ -1,0 +1,16 @@
+
+<div class="fl w-100">
+  <form class="pa4 ma4 black-80 bg-washed-blue" action="/signup" method="POST">
+    <div class="measure-narrow ma4">
+      <h3 class="w-80 mt3">Sign up
+        <label class="f6 b db mb2" for="handle">Handle</label>
+        <input class="input-reset ba b--black-20 pa2 mb2 db w-100" id="handle" type="text" aria-describedby="handle-desc"/><small class="f6 lh-copy black-60 db mb2" id="handle-desc">You need at least one public pseud or handle. You can make other handles later.</small>
+        <label class="f6 b db mb2" for="email">Email</label>
+        <input class="input-reset ba b--black-20 pa2 mb2 db w-100" id="email" type="email" aria-describedby="email-desc"/><small class="f6 lh-copy black-60 db mb2" id="email-desc">A valid email address is required. Never made public.</small>
+        <label class="f6 b db mb2" for="password">Password</label>
+        <input class="input-reset ba b--black-20 pa2 mb2 db w-100" id="password" type="password" aria-describedby="password-desc"/><small class="f6 lh-copy black-60 db mb2" id="password-desc">Make it long.</small>
+        <button class="btn btn--blue w-100" type="submit" onsubmit="${signup}">Sign up</button><small class="f6 lh-copy black-60 db mb2">Already have an account?<a href="/signin">Sign in.</a></small>
+      </h3>
+    </div>
+  </form>
+</div>
