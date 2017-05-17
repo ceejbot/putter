@@ -19,6 +19,7 @@ const userroutes = module.exports = function mount(server)
 	server.post('/v1/people/email/:email/login', postLogin);
 	server.post('/v1/people/person/:person/token', postPersonToken);
 	server.get('/v1/people/person/:person/token/:token', getPersonToken);
+	server.delete('/v1/people/person/:person/token/:token', delPersonToken);
 	server.post('/v1/people/person/:person/token/:token/touch', postTokenTouch);
 };
 
@@ -197,6 +198,28 @@ function getPersonToken(request, response, next)
 	});
 }
 
+function delPersonToken(request, response, next)
+{
+	const ctx = {
+		token: request.urlParams.token,
+		person_id: request.urlParams.person,
+	};
+	Token.objects.filter(ctx).delete()
+	.then(count =>
+	{
+		if (count < 1)
+			response.send(404, 'token not found');
+		else
+			response.send(200, 'token removed');
+		next();
+	}).catch(err =>
+	{
+		logger.error({ message: err.message, function: 'delPersonToken'});
+		response.send(500, err.message);
+		next();
+	});
+}
+
 function postTokenTouch(request, response, next)
 {
 	const ctx = {
@@ -242,3 +265,4 @@ userroutes.postLogin = postLogin;
 userroutes.postPerson = postPerson;
 userroutes.postPersonToken = postPersonToken;
 userroutes.postTokenTouch = postTokenTouch;
+userroutes.delPersonToken = delPersonToken;

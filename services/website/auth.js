@@ -127,16 +127,26 @@ function postSignIn(request, response)
 
 function postSignOut(request, response)
 {
-	// TODO validate csrf etc
-	// use axios to make request to data api to kill session token
+	response.cookie('login', '', { expires: new Date(Date.now() + COOKIE_LIFESPAN) });
+	request.flash('info', 'you have signed out');
+
+	const user = request.session.user;
 	request.session.user = {};
 	request.session.save(err =>
 	{
 		if (err)
 			request.logger.error(`problem saving session; proceeding; err=${err.message}`);
-		response.cookie('login', '', { expires: new Date(Date.now() + COOKIE_LIFESPAN) });
-		request.flash('info', 'you have signed out');
-		response.redirect(301, '/');
+
+		request.fetch.delete(`/v1/people/person/${user.id}/token/${user.token}`)
+		.then(r =>
+		{
+			response.redirect(301, '/');
+
+		}).catch(err =>
+		{
+			request.logger.error(`problem deleting user auth token; proceeding; err=${err.message}`);
+			response.redirect(301, '/');
+		});
 	});
 }
 

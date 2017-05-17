@@ -96,7 +96,7 @@ function sessionContext(request, response, next)
 		success:  request.flash('success'),
 	};
 
-	if (!request.session || !request.session.user) return next();
+	if (!request.session || !request.session.user || !request.session.user.id) return next();
 
 	const user = request.session.user;
 	const ua = uaparser(request.headers['user-agent']);
