@@ -17,10 +17,6 @@ const userroutes = module.exports = function mount(server)
 	server.post('/v1/people/person', postPerson);
 	server.get('/v1/people/email/:email', getPersonByEmail);
 	server.post('/v1/people/email/:email/login', postLogin);
-	server.post('/v1/people/person/:person/token', postPersonToken);
-	server.get('/v1/people/person/:person/token/:token', getPersonToken);
-	server.delete('/v1/people/person/:person/token/:token', delPersonToken);
-	server.post('/v1/people/person/:person/token/:token/touch', postTokenTouch);
 };
 
 function getPersonByEmail(request, response, next)
@@ -56,7 +52,7 @@ function postPerson(request, response, next)
 		password: request.body.password,
 		handle: request.body.handle
 	};
-	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
+	const invalid = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
 	if (invalid)
 	{
 		logger.info({ message: invalid.message, function: 'postPerson'});
@@ -119,21 +115,21 @@ function postLogin(request, response, next)
 	{
 		response.send(200, { token: token.serializeForAPI(), person: token.person.serializeForAPI() });
 	})
-	.catch(Person.Errors.OTPRequired, err =>
+	.catch(Person.Errors.OTPRequired, unused =>
 	{
 		// prompt for otp using WWW-Authenticate
 		response.setHeader('x-putter-otp', 'required');
 		response.send(401, 'need otp');
 		next();
 	})
-	.catch(Person.Errors.BadAuth, err =>
+	.catch(Person.Errors.BadAuth, unused =>
 	{
 		logger.info(`auth attempt failed; email=${ctx.email}`);
 		response.setHeader('www-authenticate', 'basic');
 		response.send(401, 'failed');
 		next();
 	})
-	.catch(Person.objects.NotFound, err =>
+	.catch(Person.objects.NotFound, unused =>
 	{
 		logger.info(`login failed for not-found person; email=${ctx.email}`);
 		response.setHeader('www-authenticate', 'basic');
@@ -148,121 +144,7 @@ function postLogin(request, response, next)
 	});
 }
 
-function postPersonToken(request, response, next)
-{
-	var perms = 0;
-	request.body.perms.forEach(p =>
-	{
-		perms |= Token.PERMS[p];
-	});
-
-	const ctx = {
-		person_id: request.body.user_id,
-		permissions: perms,
-	};
-
-	Token.create(ctx)
-	.then(t =>
-	{
-		response.send(200, t.token);
-	})
-	.catch(err =>
-	{
-		logger.error({ message: err.message, function: 'postPersonToken'});
-		response.send(500, err.message);
-		next();
-	});
-}
-
-function getPersonToken(request, response, next)
-{
-	const ctx = {
-		token: request.urlParams.token,
-		person_id: request.urlParams.person,
-	};
-
-	Token.find(ctx)
-	.then(token =>
-	{
-		if (!token)
-			response.send(404, 'token not found');
-		else
-			response.send(200, token.serializeForAPI());
-		next();
-	})
-	.catch(err =>
-	{
-		logger.error({ message: err.message, function: 'getPersonToken'});
-		response.send(500, err.message);
-		next();
-	});
-}
-
-function delPersonToken(request, response, next)
-{
-	const ctx = {
-		token: request.urlParams.token,
-		person_id: request.urlParams.person,
-	};
-	Token.objects.filter(ctx).delete()
-	.then(count =>
-	{
-		if (count < 1)
-			response.send(404, 'token not found');
-		else
-			response.send(200, 'token removed');
-		next();
-	}).catch(err =>
-	{
-		logger.error({ message: err.message, function: 'delPersonToken'});
-		response.send(500, err.message);
-		next();
-	});
-}
-
-function postTokenTouch(request, response, next)
-{
-	const ctx = {
-		token: request.urlParams.token,
-		person_id: request.urlParams.person,
-	};
-	const update = {
-		ip: request.body.ip,
-		os: request.body.os,
-		browser: request.body.browser,
-	};
-
-	Token.find(ctx)
-	.then(token =>
-	{
-		if (!token)
-			response.send(404, 'token not found');
-		else
-			response.send(200, token.serializeForAPI());
-		next();
-
-		// out of band
-		return token.touch(update).then(() =>
-		{
-			logger.debug('touched token');
-		}).catch(err =>
-		{
-			logger.error(`caught error updating token; err=${err.message}; token=${token.id}`);
-		});
-	})
-	.catch(err =>
-	{
-		logger.error({ message: err.message, function: 'getPersonToken'});
-		response.send(500, err.message);
-		next();
-	});
-}
-
 // exposed for testing
 userroutes.getPersonByEmail = getPersonByEmail;
-userroutes.getPersonToken = getPersonToken;
 userroutes.postLogin = postLogin;
 userroutes.postPerson = postPerson;
-userroutes.postPersonToken = postPersonToken;
-userroutes.postTokenTouch = postTokenTouch;
-userroutes.delPersonToken = delPersonToken;

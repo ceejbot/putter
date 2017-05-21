@@ -56,6 +56,7 @@ module.exports = function createServer(options)
 	// TODO mount routes after having written them
 	app.get('/', handleIndex);
 	app.use('/', require('./auth'));
+	app.use('/', require('./user'));
 	app.use('/', require('./monitor'));
 
 	if (process.env.STATIC_MOUNT === 'self')

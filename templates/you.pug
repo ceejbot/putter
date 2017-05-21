@@ -1,0 +1,41 @@
+extends layouts/user-template.pug
+
+block content
+	nav.pa3.pa4-ns
+		a.link.dim.gray.f6.f5-ns.dib.mr3(href='/you' title='you') You
+		a.link.dim.gray.f6.f5-ns.dib.mr3(href='/you/password' title='password') Change how you log in
+		a.link.dim.gray.f6.f5-ns.dib.mr3(href='/you/sessions' title='login sessions') Login sessions
+	main.w-100.bt.b--black-10.bg-white
+		section
+			if sessions.length > 0
+				.pa4
+					.overflow-auto
+						p You have
+							if sessions.length === 1
+								| &nbsp;one login session
+							else
+								| #{sessions.length} login sessions
+						table.f6.w-100.mw8.center(cellspacing=0)
+							thead
+								tr.stripe-dark
+									th.fw6.tl.pa3.bg-white Token
+									th.fw6.tl.pa3.bg-white Created
+									th.fw6.tl.pa3.bg-white Last used
+									th.fw6.tl.pa3.bg-white IP
+									th.fw6.tl.pa3.bg-white OS &amp; browser
+							tbody.lh-copy
+								each session in sessions
+									tr.stripe-dark
+										td.pa3= session.token
+										td.pa3= session.created
+										td.pa3= session.touched
+										td.pa3= session.ip
+										td.pa3 #{session.os} #{session.browser}
+				p This is is where the user's profile will go.
+			#main
+		section
+			p= message
+			p= errors
+
+block pagescripts
+	script(src=js_mount + '/profile.js')

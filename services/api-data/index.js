@@ -20,7 +20,8 @@ module.exports = function createServer(nodename)
 	server.get('/ping', handlePing);
 	server.get('/status', handleStatus);
 
-	require('./routes-user')(server);
+	require('./person')(server);
+	require('./tokens')(server);
 
 	dbconn();
 
