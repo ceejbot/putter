@@ -65,7 +65,9 @@ module.exports = function createServer(options)
 		app.locals.static_mount = '';
 	}
 	else
+	{
 		app.locals.static_mount = process.env.STATIC_MOUNT;
+	}
 	app.locals.js_mount = process.env.JS_MOUNT;
 
 	logger.info('express app configured');

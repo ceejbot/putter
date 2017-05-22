@@ -206,7 +206,30 @@ function Choo(opts) {
         cb(state, bus);
     }
     function start() {
-        tree = router(createLocation());
+        if (opts.history !== false) {
+            nanohistory(function (href) {
+                bus.emit('pushState');
+            });
+            bus.prependListener('pushState', updateHistory.bind(null, 'push'));
+            bus.prependListener('replaceState', updateHistory.bind(null, 'replace'));
+            function updateHistory(mode, href) {
+                if (href)
+                    window.history[mode + 'State']({}, null, href);
+                bus.emit('render');
+                setTimeout(function () {
+                    scrollIntoView();
+                }, 0);
+            }
+            if (opts.href !== false) {
+                nanohref(function (location) {
+                    var href = location.href;
+                    var currHref = window.location.href;
+                    if (href === currHref)
+                        return;
+                    bus.emit('pushState', href);
+                });
+            }
+        }
         rerender = nanoraf(function () {
             if (hasPerformance && timingEnabled) {
                 window.performance.mark('choo:renderStart');
@@ -219,31 +242,10 @@ function Choo(opts) {
             }
         });
         bus.prependListener('render', rerender);
-        if (opts.history !== false) {
-            nanohistory(function (href) {
-                bus.emit('pushState');
-            });
-            bus.prependListener('pushState', function (href) {
-                if (href)
-                    window.history.pushState({}, null, href);
-                bus.emit('render');
-                setTimeout(function () {
-                    scrollIntoView();
-                }, 0);
-            });
-            if (opts.href !== false) {
-                nanohref(function (location) {
-                    var href = location.href;
-                    var currHref = window.location.href;
-                    if (href === currHref)
-                        return;
-                    bus.emit('pushState', href);
-                });
-            }
-        }
         documentReady(function () {
             bus.emit('DOMContentLoaded');
         });
+        tree = router(createLocation());
         return tree;
     }
     function emit(eventName, data) {

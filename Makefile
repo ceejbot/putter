@@ -16,14 +16,18 @@ HTML := $(patsubst $(TEMPLATEDIR)/%.pug,$(HTMLDIR)/%.html,$(PUGFILES))
 # javascript setup
 BANKAIOPTS := --optimize --uglify=false
 LIBDIR := assets/js
-JSDIR := public/js/
+JSDIR := public/js
 JS_INPUTS := $(wildcard $(LIBDIR)/*.js)
-JS := $(addprefix $(JSDIR),bundle.js)
+JS := $(addprefix $(JSDIR)/,$(notdir $(JS_INPUTS)))
 
 LIBRARIES := node_modules/bootstrap/dist/js/bootstrap.js
 LIBS_MIN = $(LIBRARIES:.js=.min.js)
 
 all: css js html
+
+foozle:
+	@echo $(JS)
+	@echo $(JS_INPUTS)
 
 css: $(CSS)
 
@@ -40,9 +44,13 @@ $(HTMLDIR)/%.html: $(TEMPLATEDIR)/%.pug
 js: $(JS)
 
 $(JS): $(JS_INPUTS)
-	@bankai build $(BANKAIOPTS) $^ $(JSDIR)
-	@-mv $(JSDIR)/*.css $(CSSDIR)
-	@-mv $(JSDIR)/*.html $(JSDIR)/../
+
+$(JSDIR)/%.js: $(LIBDIR)/%.js
+	@echo bundling $<
+	@bankai build $(BANKAIOPTS) $<
+	@rm dist/index.html
+	@mv dist/bundle.css $(CSSDIR)/$*.css
+	@mv dist/bundle.js $(JSDIR)/$*.js
 
 %.min.js: %.js
 	@echo Minifying $<
