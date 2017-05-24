@@ -17,6 +17,7 @@ module.exports = function createServer(nodename)
 	const server = five();
 
 	server.use(afterhook);
+	server.use(authorize);
 	server.get('/ping', handlePing);
 	server.get('/status', handleStatus);
 
@@ -43,6 +44,24 @@ function handleStatus(request, response, next)
 		node:    node || 'api-data',
 	};
 	response.send(200, status);
+	next();
+}
+
+function authorize(request, response, next)
+{
+	if (!request.headers.authorization)
+		return response.send(403, 'no authorization header');
+
+	const [scheme, credentials] = request.headers.authorization.split(/\s+/);
+
+	if (!scheme.match(/^bearer$/i))
+		return response.send(403, 'no bearer token presented');
+
+	if (credentials !== process.env.SHARED_SECRET)
+		return response.send(403, 'bearer token is no good');
+
+	// TODO either auth-as-user or auth-as-superuser
+
 	next();
 }
 

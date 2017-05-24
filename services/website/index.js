@@ -84,6 +84,7 @@ function requestid(request, response, next)
 		headers: {
 			post: { 'content-type': 'application/json'},
 			'x-request-id': request.id,
+			authorization: `Bearer ${process.env.SHARED_SECRET}`,
 		}
 	});
 
