@@ -188,8 +188,7 @@ sortname: title of the show with stopwords removed
 related: related-fandom-1, related-fandom-2
 deescription: |
    Perky high school cheerleader fights the forces of darkness,
-   assisted by her friends and the high school librarian. Wikipedia
-   link if appropriate.
+   assisted by her friends and the high school librarian. Dinosaurs attack a lot.
 characters:
    - Fred
    - Barney
@@ -198,3 +197,15 @@ tags:
    - fandom-specific
    - episode-title
 ```
+
+## Posting interview flow
+
+- which is the main fandom?
+- is there another fandom? (crossover tag gets applied)
+- enter main pairing
+- enter main characters
+- title
+- summary
+- select canonical tags
+- type freeform tags
+- text block
