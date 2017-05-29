@@ -6,7 +6,6 @@ const
 	Joi     = require('joi'),
 	Person  = require('../../lib/models/person'),
 	schemas = require('../../lib/schemas'),
-	session = require('@npm/pg-db-session'),
 	Token   = require('../../lib/models/token')
 	;
 
@@ -22,7 +21,7 @@ const userroutes = module.exports = function mount(server)
 function getPersonByEmail(request, response, next)
 {
 	// TODO this needs an auth token to validate that the request is okay (or CORS to block it, pref both)
-	const {invalid, _} = Joi.validate(request.body.email, Joi.string().isEmail());
+	const invalid = Joi.validate(request.body.email, Joi.string().isEmail());
 	if (invalid)
 	{
 		logger.info({ message: invalid.message, function: getPersonByEmail});

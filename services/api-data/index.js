@@ -12,7 +12,10 @@ const logger = bole('api-data');
 
 module.exports = function createServer(nodename)
 {
+	// TODO this is stupid hackery; fix eventually
 	process.env.PORT = process.env.PORT_DATA;
+	process.env.HOST = process.env.HOST_DATA;
+
 	node = nodename;
 	const server = five();
 

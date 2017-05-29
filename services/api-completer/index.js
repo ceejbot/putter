@@ -1,105 +1,113 @@
 'use strict';
 
-// TODO won't run at all yet
-
 const
-	_         = require('lodash'),
-	async     = require('async'),
 	assert    = require('assert'),
+	async     = require('async'),
 	bole      = require('bole'),
 	completer = require('prefix-completer'),
-	restify   = require('restify')
+	five      = require('take-five'),
+	logstr    = require('common-log-string')
 	;
 
-const AutoComplete = module.exports = function AutoComplete(options)
+const logger = bole('completer');
+var tags, fandoms, people;
+
+module.exports = function createServer(nodename)
 {
-	assert(options, 'you must pass an options object to the constructor');
-	assert(options.hasOwnProperty('path') && _.isString(options.path), 'you must pass a `path` to mount the route on in the options');
+	// TODO this is stupid hackery; fix eventually
+	process.env.PORT = process.env.PORT_COMPLETER;
+	process.env.HOST = process.env.HOST_COMPLETER;
 
-	this.options = options;
-	this.rules = options.rules;
-	this.logger = bole('completer');
+	// TODO put this config into env vars
+	tags = completer.create({
+		db: 1,
+		key: 't:',
+		redis: process.env.REDIS,
+	});
+	fandoms = completer.create({
+		db: 2,
+		key: 'f:',
+		redis: process.env.REDIS,
+	});
+	people = completer.create({
+		db: 3,
+		key: 'p:',
+		redis: process.env.REDIS,
+	});
 
-	this.tags = completer.create(options.tags);
-	this.fandoms = completer.create(options.fandoms);
-	this.people = completer.create(options.people);
+	const server = five();
 
-	this.server = restify.createServer(options);
-	this.server.use(restify.bodyParser());
-	this.server.use(restify.queryParser());
-	this.server.use(this.logEachRequest.bind(this));
+	server.use(afterhook);
+	server.get('/ping', handlePing);
+	server.get('/status', handleStatus);
 
-	this.server.get(options.path + '/api/1/ac/fandoms', this.handleFandom.bind(this));
-	this.server.get(options.path + '/api/1/ac/tags', this.handleTag.bind(this));
-	this.server.get(options.path + '/api/1/ac/people', this.handlePerson.bind(this));
-	this.server.get(options.path + '/api/1/ac/ping', this.handlePing.bind(this));
-	this.server.get(options.path + '/api/1/ac/status', this.handleStatus.bind(this));
+	server.get('/api/1/ac/fandoms/:q', handleFandom);
+	server.get('/api/1/ac/tags/:q', handleTag);
+	server.get('/api/1/ac/people/:q', handlePerson);
+
+	return server;
 };
 
-AutoComplete.prototype.server  = null;
-AutoComplete.prototype.options = null;
-AutoComplete.prototype.tags    = null;
-AutoComplete.prototype.fandoms = null;
-AutoComplete.prototype.handles = null;
-AutoComplete.prototype.logger  = null;
-
-AutoComplete.prototype.listen = function(port, host, callback)
-{
-	this.server.listen(port, host, callback);
-};
-
-AutoComplete.prototype.logEachRequest = function logEachRequest(request, response, next)
-{
-	this.logger.info(request.method, request.url);
-	next();
-};
-
-AutoComplete.prototype.handlePing = function handlePing(request, response, next)
+function handlePing(request, response, next)
 {
 	response.send(200, 'OK');
 	next();
-};
+}
 
-AutoComplete.prototype.handleStatus = function handleStatus(request, response, next)
+function handleStatus(request, response, next)
 {
-	var self = this;
-	var actions = {
-		tags: function(cb) { self.tags.statistics(cb); },
-		fandoms: function(cb) { self.fandoms.statistics(cb); },
-		people: function(cb) { self.people.statistics(cb); },
+	const status = {
+		pid   : process.pid,
+		uptime: process.uptime(),
+		rss   : process.memoryUsage(),
+		node  : 'api-completer',
 	};
 
-	async.parallel(actions, function(err, results)
+	const actions = {
+		tags   : cb => { tags.statistics(cb); },
+		fandoms: cb => { fandoms.statistics(cb); },
+		people : cb => { people.statistics(cb); },
+	};
+
+	async.parallel(actions, (err, results) =>
 	{
 		if (err)
 		{
-			self.logger.error('problem getting completer stats');
-			self.logger.error(err);
+			status.warning = err.message;
+			logger.error('problem contacting redis to get completer stats');
+			logger.error(err);
 		}
-		var status = {
-			pid:     process.pid,
-			uptime:  process.uptime(),
-			rss:     process.memoryUsage(),
-			tags:    results.tags,
-			fandoms: results.fandoms,
-			people:  results.people,
-		};
-		response.json(200, status);
+		else
+		{
+			status.tags = results.tags;
+			status.fandoms = results.fandoms;
+			status.people = results.people;
+		}
+
+		response.send(200, status);
 		next();
 	});
-};
+}
 
-AutoComplete.prototype.handleTag = function handleTag(request, response, next)
+function afterhook(request, response, next)
 {
-	var self = this;
-
-	if (!request.params.q)
+	request.on('end', () =>
 	{
-		response.json(200, []);
+		response._time = Date.now();
+		logger.info(logstr(request, response));
+	});
+	next();
+}
+
+function handleTag(request, response, next)
+{
+	if (!request.urlParams.q)
+	{
+		response.send(200, []);
 		return next();
 	}
 
-	var prefix = request.params.q.trim();
+	var prefix = request.urlParams.q.trim();
 	var decorate = false;
 	if (prefix.match(/^#/))
 	{
@@ -107,35 +115,34 @@ AutoComplete.prototype.handleTag = function handleTag(request, response, next)
 		decorate = true;
 	}
 
-	this.tags.complete(prefix, 15, function(err, prefix, completions)
+	tags.complete(prefix, 15, (err, prefix, completions) =>
 	{
 		if (err)
 		{
-			self.logger.error('tags autompletion error');
-			self.logger.error(err);
-			response.json(200, []);
+			logger.error('tags autompletion error');
+			logger.error(err);
+			response.send(200, []);
 		}
 		else
 		{
 			if (decorate)
 				completions = completions.map(function(item) { return '#' + item; });
-			response.json(200, completions);
+			response.send(200, completions);
 		}
 
 		next();
 	});
-};
+}
 
-AutoComplete.prototype.handleFandom = function handleFandom(request, response, next)
+function handleFandom(request, response, next)
 {
-	var self = this;
-	if (!request.params.q)
+	if (!request.urlParams.q)
 	{
-		response.json(200, []);
+		response.send(200, []);
 		return next();
 	}
 
-	var prefix = request.params.q.trim();
+	var prefix = request.urlParams.q.trim();
 	var decorate = false;
 	if (prefix.match(/^\(/))
 	{
@@ -143,36 +150,34 @@ AutoComplete.prototype.handleFandom = function handleFandom(request, response, n
 		decorate = true;
 	}
 
-	this.fandoms.complete(prefix, 15, function(err, prefix, completions)
+	fandoms.complete(prefix, 15, (err, prefix, completions) =>
 	{
 		if (err)
 		{
-			self.logger.error('people autompletion error');
-			self.logger.error(err);
-			response.json(200, []);
+			logger.error('people autompletion error');
+			logger.error(err);
+			response.send(200, []);
 		}
 		else
 		{
 			if (decorate)
-				completions = completions.map(function(item) { return '(' + item + ')'; });
-			response.json(200, completions);
+				completions = completions.map(item => { return '(' + item + ')'; });
+			response.send(200, completions);
 		}
 
 		next();
 	});
-};
+}
 
-AutoComplete.prototype.handlePerson = function handlePerson(request, response, next)
+function handlePerson(request, response, next)
 {
-	var self = this;
-
-	if (!request.params.q)
+	if (!request.urlParams.q)
 	{
-		response.json(200, []);
+		response.send(200, []);
 		return next();
 	}
 
-	var prefix = request.params.q.trim();
+	var prefix = request.urlParams.q.trim();
 	var decorate = false;
 	if (prefix.match(/^@/))
 	{
@@ -180,21 +185,21 @@ AutoComplete.prototype.handlePerson = function handlePerson(request, response, n
 		decorate = true;
 	}
 
-	this.people.complete(prefix, 15, function(err, prefix, completions)
+	people.complete(prefix, 15, (err, prefix, completions) =>
 	{
 		if (err)
 		{
-			self.logger.error('people autompletion error');
-			self.logger.error(err);
-			response.json(200, []);
+			logger.error('people autompletion error');
+			logger.error(err);
+			response.send(200, []);
 		}
 		else
 		{
 			if (decorate)
-				completions = completions.map(function(item) { return '@' + item; });
-			response.json(200, completions);
+				completions = completions.map(item => { return '@' + item; });
+			response.send(200, completions);
 		}
 
 		next();
 	});
-};
+}

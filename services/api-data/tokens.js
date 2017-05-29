@@ -2,8 +2,6 @@
 
 const
 	bole    = require('bole'),
-	Joi     = require('joi'),
-	schemas = require('../../lib/schemas'),
 	Token   = require('../../lib/models/token')
 	;
 
@@ -28,7 +26,7 @@ function getPersonAllTokens(request, response, next)
 		var result = tokens.map(t =>
 		{
 			return t.serializeForAPI();
-		})
+		});
 
 		response.send(200, result);
 		next();
