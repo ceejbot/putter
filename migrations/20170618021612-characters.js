@@ -12,6 +12,8 @@ exports.up = async function up(db)
 		id: { type: type.INTEGER, primaryKey: true, autoIncrement: true },
 		fandom_id: { type: type.INTEGER },
 		name: { type: type.STRING },
+		created: { type: type.DATE_TIME },
+		deleted: { type: type.DATE_TIME }
 	}});
 	await db.runSql('ALTER TABLE characters ADD CONSTRAINT characters_fandom_id_fk FOREIGN KEY (fandom_id) REFERENCES fandoms (id) MATCH FULL');
 

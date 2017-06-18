@@ -11,6 +11,8 @@ exports.up = async function up(db)
 	await db.createTable('tags', { columns: {
 		id: { type: type.INTEGER, primaryKey: true, autoIncrement: true },
 		tag: { type: type.STRING, unique: true },
+		created: { type: type.DATE_TIME },
+		deleted: { type: type.DATE_TIME }
 	}});
 	await db.runSql('CREATE UNIQUE INDEX tags_tag_idx ON tags (tag)');
 };
