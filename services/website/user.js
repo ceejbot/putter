@@ -1,14 +1,10 @@
-'use strict';
-
 const
-	body    = require('body-parser'),
+	// body    = require('body-parser'),
 	crypto  = require('crypto'),
-	express = require('express'),
-	Joi     = require('joi'),
-	schemas = require('../../lib/schemas')
+	express = require('express')
 	;
 
-const formParser = body.urlencoded({ extended: false });
+// const formParser = body.urlencoded({ extended: false });
 const router = express.Router();
 
 router.get('/you', getProfile);
@@ -16,7 +12,6 @@ router.get('/you/sessions', getSessions);
 
 function getProfile(request, response)
 {
-	request.logger('hello buddy')
 	response.render('you', {
 		title: 'all about you',
 	});

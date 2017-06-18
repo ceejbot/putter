@@ -1,5 +1,3 @@
-'use strict';
-
 var
 	getFormData = require('get-form-data'),
 	html = require('choo/html'),

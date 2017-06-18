@@ -1,7 +1,4 @@
-'use strict';
-
 const
-	assert    = require('assert'),
 	async     = require('async'),
 	bole      = require('bole'),
 	completer = require('prefix-completer'),

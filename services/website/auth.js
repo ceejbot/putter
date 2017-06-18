@@ -1,5 +1,3 @@
-'use strict';
-
 const
 	body    = require('body-parser'),
 	express = require('express'),
@@ -30,10 +28,10 @@ function postSignUp(request, response)
 		email: request.body.email,
 		password: request.body.password,
 	};
-	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
-	if (invalid)
+	const check = Joi.validate(ctx, schemas.POST_USER_SIGNUP);
+	if (check.invalid)
 	{
-		request.flash('error', invalid);
+		request.flash('error', check.invalid);
 		response.redirect(301, '/#signup');
 		return;
 	}
@@ -71,10 +69,10 @@ function postSignIn(request, response)
 		email: request.body.email,
 		password: request.body.password,
 	};
-	const {invalid, _} = Joi.validate(ctx, schemas.POST_USER_SIGNIN);
-	if (invalid)
+	const check = Joi.validate(ctx, schemas.POST_USER_SIGNIN);
+	if (check.invalid)
 	{
-		request.flash('warning', errors.invalid);
+		request.flash('warning', check.invalid);
 		response.redirect('/#signin');
 		return;
 	}
@@ -108,7 +106,6 @@ function postSignIn(request, response)
 			request.logger.info(`OTP prompt required for login; email=${rez.data.email}`);
 			request.flash('info', 'we should prompt you for your OTP now');
 			response.redirect(301, '/#otp');
-			return;
 		}
 		else
 		{

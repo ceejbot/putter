@@ -56,7 +56,7 @@
     "browserify-hmr": "~0.3.5",
     "coveralls": "~2.13.1",
     "envify": "~4.0.0",
-    "eslint-config-ceejbot": "~1.0.4",
+    "eslint-config-ceejbot": "~1.1.0",
     "mocha": "~3.4.2",
     "must": "~0.13.4",
     "nyc": "~11.0.2",
@@ -85,6 +85,7 @@
     "db:down": "bin/run-migration.sh -- down --count 1000",
     "db:migration": "bin/run-migration.sh",
     "db:up": "bin/run-migration.sh -- up",
+    "lint": "xo",
     "report:cov": "nyc report --reporter=text-lcov | coveralls",
     "run:auth": "bin/run-server.js api-auth",
     "run:bankai": "bankai assets/js/index.js -w -p 3004",
@@ -94,14 +95,14 @@
     "test": "mocha -t 10000 --check-leaks -R spec test/test-*.js",
     "test:cov": "nyc mocha -t 10000 --check-leaks -R spec test/test-*.js",
     "test:db": "createdbjs putter_test; DB_USER=${PGUSER:-$USER} DB_NAME=putter_test npm run db:up",
-    "test:style": "xo",
-    "test:travis": "npm run test:cov && npm run test:style"
+    "test:travis": "npm run test:cov && npm run lint"
   },
   "xo": {
     "extends": "eslint-config-ceejbot",
     "ignores": [
       "public/**",
-      "lib/controllers/**"
+      "lib/controllers/**",
+      "assets/**"
     ],
     "rules": {
       "unicorn/prefer-starts-ends-with": 0,

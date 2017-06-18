@@ -1,5 +1,3 @@
-'use strict';
-
 const
 	bole    = require('bole'),
 	Token   = require('../../lib/models/token')

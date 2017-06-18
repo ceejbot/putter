@@ -1,5 +1,3 @@
-'use strict';
-
 const
 	bole   = require('bole'),
 	dbconn = require('../../lib/db-conn'),

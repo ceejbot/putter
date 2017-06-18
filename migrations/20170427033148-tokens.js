@@ -1,17 +1,14 @@
-'use strict';
-
-var dbm, type, seed;
+var dbm, type;
 
 exports.setup = function(options, seedLink)
 {
 	dbm = options.dbmigrate;
 	type = dbm.dataType;
-	seed = seedLink;
 };
 
-exports.up = function(db)
+exports.up = async function(db)
 {
-	return db.createTable('tokens', { columns: {
+	await db.createTable('tokens', { columns: {
 		id: { type: type.INTEGER, primaryKey: true, autoIncrement: true },
 		person_id: { type: type.INTEGER },
 		token: { type: type.STRING },
@@ -21,30 +18,17 @@ exports.up = function(db)
 		ip: { type: type.STRING },
 		os: { type: type.STRING },
 		browser: { type: type.STRING },
-
-	}}).then(() =>
-	{
-		return db.runSql('ALTER TABLE tokens ADD CONSTRAINT tokens_person_id_fk FOREIGN KEY (person_id) REFERENCES persons (id) MATCH FULL');
-	}).then(() =>
-	{
-		return db.addIndex('tokens', 'tokens_person_id_token_idx', ['person_id', 'token']);
-	}).then(() =>
-	{
-		return db.addIndex('tokens', 'tokens_token', 'token');
-	});
+	}});
+	await db.runSql('ALTER TABLE tokens ADD CONSTRAINT tokens_person_id_fk FOREIGN KEY (person_id) REFERENCES persons (id) MATCH FULL');
+	await db.addIndex('tokens', 'tokens_person_id_token_idx', ['person_id', 'token']);
+	await db.addIndex('tokens', 'tokens_token', 'token');
 };
 
-exports.down = function(db)
+exports.down = async function(db)
 {
-	return db.runSql('DROP TABLE IF EXISTS tokens;')
-	.then(() =>
-	{
-		return db.runSql('DROP INDEX IF EXISTS token_person_id_idx;');
-	}).then(() =>
-	{
-		return db.runSql('DROP INDEX IF EXISTS tokens_token;');
-	});
-;
+	await db.runSql('DROP TABLE IF EXISTS tokens;');
+	await db.runSql('DROP INDEX IF EXISTS token_person_id_idx;');
+	await db.runSql('DROP INDEX IF EXISTS tokens_token;');
 };
 
 exports._meta =

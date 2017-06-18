@@ -1,5 +1,3 @@
-'use strict';
-
 const
 	bole    = require('bole'),
 	Handle  = require('../../lib/models/handle'),
