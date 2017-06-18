@@ -1,0 +1,19 @@
+tag: the-hour
+name: The Hour
+description: |
+    The Hour is a 2011 BBC drama series centred on a new current-affairs show being launched
+    by the BBC in June 1956, at the time of the Hungarian Revolution and Suez Crisis.
+characters:
+    - Bel Rowley
+    - Freddie Lyon
+    - Hector Madden
+    - Marnie Madden
+    - Lix Storm
+    - Randall Brown
+    - Sissy Cooper
+    - Clarence Fendley
+tags:
+    - issue:obsessive-compulsive-disorder
+    - series:01
+    - series:02
+
