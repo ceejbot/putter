@@ -1,0 +1,12 @@
+tag = "the-hour"
+name = "The Hour"
+description = "A BBC news hour television show in the late 50s."
+characters = [
+   "Lix Storm",
+   "Randall Brown",
+]
+tags = [
+    "issue:obsessive-compulsive-disorder",
+    "series:01",
+    "series:02",
+]
