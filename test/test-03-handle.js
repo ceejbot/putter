@@ -3,7 +3,6 @@
 
 var
 	demand = require('must'),
-	path   = require('path'),
 	Handle  = require('../lib/models/handle')
 	;
 

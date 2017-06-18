@@ -3,7 +3,6 @@
 
 var
 	demand = require('must'),
-	path   = require('path'),
 	Person  = require('../lib/models/person')
 	;
 

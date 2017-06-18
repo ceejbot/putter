@@ -3,7 +3,6 @@
 
 var
 	demand = require('must'),
-	path   = require('path'),
 	Story  = require('../lib/models/story')
 	;
 
