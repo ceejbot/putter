@@ -4,10 +4,9 @@ name_sort: buffy the vampire slayer
 related:
    - angel
 description: |
-   Perky high school cheerleader fights the forces of darkness, 
-   assisted by her friends and the high school librarian.
+   Perky high school cheerleader fights the forces of darkness, assisted by her friends and the high school librarian.
 characters:
-   - Andrew 
+   - Andrew
    - Angel
    - Angelus
    - Anya
@@ -68,6 +67,8 @@ tags:
    - sub!xander
    - watchers
    - au:wishverse
+   - post-series
+   - pre-series
    - season:01
    - season:02
    - season:03
@@ -75,6 +76,4 @@ tags:
    - season:05
    - season:06
    - season:07
-   - post-series
-   - pre-series
    - season:comics

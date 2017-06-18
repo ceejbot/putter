@@ -1,6 +1,5 @@
 tag: sherlock-holmes
 name: Sherlock Holmes
-name_sort: sherlock holmes
 description: Eccentric genius solves crimes with his friend the doctor.
 characters:
    - Sherlock Holmes

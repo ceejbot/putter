@@ -1,6 +1,5 @@
 tag: the_thick_of_it
 name: The Thick of It
-name_sort: Thick of It
 description: |
    Text goes here. Perhaps a wikipedia link.
 characters:
@@ -10,6 +9,9 @@ characters:
    - Julius Nicholson
    - Ollie Reeder
    - Sam Cassidy
+   - Glen Cullen
+   - Peter Mannion
+   - Ben Swayne
 tags:
    - episode:spinners-and-losers
    - episode:rise-of-the-nutters

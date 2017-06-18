@@ -1,20 +1,20 @@
 tag: b5
 name: Babylon 5
-name_sort: Babylon 5
 description: |
    Text goes here. Perhaps a wikipedia link.
 characters:
+   - Delenn
+   - G'Kar
+   - Garibaldi
+   - Ivanova
+   - Lennier
+   - Londo Mollari
+   - Marcus
+   - Morden
    - Sheridan
    - Sinclair
-   - Delenn
-   - Ivanova
-   - Garibaldi
-   - Londo Mollari
-   - G'Kar
-   - Lennier
-   - Vir Cotto
-   - Marcus
    - Valen
+   - Vir Cotto
 tags:
    - rangers
    - episode:babylon-squared
