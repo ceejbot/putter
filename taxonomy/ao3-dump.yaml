@@ -14,8 +14,7 @@
   - au:coffee-shops-&-cafés
   - au:college/university
   - au:dark
-  - au:different-first-meeting
-  - au:everyone-lives/nobody-dies
+  - au:everyone-lives
   - au:fairy-tale
   - au:fantasy
   - au:fusion
@@ -31,7 +30,7 @@
   - au:reincarnation
   - au:royalty
   - au:soulmates
-  - au:superheroes/superpowers
+  - au:superpowers
   - au:vampire
   - au:werewolf
   - awkwardness
@@ -117,6 +116,7 @@
   - genre:fantasy
   - genre:fluff
   - genre:genderswap
+  - genre:gore
   - genre:happy
   - genre:horror
   - genre:humor
@@ -124,6 +124,7 @@
   - genre:hurt/comfort
   - genre:kid-fic
   - genre:magical-realism
+  - genre:missing-scene
   - genre:mystery
   - genre:parody
   - genre:poetry
@@ -144,7 +145,6 @@
   - genre:tragedy
   - genre:whump
   - ghosts
-  - gore
   - grief/mourning
   - guilt
   - guns
@@ -222,7 +222,6 @@
   - kink:age-play
   - kink:alpha/beta/omega-dynamics
   - kink:alpha/omega
-  - kink:anal
   - kink:anal-fingering
   - kink:anal-play
   - kink:barebacking
@@ -271,6 +270,7 @@
   - kink:praise
   - kink:punishment
   - kink:rimming
+  - kink:roleplay
   - kink:size
   - kink:slavery
   - kink:spanking
@@ -295,7 +295,6 @@
   - married-couple
   - meet-cute
   - memories
-  - memory-loss
   - meta:abandoned
   - meta:pov-first-person
   - meta:pov-multiple
@@ -305,7 +304,6 @@
   - meta:present-tense
   - minor-character-death
   - miscommunication
-  - missing-scene
   - misunderstandings
   - modern-era
   - murder
@@ -313,7 +311,6 @@
   - mutual-pining
   - nightmares
   - nudity
-  - one-sided
   - pain
   - parenthood
   - politics
@@ -334,13 +331,13 @@
   - revenge
   - riding
   - road-trips
-  - roleplay
   - roommates
   - secret-identity
   - secret-relationship
   - secrets
   - seduction
   - sex
+  - sex:anal
   - sex:anal
   - sex:angry
   - sex:blow-jobs
@@ -350,7 +347,6 @@
   - sex:face-fucking
   - sex:fingerfucking
   - sex:frottage
-  - sex:gay
   - sex:hand-jobs
   - sex:hate
   - sex:masturbation
@@ -387,11 +383,9 @@
   - sweet
   - tattoos
   - teacher-student-relationship
-  - team
   - team-bonding
   - teasing
   - teenagers
-  - telepathy
   - temporary-character-death
   - trope:age-regression/de-aging
   - trope:aged-up-character(s)
@@ -418,8 +412,8 @@
   - trope:soulmate-identifying-marks
   - trope:soulmates
   - trope:stockholm-syndrome
+  - trope:telepathy
   - trope:torture
-  - trope:wingfic
   - trope:wings
   - true-love
   - trust
