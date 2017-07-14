@@ -1,4 +1,4 @@
-{
+module.exports = {
     "5+1-things": 3723,
     "5-things": 2131,
     "abandoned-work:unfinished-and-discontinued": 2327,
@@ -626,5 +626,5 @@
     "work-in-progress": 12484,
     "world-war-ii": 2345,
     "yuletide": 4960,
-    "zombies": 3092,
+    "zombies": 3092
 }
