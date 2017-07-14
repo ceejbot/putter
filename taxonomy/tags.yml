@@ -72,13 +72,65 @@ genre:
     - schmoop
     - songfic
     - whump
-issues:
+issue:
+    - abuse
     - alcoholism
+    - asexuality
     - assault-recovery
+    - bullying
+    - child-abuse
     - childhood-abuse
+    - coming-out
+    - depression
+    - domestic-violence
+    - drug-addiction
+    - dysfunctional-family
+    - eating-disorders
+    - emotional/psychological-abuse
     - glbt
+    - homophobia
+    - implied/referenced-alcohol-abuse/alcoholism
+    - implied/referenced-character-death
+    - implied/referenced-child-abuse
+    - implied/referenced-drug-use
+    - implied/referenced-rape/non-con
+    - implied/referenced-self-harm
+    - implied/referenced-suicide
+    - implied/referenced-torture
+    - internalized-homophobia
+    - mental-breakdown
+    - mental-health-issues
+    - non-consensual-drug-use
+    - panic-attacks
+    - parent/child-incest
+    - past-abuse
+    - past-character-death
+    - past-child-abuse
+    - past-rape/non-con
+    - physical-abuse
+    - psychological-torture
+    - psychological-trauma
+    - ptsd
+    - rape
+    - rape-recovery
+    - recovery
+    - self-harm
+    - self-hatred
+    - sexual-abuse
     - sexual-assault
+    - sibling-incest
+    - suicidal-thoughts
+    - suicide
+    - suicide-attempt
+    - trauma
+    - triggers
+    - underage-drinking
+    - unhealthy-relationships
+    - unplanned-pregnancy
 kink:
+    - begging
+    - bestiality
+    - bisexuality
     - aftercare
     - age
     - bareback
@@ -181,6 +233,17 @@ trope:
     - wingfic
     - wings
     - wngwjleo
+pov:
+    - first-person
+    - second-person
+myth:
+    - greek
+    - norse
+    - sumerian
+meta:
+    - tense:future
+    - tense:past
+    - tense:present
 content:
     - abuse
     - accidental-telepathy
@@ -207,7 +270,6 @@ content:
     - art
     - artists
     - asexuality
-    - assault-recovery-issues
     - astronomy
     - au
     - authors-favorite
@@ -264,7 +326,6 @@ content:
     - daydreams
     - death
     - depression
-    - dialogue-only
     - disguises
     - domesticity
     - drabbles
@@ -346,9 +407,6 @@ content:
     - mourning
     - murder
     - myth
-    - myth:greek
-    - myth:norse
-    - myth:sumerian
     - nail polish
     - non-con
     - norse-legend
@@ -368,8 +426,6 @@ content:
     - post-helpless
     - post-series
     - post-witch's-familiar
-    - pov:first-person
-    - pov:second-person
     - pre-canon
     - pre-series
     - pregnancy
@@ -406,9 +462,6 @@ content:
     - tea
     - team
     - telepathy
-    - tense:future
-    - tense:past
-    - tense:present
     - timetravel
     - toast
     - torture

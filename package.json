@@ -9,7 +9,7 @@
   "dependencies": {
     "@npm/pg-db-session": "~1.3.2",
     "async": "~2.5.0",
-    "aws-sdk": "~2.84.0",
+    "aws-sdk": "~2.85.0",
     "axios": "~0.16.2",
     "bcrypt": "~1.0.2",
     "bistre": "~1.0.1",
@@ -39,7 +39,7 @@
     "nsqjs": "~0.8.4",
     "ormnomnom": "~3.0.1",
     "otplib": "~4.0.6",
-    "pg": "~6.4.0",
+    "pg": "~6.4.1",
     "prefix-completer": "~1.0.0",
     "prettydate": "0.0.1",
     "pug": "~2.0.0-rc.2",
