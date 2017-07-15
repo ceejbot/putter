@@ -17,18 +17,18 @@ module.exports = function createServer(nodename)
 
 	// TODO put this config into env vars
 	tags = completer.create({
-		db: 1,
-		key: 't:',
+		db: process.env.COMPL_DB,
+		key: process.env.COMPL_TAGS,
 		redis: process.env.REDIS,
 	});
 	fandoms = completer.create({
-		db: 2,
-		key: 'f:',
+		db: process.env.COMPL_DB,
+		key: process.env.COMPL_FANDOMS,
 		redis: process.env.REDIS,
 	});
 	people = completer.create({
-		db: 3,
-		key: 'p:',
+		db: process.env.COMPL_DB,
+		key: process.env.COMPL_PEOPLE,
 		redis: process.env.REDIS,
 	});
 

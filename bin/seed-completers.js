@@ -11,7 +11,7 @@ const
 
 dbconn();
 
-const tcompl = completer.create( { key: 'tags', db: 1 } );
+const tcompl = completer.create( { key: process.env.COMPL_TAGS, db: process.env.COMPL_DB } );
 
 Tag.all().then(tags =>
 {
