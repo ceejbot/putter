@@ -1,21 +1,192 @@
 tag: b5
 name: Babylon 5
 description: |
-   Text goes here. Perhaps a wikipedia link.
+     "It was the dawn of the third age of mankind, ten years after the Earth/Minbari war.
+     The Babylon Project was a dream given form. Its goal: to prevent another war by creating
+     a place where humans and aliens could work out their differences peacefully. It's a port of call -
+     home away from home for diplomats, hustlers, entrepreneurs, and wanderers. Humans and aliens
+     wrapped in two million, five hundred thousand tons of spinning metal, all alone in the night.
+     It can be a dangerous place, but it's our last best hope for peace. This is the story of the
+     last of the Babylon stations. The year is 2258. The name of the place is Babylon 5."
 characters:
-   - Delenn
-   - G'Kar
-   - Garibaldi
-   - Ivanova
-   - Lennier
-   - Londo Mollari
-   - Marcus
-   - Morden
-   - Sheridan
-   - Sinclair
-   - Valen
-   - Vir Cotto
+  - Alfred Bester
+  - Anna Sheridan
+  - Benjamin Kyle
+  - Branmer
+  - Brother Theo
+  - Byron
+  - Captain Matthew Gideon
+  - Catherine Sakai
+  - Colonel Ari Ben Zayn
+  - David Corwin
+  - David Sheridan
+  - Delenn
+  - Dius Vintari
+  - Doctor Sarah Chambers
+  - Draal
+  - Dukhat
+  - Dureena Nafeel
+  - Elizabeth Lochley
+  - Emperor Cartagia
+  - G'Kar
+  - Galen
+  - General Robert Lefcourt
+  - General William Hague
+  - Jason Ironheart
+  - Jeffrey Sinclair
+  - John Sheridan
+  - Kosh
+  - Laurel Takashima
+  - Lennier
+  - Lieutenant John Matheson
+  - Lise Hampton
+  - Londo Mollari
+  - Lord Refa
+  - Lorien
+  - Lou Welch
+  - Lyta Alexander
+  - Marcus Cole
+  - Max Eilerson
+  - Michael Garibaldi
+  - Morden
+  - Morgan Clark
+  - Na'Toth
+  - Neroon
+  - Number One
+  - Pius XV
+  - President Luis Santiago
+  - Richard Franklin
+  - Senna
+  - Stephen Franklin
+  - Susan Ivanova
+  - Susanna Luchenko
+  - Ta'Lon
+  - Talia Winters
+  - Turhan
+  - Ulkesh
+  - Valen
+  - Vir Cotto
+  - Virini
+  - Warren Keffer
+  - William Edgars
+  - Zack Allan
+  - Zathras
 tags:
    - rangers
-   - episode:babylon-squared
-   - episode:chrysalis
+   - vorlons
+   - shadows
+   - centari
+   - narn
+   - minbari
+episodes:
+  - The Gathering
+  - Midnight on the Firing Line
+  - Soul Hunter
+  - Born to the Purple
+  - Infection
+  - The Parliament of Dreams
+  - Mind War
+  - The War Prayer
+  - And The Sky Full Of Stars
+  - Deathwalker
+  - Believers
+  - Survivors
+  - By Any Means Necessary
+  - Signs and Portents
+  - TKO
+  - Grail
+  - Eyes
+  - Legacies
+  - A Voice in the Wilderness part 1
+  - A Voice in the Wilderness part 2
+  - Babylon Squared
+  - The Quality of Mercy
+  - Chrysalis
+  - Points of Departure
+  - Revelations
+  - The Geometry of Shadows
+  - A Distant Star
+  - The Long Dark
+  - A Spider in the Web
+  - Soul Mates
+  - A Race Through Dark Places
+  - The Coming of Shadows
+  - GROPOS
+  - All Alone in the Night
+  - Acts of Sacrifice
+  - Hunter, Prey
+  - There All the Honor Lies
+  - And Now For a Word
+  - In the Shadow of Z'ha'dum
+  - Knives
+  - Confessions and Lamentations
+  - Divided Loyalties
+  - The Long, Twilight Struggle
+  - Comes the Inquisitor
+  - The Fall of Night
+  - Matters of Honor
+  - Convictions
+  - A Day in the Strife
+  - Passing Through Gethsemane
+  - Voices of Authority
+  - Dust to Dust
+  - Exogenesis
+  - Messages from Earth
+  - Point of No Return
+  - Severed Dreams
+  - Ceremonies of Light and Dark
+  - Sic Transit Vir
+  - A Late Delivery from Avalon
+  - Ship of Tears
+  - Interludes and Examinations
+  - War Without End, Part One
+  - War Without End, Part Two
+  - Walkabout
+  - Grey 17 Is Missing
+  - And the Rock Cried Out, No Hiding Place
+  - Shadow Dancing
+  - Z'ha'dum
+  - The Hour of the Wolf
+  - Whatever Happened to Mr. Garibaldi?
+  - The Summoning
+  - Falling Toward Apotheosis
+  - The Long Night
+  - Into the Fire
+  - Epiphanies
+  - The Illusion of Truth
+  - Atonement
+  - Racing Mars
+  - Lines of Communication
+  - Conflicts of Interest
+  - Rumors, Bargains and Lies
+  - Moments of Transition
+  - No Surrender, No Retreat
+  - The Exercise of Vital Powers
+  - The Face of the Enemy
+  - Intersections in Real Time
+  - Between the Darkness and the Light
+  - Endgame
+  - Rising Star
+  - The Deconstruction of Falling Stars
+  - No Compromises
+  - The Very Long Night of Londo Mollari
+  - The Paragon of Animals
+  - A View from the Gallery
+  - Learning Curve
+  - Strange Relations
+  - Secrets of the Soul
+  - In the Kingdom of the Blind
+  - A Tragedy of Telepaths
+  - Phoenix Rising
+  - Day of the Dead
+  - The Ragged Edge
+  - The Corps is Mother, The Corps is Father
+  - Meditations on the Abyss
+  - Darkness Ascending
+  - And All My Dreams, Torn Asunder
+  - Movements of Fire and Shadow
+  - The Fall of Centauri Prime
+  - Wheel of Fire
+  - Objects in Motion
+  - Objects at Rest
+  - Sleeping in Light
