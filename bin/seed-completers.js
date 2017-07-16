@@ -13,16 +13,18 @@ dbconn();
 
 const tcompl = completer.create( { key: process.env.COMPL_TAGS, db: process.env.COMPL_DB } );
 
-Tag.all().then(tags =>
+tcompl.statisticsAsync().then(counts =>
+{
+	console.log(`There are ${counts.leaves} in the completer already.`);
+	return Tag.all();
+}).then(tags =>
 {
 	const texts = tags.map(t => t.tag);
-	tcompl.add(texts, (err, added) =>
-	{
-		if (err) throw(err);
-		console.log(`I guess we added ${added.length} tags to the completer`);
-		process.exit(0);
-	});
-
+	return tcompl.addAsync(texts);
+}).then( added =>
+{
+	console.log(`I guess we added ${added.length} tags to the completer`);
+	process.exit(0);
 }).catch(err =>
 {
 	console.log(err.message);

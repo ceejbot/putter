@@ -5,12 +5,12 @@ require('dotenv').config();
 const
 	dbconn = require('../lib/db-conn'),
 	fs     = require('fs'),
-	Tag    = require('../lib/models/tag'),
+	Tag    = require('../lib/models/tag')
 	;
 
 dbconn();
 
-const data = fs.readFileSync('../taxonomy/tags.txt'), 'utf8');
+const data = fs.readFileSync('./taxonomy/tags.txt', 'utf8');
 const tags = data.trim().split('\n');
 
 const created = tags.map(t =>

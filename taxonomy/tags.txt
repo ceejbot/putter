@@ -1,4 +1,3 @@
-abuse
 accidental-telepathy
 adoption
 age-difference
@@ -186,14 +185,12 @@ genre:crossover
 genre:cuddlecore
 genre:dark
 genre:dialogue-only
-genre:dialogue-only
 genre:domestic
 genre:drabble
 genre:drama
 genre:epic
 genre:epistolary
 genre:family-drama
-genre:fantasy
 genre:fantasy
 genre:five-things
 genre:fix-it
@@ -268,7 +265,6 @@ issue:abuse
 issue:alcohol-abuse/alcoholism
 issue:alcoholism
 issue:asexuality
-issue:asexuality
 issue:assault-recovery
 issue:attempted-rape/non-con
 issue:begging
@@ -278,7 +274,6 @@ issue:bullying
 issue:child-abuse
 issue:childhood-abuse
 issue:coming-out
-issue:depression
 issue:depression
 issue:domestic-violence
 issue:drug-addiction
@@ -317,7 +312,6 @@ issue:sexual-assault
 issue:sibling-incest
 issue:suicidal-ideation
 issue:suicidal-thoughts
-issue:suicide
 issue:suicide
 issue:suicide-attempt
 issue:torture-aftermath
@@ -391,7 +385,6 @@ kink:hand
 kink:handcuffs
 kink:humiliation
 kink:hypnosis
-kink:incest
 kink:incest
 kink:infidelity
 kink:knifeplay
@@ -631,7 +624,6 @@ trope:drift-compatibility
 trope:enemies-to-friends-to-lovers
 trope:fake/pretend-relationship
 trope:frenemies
-trope:friends-to-lovers
 trope:friends-to-lovers
 trope:friends-with-benefits
 trope:fuck-or-die

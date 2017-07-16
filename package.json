@@ -40,7 +40,7 @@
     "ormnomnom": "~3.0.1",
     "otplib": "~4.0.6",
     "pg": "~6.4.1",
-    "prefix-completer": "~1.0.0",
+    "prefix-completer": "~1.0.1",
     "prettydate": "0.0.1",
     "pug": "~2.0.0-rc.2",
     "redis": "~2.7.1",
