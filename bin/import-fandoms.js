@@ -34,21 +34,16 @@ async function importFandom(data)
 	const alltags = [];
 	const f = await Fandom.findOrCreate(data);
 
-	var tags = data.tags || [];
+	const episodes = (data.episodes || []).map(t => `episode:${util.cleanTagText(t)}`);
+	const tags = episodes.concat(data.tags);
 	tags.forEach(t =>
 	{
-		alltags.push(f.addTag(t));
+		if (t) alltags.push(f.addTag(t));
 	});
 
-	tags = data.episodes || [];
-	tags.forEach(t =>
+	return Promise.all(alltags).then(tags =>
 	{
-		alltags.push(f.addTag(`episode:${util.cleanTagText(t)}`));
-	});
-
-	console.log(`should have ${alltags.length} tags waiting for ${f.tag}`);
-	Promise.all(alltags).then(tags =>
-	{
+		console.log(`${alltags.length} tags exist for ${f.tag}`);
 		f.tags = tags;
 		return f;
 	});
