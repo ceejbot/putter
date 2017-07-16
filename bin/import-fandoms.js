@@ -5,6 +5,7 @@ require('dotenv').config();
 const
 	dbconn = require('../lib/db-conn'),
 	Fandom = require('../lib/models/fandom'),
+	FChar  = require('../lib/models/fandomchar'),
 	fs     = require('fs'),
 	path   = require('path'),
 	util   = require('../lib/utilities'),
@@ -41,9 +42,15 @@ async function importFandom(data)
 		if (t) alltags.push(f.addTag(t));
 	});
 
+	(data.characters || []).forEach(c =>
+	{
+		if (!c) return;
+		alltags.push(FChar.create({ tag: util.cleanTagText(c), fandom: f }));
+	});
+
 	return Promise.all(alltags).then(tags =>
 	{
-		console.log(`${alltags.length} tags exist for ${f.tag}`);
+		console.log(`${alltags.length} tags & chars exist for ${f.tag}`);
 		f.tags = tags;
 		return f;
 	});
