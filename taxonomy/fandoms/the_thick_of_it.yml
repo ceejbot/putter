@@ -1,18 +1,41 @@
 tag: the_thick_of_it
 name: The Thick of It
 description: |
-   Text goes here. Perhaps a wikipedia link.
-characters:
-   - Malcolm Tucker
-   - Jamie MacDonald
-   - Nicola Murray
-   - Julius Nicholson
-   - Ollie Reeder
-   - Sam Cassidy
-   - Glen Cullen
-   - Peter Mannion
+    The Thick of It is a British television comedy programme that premiered in
+    2005 on BBC Four. The series satirises the inner workings of modern British
+    government. It follows the running of a fictional Department of Social
+    Affairs and Citizenship, and most episodes focus on that department's
+    incumbent minister and a core cast of advisors and civil servants, under the
+    watchful eye of Number 10's enforcer, Malcolm Tucker (Peter Capaldi). The
+    supporting characters include people in government, in the opposition, and
+    in the media. characters:
+   - Adam Kenyon
+   - Angela Heaney
    - Ben Swayne
+   - Cal Richards
+   - Cliff Lawton
+   - Dan Miller
+   - Emma Messinger
+   - Fergus Williams
+   - Geoff Holhurst
+   - Glenn Cullen
+   - Hugh Abbot
+   - Jamie MacDonald
+   - Julius Nicholson
+   - Malcolm Tucker
+   - Marianne Swift
+   - Nick Hanway
+   - Nicola Murray
+   - Ollie Reeder
+   - Peter Mannion
+   - Robyn Murdoch
+   - Sam Cassidy
+   - Simon Hewitt
+   - Steve Fleming
+   - Stewart Pearson
+   - Terri Coverley
 tags:
    - episode:spinners-and-losers
    - episode:rise-of-the-nutters
    - episode:in-the-loop
+   - goolding-inquiry
